@@ -50,6 +50,8 @@ class NLLLoss(ILoss):
 
 class MiniBatchAccuracy(IDatumMetric):
 
+    higher_better = True
+
     def forward(self, mb: MNISTMiniBatch) -> FloatScalarTensor:
         mb.pred = mb.logits.argmax(dim=1)
         mb.correct = mb.pred.eq(mb.gt)

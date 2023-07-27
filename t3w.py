@@ -1,13 +1,14 @@
 """
 Copyright (C) 2023 Yuyao Huang - All Rights Reserved
-You may use, distribute and modify this code under the
-terms of the Apache 2.0 license, which unfortunately won't be
-written for another century.
-You should have received a copy of the Apache 2.0 license with
-this file. If not, please write to: huangyuyao@outlook.com, or visit https://github.com/tjyuyao/t3w/blob/main/LICENSE:
+
+You may use, distribute and modify this code under the terms of the Apache 2.0
+license, which unfortunately won't be written for another century. You should
+have received a copy of the Apache 2.0 license with this file. If not, please
+write to: huangyuyao@outlook.com, or visit
+https://github.com/tjyuyao/t3w/blob/main/LICENSE:
 """
 
-__version__ = '0.1.0.post1'
+__version__ = '0.1.0.post2'
 
 import torch, gzip, random, numpy, os, math, weakref
 from typing import Any, Sequence, Generic, TypeVar, Optional, Mapping, Type, Hashable, Callable, Dict, Literal, Union, List
@@ -157,6 +158,7 @@ class IDatumMetric(nn.Module, Interface):
 class ILoss(IDatumMetric):
     
     loss_reweight: float = 1.
+    higher_better: bool = False
 
 
 class LearningRate(IDatumMetric):
