@@ -12,4 +12,4 @@ If you feel like using `t3w.py`, you can either
 - install it with `pip install t3w`, `pip install t3w[common]`, or `pip install t3w[all]`, where the `[common]` tag will install dependencies for commonly used side effects (like `tqdm` etc), and `[all]` tag will install dependencies for all supported side effects. Note that the mnist example requires installing `t3w[common]`.
 - just download and integrate the [t3w.py](https://github.com/tjyuyao/t3w/blob/main/t3w.py) source file into your own project if you feel like freezing the version and/or ready to make some of your favorite hacks at low-level.
 
-Detailed documentation will come in the future.
+API documentation is currently available at https://tjyuyao.github.io/t3w/api/. We are going to add more detailed user guide in the future.
