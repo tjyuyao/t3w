@@ -2,6 +2,7 @@
 mnist_data
 *.pt
 *.gz
+example_google.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
