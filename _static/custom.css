@@ -1,0 +1,29 @@
+/* #interfaces > dl {
+    border-radius: 16px;
+    border: 1px solid rgb(163, 163, 163);
+    padding: 10px; 
+} */
+
+.class {
+    margin-bottom: 2rem;
+}
+
+.class > dt {
+    border-radius: 5px;
+    background-color: #fde96bd0;
+    padding: 4px 5px;
+    border-top: 1px solid #fde96bd0;
+    border-left: 1px solid #fde96bd0;
+    border-right: 1px solid #c9c9c9;
+    border-bottom: 1px solid #c9c9c9;
+}
+
+.class > dd .sig {
+    background-color: #fafafa;
+    border-radius: 3px;
+    padding: 3px 5px;
+    border-top: 1px solid #fafafa;
+    border-left: 1px solid #fafafa;
+    border-right: 1px solid #c9c9c9;
+    border-bottom: 1px solid #c9c9c9;
+}
