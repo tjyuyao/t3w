@@ -301,14 +301,54 @@ document.write(`
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="globals.html">Globals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="typedefs.html">TypeDefs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="core.html">Core APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="metrics.html">Metrics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="side_effects.html">SideEffects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html">Helper Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hidden.html">Hidden Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="globals.html">Globals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="globals.html#t3w.cli"><code class="docutils literal notranslate"><span class="pre">cli</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="typedefs.html">TypeDefs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedefs.html#t3w.FloatScalarTensor"><code class="docutils literal notranslate"><span class="pre">FloatScalarTensor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="typedefs.html#t3w.StepReturnDict"><code class="docutils literal notranslate"><span class="pre">StepReturnDict</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="interfaces.html">Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.Interface"><code class="docutils literal notranslate"><span class="pre">Interface</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IDatum"><code class="docutils literal notranslate"><span class="pre">IDatum</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IMiniBatch"><code class="docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IDataset"><code class="docutils literal notranslate"><span class="pre">IDataset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IDatumMetric"><code class="docutils literal notranslate"><span class="pre">IDatumMetric</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.ILoss"><code class="docutils literal notranslate"><span class="pre">ILoss</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IDatasetMetric"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.ISideEffect"><code class="docutils literal notranslate"><span class="pre">ISideEffect</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Core APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core.html#t3w.TopLevelModule"><code class="docutils literal notranslate"><span class="pre">TopLevelModule</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#t3w.TrainingProgress"><code class="docutils literal notranslate"><span class="pre">TrainingProgress</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#t3w.EvalLoop"><code class="docutils literal notranslate"><span class="pre">EvalLoop</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#t3w.TrainLoop"><code class="docutils literal notranslate"><span class="pre">TrainLoop</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">Metrics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html#t3w.AverageMetric"><code class="docutils literal notranslate"><span class="pre">AverageMetric</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html#t3w.LearningRate"><code class="docutils literal notranslate"><span class="pre">LearningRate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="side_effects.html">SideEffects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="side_effects.html#t3w.TqdmSideEffect"><code class="docutils literal notranslate"><span class="pre">TqdmSideEffect</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="side_effects.html#t3w.AimSideEffect"><code class="docutils literal notranslate"><span class="pre">AimSideEffect</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="side_effects.html#t3w.SaveBestModelsSideEffect"><code class="docutils literal notranslate"><span class="pre">SaveBestModelsSideEffect</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html">Helper Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#t3w.manual_seed"><code class="docutils literal notranslate"><span class="pre">manual_seed()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#t3w.millify"><code class="docutils literal notranslate"><span class="pre">millify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hidden.html">Hidden Details</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hidden.html#t3w._find_free_port"><code class="docutils literal notranslate"><span class="pre">_find_free_port()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hidden.html#t3w._subprocess"><code class="docutils literal notranslate"><span class="pre">_subprocess()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>

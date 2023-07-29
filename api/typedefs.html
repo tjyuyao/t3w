@@ -272,7 +272,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -288,6 +290,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.FloatScalarTensor"><code class="docutils literal notranslate"><span class="pre">FloatScalarTensor</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.StepReturnDict"><code class="docutils literal notranslate"><span class="pre">StepReturnDict</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -299,6 +310,20 @@ document.write(`
                   
   <section id="typedefs">
 <h1>TypeDefs<a class="headerlink" href="#typedefs" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.FloatScalarTensor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">FloatScalarTensor</span></span><a class="headerlink" href="#t3w.FloatScalarTensor" title="Permalink to this definition">#</a></dt>
+<dd><p>This is a type alias for “float scalar tensor”, which is the return type for <a class="reference internal" href="interfaces.html#t3w.IDatumMetric.forward" title="t3w.IDatumMetric.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IDatumMetric.forward()</span></code></a> method.</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Float[Tensor,</span> <span class="pre">'']</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.StepReturnDict">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">StepReturnDict</span></span><a class="headerlink" href="#t3w.StepReturnDict" title="Permalink to this definition">#</a></dt>
+<dd><p>This is the returned type of <code class="xref py py-meth docutils literal notranslate"><span class="pre">TopLevelModule.step()</span></code>. Typically, users receive this type of data in the event <a class="reference internal" href="interfaces.html#t3w.ISideEffect.on_train_step_finished" title="t3w.ISideEffect.on_train_step_finished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ISideEffect.on_train_step_finished()</span></code></a>.</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘losses’, ‘metrics’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <a class="reference internal" href="#t3w.FloatScalarTensor" title="t3w.FloatScalarTensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatScalarTensor</span></code></a>]]</p>
+</dd></dl>
+
 </section>
 
 
@@ -340,6 +365,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.FloatScalarTensor"><code class="docutils literal notranslate"><span class="pre">FloatScalarTensor</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.StepReturnDict"><code class="docutils literal notranslate"><span class="pre">StepReturnDict</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
