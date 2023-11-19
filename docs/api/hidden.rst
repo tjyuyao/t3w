@@ -9,3 +9,4 @@ Hidden Details
   :no-special-members:
   :noindex:
   :private-members: _fix_optim_states, _parse_multi_device
+.. autoclass:: t3w._TrainingProgress

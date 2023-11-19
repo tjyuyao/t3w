@@ -5,7 +5,7 @@ You may use, distribute and modify this code under the terms of the Apache 2.0
 license, which unfortunately won't be written for another century. You should
 have received a copy of the Apache 2.0 license with this file. If not, please
 write to: huangyuyao@outlook.com, or visit:
-https://github.com/tjyuyao/t3w/blob/main/LICENSE 
+https://github.com/tjyuyao/t3w/blob/main/LICENSE
 """
 
 # docstring style reference: https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html
@@ -25,11 +25,13 @@ from torch.nn.parallel import DistributedDataParallel
 from jaxtyping import Float, Shaped, Bool
 from dataclasses import dataclass, asdict
 from pathlib import Path
+from rich.pretty import pprint
 import typer, click
 import torch.distributed as dist
 import torch.multiprocessing as mp
 
-__version__ = '0.1.1dev1'
+
+__version__ = '0.1.2'
 
 
 cli = typer.Typer(
@@ -95,13 +97,24 @@ def millify(n:int, names=["", " K", " M", " B", " T"]):
     millidx = max(0, min(len(names) - 1, int(math.floor(0 if n == 0 else math.log10(abs(n)) / 3))))
     return "{:.1f}{}".format(n / 10 ** (3 * millidx), names[millidx]).replace(".0", "")
 
+suppress_traceback = []
 
 # Some monkey-patch for more concise output.
 if not os.environ.get("T3W_VERBOSE", False):
 
-    def _tensor_summary(self:Tensor, *, tensor_contents=None):
+    def _ndarray_summary(self:numpy.ndarray):
         if len(self.shape):
-            return f"Tensor({tuple(self.shape)}, {str(self.dtype).replace('torch.', '')}, \"{str(self.device)}\")"
+            nan_count = numpy.isnan(self).sum()
+            nan_str = f" nan={nan_count}," if nan_count else ""
+            return f"NDArray({tuple(self.shape)}, {str(self.dtype).replace('torch.', '')},{nan_str} \"cpu\")"
+        else:
+            return f"Scalar({self.item()}, {str(self.dtype).replace('torch.', '')}, \"cpu\")"
+
+    def _tensor_summary(self:Tensor):
+        if len(self.shape):
+            nan_count = torch.isnan(self).sum()
+            nan_str = f" nan={nan_count}," if nan_count else ""
+            return f"Tensor({tuple(self.shape)}, {str(self.dtype).replace('torch.', '')},{nan_str} \"{str(self.device)}\")"
         else:
             return f"Scalar({self.item()}, {str(self.dtype).replace('torch.', '')}, \"{str(self.device)}\")"
 
@@ -114,18 +127,49 @@ if not os.environ.get("T3W_VERBOSE", False):
         args_repr = f"{head_repr}, {tail_repr}" if head_repr else tail_repr
         return f"{self.__class__.__name__}({args_repr})"
 
+    def _verbose_ndarray(x):
+        numpy.set_string_function(None)
+        x = repr(x)
+        numpy.set_string_function(_ndarray_summary, repr=True)
+        return x
+
+    _VERBOSE_REPRS = {
+        Tensor: Tensor.__repr__,
+        nn.Module: nn.Module.__repr__,
+        numpy.ndarray: _verbose_ndarray,
+    }
+
+    class ReprStr(str):
+        def __repr__(self):
+            return self
+
+    def verbose(data):
+        for T, fn in _VERBOSE_REPRS.items():
+            if isinstance(data, T):
+                return ReprStr(fn(data))
+        return data
+
     Tensor.__repr__ = _tensor_summary
     nn.Module.__repr__ = _module_summary
+    numpy.set_string_function(_ndarray_summary, repr=True)
 
     try:
+
+        suppress_traceback.append(__file__)
+        suppress_traceback.append(torch)
+
         import rich.traceback
         _old_from_exception = rich.traceback.Traceback.from_exception
         def _rich_traceback_from_exception(cls, *args, suppress:List=[], **kwargs):
-            suppress.append(__file__)
-            suppress.append(torch)
+            suppress.extend(suppress_traceback)
+            kwargs['locals_max_length'] = os.environ.get("T3W_LOCALS_MAXLEN", 3)
             return _old_from_exception(*args, suppress=suppress, **kwargs)
         rich.traceback.Traceback.from_exception = classmethod(_rich_traceback_from_exception)
     except ImportError: pass
+
+else:
+    def verbose(data):
+        return data
 
 
 FloatScalarTensor = NewType("FloatScalarTensor", Float[Tensor, ""])
@@ -139,7 +183,7 @@ StepReturnDict = NewType("StepReturnDict", Dict[Literal["losses", "metrics"], Di
 
 class Interface:
     """This is a special abstract class to indicate its direct subclasses are interface and should be implemented by the user.
-    
+
     Note:
         Every direct subclass of :class:`Interface` has its name starting with letter "I".
     """
@@ -157,13 +201,13 @@ class IDatum(Interface):
     uuid: Optional[Hashable]
     """universal unique identifier for tracking datum information, optional."""
 
-    train_batch_size: int = 1
+    train_batch_size: int = 2
     """:class:`TrainLoop` will use this value through :attr:`IDataset.datum_type` as default batch size value."""
 
-    val_batch_size: int = 1
+    val_batch_size: int = 2
     """:class:`EvalLoop` will use this value through :attr:`IDataset.datum_type` as default batch size value."""
 
-    num_workers: int = 2
+    num_workers: int = 0
     """:class:`TrainLoop` or :class:`EvalLoop` will use this value through :attr:`IDataset.datum_type` for `DataLoader.num_workers`."""
 
     @staticmethod
@@ -186,12 +230,12 @@ class IDatum(Interface):
             IMiniBatch: the collated mini batch.
         """
         return default_collate(data)
-    
+
     @classmethod
     def from_uuid(cls, uuid: Hashable) -> "IDatum":
         """build the exact datum from given ``uuid``.
 
-        Ignore this factory method for basic training workflow. It is  
+        Ignore this factory method for basic training workflow. It is
         useful for some workflows that mine, track and analyse specific interesting data.
         One may embed dataset_type, split, and index information to fully recover a datum's identity.
 
@@ -199,7 +243,7 @@ class IDatum(Interface):
             uuid (Hashable): universal unique identifier of the disired datum.
 
         Returns:
-            IDatum: 
+            IDatum:
         """
         dataset_type, root, split, index = uuid
         return dataset_type(root, split)[index]
@@ -207,12 +251,12 @@ class IDatum(Interface):
 
 class IMiniBatch(Interface):
     """The interface for a minibatch of datum.
-    
+
     It plays the central role of a data context passing around models, metrics, losses and callbacks.
     All interfaces in ``t3w`` has a strict typing requirement, this especially emphasize that functions
-    are required to return specific type of data, instead of dynamic types. The flexibility of ``t3w`` 
+    are required to return specific type of data, instead of dynamic types. The flexibility of ``t3w``
     is not harmed though, because it is user's freedom to modify the definition of subclasses of the
-    :class:`IMiniBatch` interface. And all the functions receives a :class:`IMiniBatch` as input, are 
+    :class:`IMiniBatch` interface. And all the functions receives a :class:`IMiniBatch` as input, are
     allowed (or supposed) to modify it in place. Therefore, standard behaviors of ``t3w`` core libraries
     and :class:``ISideEffect`` based plugin system can rely on the typing system, while users can write
     flexible code in their independent namespace.
@@ -230,12 +274,12 @@ class IMiniBatch(Interface):
     def batch_size(self) -> int:
         """valid batch size (exclude padding). See :attr:`padding_mask`."""
         return self.padding_mask.int().sum().item()
-    
+
     @property
     def full_batch_size(self) -> int:
-        """actually collated batch size (include padding). See :attr:`padding_mask`."""        
+        """actually collated batch size (include padding). See :attr:`padding_mask`."""
         return self._full_batch_size
-        
+
     @batch_size.setter
     def batch_size(self, full_batch_size):
         self._full_batch_size = full_batch_size
@@ -246,19 +290,19 @@ class IMiniBatch(Interface):
 
     Note:
         The ``full_batch_size`` property stores the ``batch_size`` argument passed to the :meth:`IMiniBatch.__init__` method. This may be actually less than the ``(val_)batch_size`` argument told :meth:`EvalLoop.__init__` because ``drop_last=False``.
-    
+
     Note:
         In DDP mode, when data cannot be evenly distributed to multiple devices at the last iteration of a dataset epoch,
         :class:`DistributedSampler` will pad the samples to ensure same batch size on all devices. The padded samples would
-        cause minor error in the evaluation result and should be avoided. Fortunately, :class:`EvalLoop` automatically marks this behavior to the ``padding_mask`` flag, and users can easily handle this case when implementing a custom :class:`IDatumMetric`. 
-    
+        cause minor error in the evaluation result and should be avoided. Fortunately, :class:`EvalLoop` automatically marks this behavior to the ``padding_mask`` flag, and users can easily handle this case when implementing a custom :class:`IDatumMetric`.
+
     See also:
       :meth:`EvalLoop.mark_padding`
     """
 
     model:"TopLevelModule"
     """The :class:`TopLevelModule` which is consuming and modifying this instance of :class:`IMiniBatch`.
-    
+
 
     The :class:`TopLevelModule` will fill this attribute right before calling the `forward()` method of its internal user_model. Therefore, the ``user_model.forward()``, :meth:`ISideEffect.on_evak_step_finished`, and :meth:`ISideEffect.on_train_step_finished` can make use of it. Before that, this attribute is defaulted to ``None``.
     """
@@ -272,7 +316,7 @@ class IMiniBatch(Interface):
         self.batch_size = batch_size
         self.model = None
 
-    
+
     def to(self, device: torch.device):
         """defines how to move this mini-batch type into specified device.
 
@@ -280,7 +324,7 @@ class IMiniBatch(Interface):
 
         Note:
             :meth:`TopLevelModule.forward` will call this function right before calling ``user_model.forward()``, so don't bother to do it yourself. You only need to specify the target device at the :class:`TopLevelModule` level using its :meth:`TopLevelModule.to` method.
-        
+
         See also:
             :meth:`TopLevelModule.to`
 
@@ -291,18 +335,19 @@ class IMiniBatch(Interface):
             attr = getattr(self, name, None)
             if isinstance(attr, Tensor):
                 setattr(self, name, attr.to(device))
+        return self
 
 
 class IDataset(Interface):
     """The interface for the entire dataset (and its split).
-    
+
     This is very simillar to ``torch.Dataset`` (sized dataset) interface, with only subtle modifications
     that :meth:`__getitem__` is required to return an instance of :attr:`datum_type`.
     """
 
     datum_type: Type[IDatum]
     """User implemented IDatum subclass' **typename**.
-    
+
     Note:
         Subclass of ``IDataset`` must specify this attribute in order to fetch the class attribute including :attr:`IDatum.train_batch_size`, :attr:`IDatum.val_batch_size`, and :attr:`IDatum.num_workers`, etc.
     """
@@ -346,7 +391,7 @@ class IDatumMetric(nn.Module, Interface):
         latter aggregate datum metric of each batch for a entire dataset (typically
         an "average meter"). The dataset level metric mainly focus on correct computation
         and synchronization of variable batch sizes and among devices.
-    
+
     See also:
         :class:`ILoss`, :class:`IDatasetMetric`, :class:`AverageMetric`.
     """
@@ -379,10 +424,10 @@ class ILoss(IDatumMetric):
     Note:
         In t3w, we adopt the fact that a loss function is a special type of metric that support backpropagation. Therefore :class:`ILoss` inherites :class:`IDatumMetric` and you can use an ``ILoss`` whereever an ``IDatumMetric`` is suited.
     """
-    
+
     loss_reweight: float = 1.
     """Losses has the raw version and reweighted version in lots of circumstances. Use this standard attribute to specify your weight of current loss.
-    
+
     Note:
         In the "losses" subdict of :class:`StepReturn`, the value of each loss will be reported as a pair of float value ``(loss_reweight, loss_raw_value)`` with event :meth:`on_train_step_finished` emitted. This is the standard behavior that extension codes can rely on. Non-loss metrics are reported as pure floats.
     """
@@ -395,7 +440,7 @@ class ILoss(IDatumMetric):
 
         Calling of this method is delegated to :class:`TrainLoop` at its construction time.
         The ``mb`` argument must have been through the user_model's ``forward`` method already, and the loops pass
-        it on to various losses to calculate the loss value, which must be a float scalar tensor. And 
+        it on to various losses to calculate the loss value, which must be a float scalar tensor. And
         then the losses will be reweighted and summed together for a backward autodiff pass.
 
         Args:
@@ -409,7 +454,7 @@ class ILoss(IDatumMetric):
 
 class LearningRate(IDatumMetric):
     """This class report current learning rate through the standard metric interface.
-    
+
     This is not a typical metric but it is a commonly used one agnostic to tasks. So we implement it early here.
     It is also a good demonstration of how to use the exposed :class:`TopLevelModule` as the :attr:`IMiniBatch.model` attribute. Since the metric computation is applied after the user_model's ``forward()``, the ``model`` attribute is absolutely available in a :meth:`IDatumMetric.forward` method.
     """
@@ -419,7 +464,7 @@ class LearningRate(IDatumMetric):
 
         Args:
             param_group (int, optional): to show learning rate of which. Defaults to 0.
-        """        
+        """
         super().__init__()
         self.param_group = param_group
 
@@ -437,7 +482,7 @@ class LearningRate(IDatumMetric):
 
 class IDatasetMetric(IDatumMetric):
     """The interface of a dataset level metric (aggregation algorithm on multi devices).
-    
+
     Note:
         We differentiate the :class:`IDatumMetric` and :class:`IDatasetMetric`,
         where the former compute metric value for a batch of data, while the
@@ -445,7 +490,7 @@ class IDatasetMetric(IDatumMetric):
         (typically an "average meter"). The dataset level metric mainly focus on
         correct computation and synchronization of variable batch sizes and
         among devices.
-    
+
     Warning:
         Typically, :class:`TrainLoop` only accepts datum metric because of
         changing parameters, while :class:`EvalLoop` only accepts dataset metric
@@ -457,7 +502,7 @@ class IDatasetMetric(IDatumMetric):
         but it is still considered non-standard behavior in ``t3w`` and should
         prefer implemented and maintained in user space using the side effects
         system.
-    
+
     See also:
         :class:`IDatumMetric`, :class:`AverageMetric`.
     """
@@ -476,10 +521,10 @@ class IDatasetMetric(IDatumMetric):
         super().__init__()
         self.datum_metric = datum_metric
         self.reset()
-    
+
     def forward(self, mb: IMiniBatch) -> FloatScalarTensor:
-        """allows using dataset metric like datum metric. 
-        
+        """allows using dataset metric like datum metric.
+
         Warning:
             It is non-standard behavior so please be careful implementing a
             :class:`IDatasetMetric` that supposed to be used as a datum metric,
@@ -532,7 +577,7 @@ class AverageMetric(IDatasetMetric):
         k = mb.batch_size
         self.sum += new_val * k
         self.cnt += k
-    
+
     def synchronize(self) -> None:
         if not dist.is_initialized(): return
         object_list = [None for _ in range(dist.get_world_size())]
@@ -575,7 +620,7 @@ def _subprocess(rank, loop: Union["EvalLoop", "TrainLoop"]):
     Args:
         rank (int): the index of the subprocess, starting from ``0`` to ``len(distributed_devices) - 1``.
         loop (EvalLoop | TrainLoop): the entire loop context is passed to the subprocess.
-    """    
+    """
 
     model = loop.model
     devices = model.distributed_devices
@@ -600,16 +645,16 @@ def _subprocess(rank, loop: Union["EvalLoop", "TrainLoop"]):
             model,
             static_graph=os.environ.get("T3W_STATIC_GRAPH", '1')=='1',
             )
-    
+
     loop()
 
     dist.destroy_process_group()
 
 
 @dataclass
-class TrainingProgress:
+class _TrainingProgress:
     """a class that count the total training steps and epochs number of the model.
-    
+
     This progress is a part of the state_dict of the :class:`TopLevelModule`,
     and :class:`TrainLoop` makes use of it to resume training,
     :class:`SaveBestModelsSideEffect` makes use of it to label the checkpoint
@@ -619,7 +664,7 @@ class TrainingProgress:
 
     step: int = 0
     """number of the total times the ``optim.step`` method has been called.
-    
+
     Note:
         It is not about how many actual iteration the for loop has run, it is
         the step of the optimizer has updated the model. Consider a gradient
@@ -634,20 +679,20 @@ class TrainingProgress:
     def inc_step(self):
         """increase the training step by 1."""
         self.step += 1
-    
+
     def inc_epoch(self):
         """increase the training epoch by 1."""
         self.epoch += 1
-    
+
 
 class TopLevelModule(nn.Module):
     """A central API that manages the ``nn.Module`` related features.
-    
+
     This top level module helps its owner loop on infrastructure the code, and helps user by providing useful low-level utilities, including
         * manages model checkpoint saving and loading,
         * moves user_model to other device(s) and trigger DDP execution mode,
         * computes losses and metrics specified by the loop.
-    
+
     Note:
         We delegate losses computation to :class:`TrainLoop` (see
         :meth:`TrainLoop.__init__`), while the loop delegates it further to
@@ -668,7 +713,7 @@ class TopLevelModule(nn.Module):
     lr_scheduler:_LRScheduler
     """Stores user defined learning rate scheduler, the calling is further delegated to :class:`TrainLoop`. """
 
-    training_progress:TrainingProgress
+    training_progress:_TrainingProgress
     """Stores training process of current model. It is part of the checkpoint state_dict. Modification in userspace is not intended."""
 
     regularizer_reweight:float
@@ -689,12 +734,12 @@ class TopLevelModule(nn.Module):
             optim (Optimizer, optional): user defined optimizer. Defaults to None.
             lr_scheduler (_LRScheduler, optional): user defined lr_scheduler. Defaults to None.
             regularizer_reweight (float, optional): the weight of the regularizer_loss if any. Defaults to 1.
-        """        
+        """
         super().__init__()
         self.user_model:nn.Module = model
         self.optim:Optimizer = optim
         self.lr_scheduler:_LRScheduler = lr_scheduler
-        self.training_progress = TrainingProgress()
+        self.training_progress = _TrainingProgress()
         self.regularizer_reweight:float = regularizer_reweight
 
         self.distributed_devices = []
@@ -708,7 +753,7 @@ class TopLevelModule(nn.Module):
         Warning:
             When multiple target devices are specified, the parameters will not be moved until the subprocesses
             are spawned by the :class:`TrainLoop` or :class:`EvalLoop`.
-        
+
         Args:
             device (str): "cuda:0", "cuda:0,1", "cuda:0-3" are all valid inputs.
         """
@@ -728,7 +773,7 @@ class TopLevelModule(nn.Module):
             step_dict: StepReturnDict = None,
         ) -> Union[FloatScalarTensor, IMiniBatch]:
         """
-        
+
         In training mode, this will call ``self.user_model(mb)``, compute ``losses`` and ``metrics``, collect results to fill in ``step_dict``, and return weighted sum of all losses (to be backward).
 
         In evaluation mode, this will call ``self.user_model(mb)`` and return mb.
@@ -764,7 +809,7 @@ class TopLevelModule(nn.Module):
     def device(self):
         """current device (not supporting model parallelzation)"""
         return next(self.user_model.parameters()).device
-    
+
     def save(self, path):
         """save current training states to the disk.
 
@@ -809,7 +854,7 @@ class TopLevelModule(nn.Module):
         """
         with gzip.open(path, 'rb') as ckpt_file:
             ckpt_dict = torch.load(ckpt_file, map_location=str(self.device))
-        self.training_progress = TrainingProgress(**ckpt_dict['training_progress'])
+        self.training_progress = _TrainingProgress(**ckpt_dict['training_progress'])
         model_load_return = self.user_model.load_state_dict(ckpt_dict['model'], strict=strict)
         if self.optim is not None:
             self.optim.load_state_dict(ckpt_dict['optim'])
@@ -819,7 +864,7 @@ class TopLevelModule(nn.Module):
         numpy.random.set_state(ckpt_dict['random_states']['numpy'])
         torch.random.set_rng_state(ckpt_dict['random_states']['torch'].cpu())
         return model_load_return
-    
+
     def _fix_optim_states(self):
         """
         _LRScheduler of PyTorch makes a monkey patch on the optimizer to help detect the proper order of calling
@@ -852,7 +897,7 @@ class TopLevelModule(nn.Module):
             return wrapper
         self.optim.step = with_counter(self.optim.step)
         self.optim._step_count = 0
-    
+
     @staticmethod
     def _parse_multi_device(devices:str) -> List[torch.device]:
         """
@@ -885,33 +930,45 @@ class TopLevelModule(nn.Module):
         return out
 
 
+class ProbeData(nn.Module):
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.dummy_param = nn.Parameter(torch.tensor([0.]))
+
+    def forward(self, data: "IMiniBatch"):
+        pprint(data, max_depth=2, max_length=16)
+        breakpoint()
+        print()
+
+
 class EvalLoop:
 
-    model: TopLevelModule
     dataset: IDataset
+    model: TopLevelModule
     batch_size: int
     loader: DataLoader
     metrics: Mapping[str, IDatasetMetric]
 
     def __init__(self,
-                 model: TopLevelModule,
                  dataset: IDataset,
+                 model: TopLevelModule = None,
                  batch_size: int = None,
                  metrics: Mapping[str, IDatasetMetric] = dict(),
                  side_effects: Sequence["ISideEffect"] = [],
                  ) -> None:
-        self.model = model
         self.dataset = dataset
+        self.model = model or TopLevelModule(ProbeData())
         self.metrics = metrics
         self.handle:_EventHandler = _EventHandler(side_effects)
         self.loader:DataLoader = None
         self.batch_size:int = batch_size or self.dataset.datum_type.val_batch_size
-    
+
     def __call__(self) -> None:
 
         if self.model.distributed_devices:
             return mp.start_processes(_subprocess, (self,), nprocs=len(self.model.distributed_devices), join=True, start_method='spawn')
-        
+
         self.loader = DataLoader(
             self.dataset,
             sampler=DistributedSampler(self.dataset, shuffle=False) if self.model.ddp_enabled else None,
@@ -941,7 +998,7 @@ class EvalLoop:
     @property
     def metric_values(self) -> Dict[str, float]:
         return {k:v.eval() for k, v in self.metrics.items()}
-    
+
     def mark_padding(self, step, mb: IMiniBatch):
         if dist.is_initialized():
             processed = mb.full_batch_size * (step * dist.get_world_size() + dist.get_rank())
@@ -959,8 +1016,8 @@ def _seed_worker(worker_id):
 
 class TrainLoop:
 
-    model: TopLevelModule
     dataset: IDataset
+    model: TopLevelModule
     batch_size: int
     num_acc_grad: int
     epochs: int
@@ -971,12 +1028,12 @@ class TrainLoop:
 
     def __init__(
             self,
-            model: TopLevelModule,
             dataset: IDataset,
+            model: TopLevelModule,
             losses: Mapping[str, ILoss],
             metrics: Mapping[str, IDatumMetric],
             batch_size: Optional[int] = None,
-            explicit_sampler: Sampler = None,
+            sampler: Sampler = None,
             num_acc_grad: int = 1,
             epochs: int = 100,
             iter_per_epoch: Optional[int] = None,
@@ -984,7 +1041,7 @@ class TrainLoop:
             eval_loop: Optional[EvalLoop] = None,
             side_effects: Sequence["ISideEffect"] = [],
         ) -> None:
-        """_summary_
+        """
 
         Args:
             model (TopLevelModule): the top level model.
@@ -992,7 +1049,7 @@ class TrainLoop:
             losses (Mapping[str, ILoss]): losses to be evaluated.
             metrics (Mapping[str, IDatumMetric]): metrics to be evaluated
             batch_size (Optional[int], optional): train batch size. Defaults to the ``train_batch_size`` static attribute of :class:`IDatum`.
-            explicit_sampler (Sampler, optional): a custom sampler instance for the dataloader. Defaults to ``RandomSampler`` or ``DistributedSampler``.
+            sampler (Sampler, optional): a custom sampler instance for the dataloader. Defaults to ``RandomSampler`` or ``DistributedSampler``.
             num_acc_grad (int, optional): step interval to apply gradient descent. Defaults to 1.
             epochs (int, optional): total training epochs. Defaults to 100.
             iter_per_epoch (Optional[int], optional): manually define iteration number of an epoch. Defaults to ``len(dataloader)``.
@@ -1000,8 +1057,8 @@ class TrainLoop:
             eval_loop (Optional[EvalLoop], optional): an :class:`EvalLoop` instance. Defaults to None.
             side_effects (Sequence[ISideEffect], optional): Defaults to [].
         """
-        self.model:TopLevelModule = model
         self.dataset = dataset
+        self.model:TopLevelModule = model
         self.losses = losses
         self.metrics = metrics
         self.batch_size:int = batch_size or self.dataset.datum_type.train_batch_size
@@ -1012,19 +1069,19 @@ class TrainLoop:
         self.epoch_per_eval = epoch_per_eval
         self.eval_loop = eval_loop
         self.handle:_EventHandler = _EventHandler(side_effects)
-        self.explicit_sampler = explicit_sampler
+        self.sampler = sampler
         self.model_forward = model.forward
         self.loader:DataLoader = None
         self.ddp_model: DistributedDataParallel = None
-    
+
     def __call__(self):
         """Implement iter_based and epoch_based train_loop with hooks."""
-    
-        
+
+
         if self.model.distributed_devices:
             return mp.start_processes(_subprocess, (self,), nprocs=len(self.model.distributed_devices), join=True, start_method='spawn')
-        
-        
+
+
         for loss in self.losses.values(): loss.to(self.model.device)
         for metric in self.metrics.values(): metric.to(self.model.device)
 
@@ -1033,14 +1090,14 @@ class TrainLoop:
             self.model_forward = self.ddp_model.forward
 
             loader_kwargs = dict(
-                sampler=self.explicit_sampler or DistributedSampler(self.dataset, shuffle=True, drop_last=True),
+                sampler=self.sampler or DistributedSampler(self.dataset, shuffle=True, drop_last=True),
             )
         else:
             g = torch.Generator()
             g.manual_seed(torch.initial_seed())
             loader_kwargs = dict(
-                shuffle=self.explicit_sampler is None,
-                sampler=self.explicit_sampler,
+                shuffle=self.sampler is None,
+                sampler=self.sampler,
                 generator=g,
                 drop_last=True,
                 worker_init_fn=_seed_worker,
@@ -1118,7 +1175,7 @@ class _EventHandler:
                     sys.exit()
             else:
                 getattr(side_effect, event)(*args, **kwargs)
-    
+
 
 class ISideEffect(Interface):
 
@@ -1127,13 +1184,13 @@ class ISideEffect(Interface):
 
     def __getstate__(self):
         return self.__dict__
-    
+
     def __setstate__(self, d):
         self.__dict__ = d
 
     def on_eval_started(self, loop: "EvalLoop"):
         pass
-    
+
     def on_eval_step_started(self, loop: "EvalLoop", step: int, mb: "IMiniBatch"):
         pass
 
@@ -1172,23 +1229,23 @@ class TqdmSideEffect(ISideEffect):
 
     def on_eval_started(self, loop: "EvalLoop"):
         self.eval_pbar = self.tqdm(desc=f"Eval {loop.model.training_progress.epoch}", total=len(loop.loader), leave=False, dynamic_ncols=True)
-    
+
     def on_eval_step_finished(self, loop: "EvalLoop", step: int, mb: "IMiniBatch"):
         self.eval_pbar.update()
-    
+
     def on_eval_finished(self, loop: "EvalLoop"):
         self.eval_pbar.close()
         metrics_dict = dict()
         metrics_dict["epoch"] = loop.model.training_progress.epoch
         metrics_dict.update(loop.metric_values)
         self.tqdm.write(repr(metrics_dict))
-    
+
     def on_train_started(self, loop: "TrainLoop"):
         self.train_epoch_pbar = self.tqdm(desc="Epochs", total=loop.epochs, leave=False, dynamic_ncols=True)
 
     def on_train_epoch_started(self, loop: "TrainLoop", epoch: int):
         self.train_step_pbar = self.tqdm(desc=f"Train {epoch}", total=(loop.iter_per_epoch or len(loop.loader)), leave=False, dynamic_ncols=True)
-    
+
     def on_train_step_finished(self, loop: "TrainLoop", step: int, mb: "IMiniBatch", step_return: StepReturnDict):
         self.train_step_pbar.update()
 
@@ -1258,7 +1315,7 @@ class SaveBestModelsSideEffect(ISideEffect):
 
     def on_train_started(self, loop: TrainLoop):
         assert self.metric_name in loop.eval_loop.metrics.keys(), "metric_name for saving model does not exist in eval_loop"
-        
+
         matched_existing_paths = [path for path in glob(self.save_path_prefix+"*") if self.metric_name in path and ".pt" in path]
 
         if len(matched_existing_paths):
@@ -1292,7 +1349,7 @@ class SaveBestModelsSideEffect(ISideEffect):
                 for item in sorted_history[self.num_max_keep-1:]:
                     os.remove(item['saved_path'])
                 self.history = sorted_history[:self.num_max_keep-1]
-        
+
         current = dict(
             metric_value=metric_value,
             saved_path=f"{self.save_path_prefix}-ep{loop.model.training_progress.epoch}-step{millify(loop.model.training_progress.step)}-{self.metric_name}={metric_value:.5f}.pt.gz".replace("--ep", "-ep"),
