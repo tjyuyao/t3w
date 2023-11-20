@@ -13,7 +13,8 @@ https://github.com/tjyuyao/t3w/blob/main/LICENSE
 # reStructuredText Python: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cross-referencing-python-objects
 
 from __future__ import annotations
-import torch, gzip, random, numpy, os, math, weakref
+import torch, gzip, random, os, math, weakref
+import numpy as np
 from typing import Any, Sequence, NewType, Optional, Mapping, Type, Hashable, Callable, Dict, Literal, Union, List
 from functools import wraps
 from glob import glob
@@ -31,7 +32,7 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 
 
-__version__ = '0.1.2'
+__version__ = '0.1.2dev1'
 
 
 cli = typer.Typer(
@@ -77,7 +78,7 @@ def manual_seed(seed:int, strict:bool=False):
     """
     torch.manual_seed(seed)
     random.seed(seed)
-    numpy.random.seed(seed)
+    np.random.seed(seed)
     if strict:
         os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
         torch.use_deterministic_algorithms(True, warn_only=True)
@@ -102,9 +103,9 @@ suppress_traceback = []
 # Some monkey-patch for more concise output.
 if not os.environ.get("T3W_VERBOSE", False):
 
-    def _ndarray_summary(self:numpy.ndarray):
+    def _ndarray_summary(self:np.ndarray):
         if len(self.shape):
-            nan_count = numpy.isnan(self).sum()
+            nan_count = np.isnan(self).sum() if isinstance(self, np.floating) else 0
             nan_str = f" nan={nan_count}," if nan_count else ""
             return f"NDArray({tuple(self.shape)}, {str(self.dtype).replace('torch.', '')},{nan_str} \"cpu\")"
         else:
@@ -112,7 +113,7 @@ if not os.environ.get("T3W_VERBOSE", False):
 
     def _tensor_summary(self:Tensor):
         if len(self.shape):
-            nan_count = torch.isnan(self).sum()
+            nan_count = torch.isnan(self).sum() if torch.is_floating_point(self) else 0
             nan_str = f" nan={nan_count}," if nan_count else ""
             return f"Tensor({tuple(self.shape)}, {str(self.dtype).replace('torch.', '')},{nan_str} \"{str(self.device)}\")"
         else:
@@ -128,15 +129,15 @@ if not os.environ.get("T3W_VERBOSE", False):
         return f"{self.__class__.__name__}({args_repr})"
 
     def _verbose_ndarray(x):
-        numpy.set_string_function(None)
+        np.set_string_function(None)
         x = repr(x)
-        numpy.set_string_function(_ndarray_summary, repr=True)
+        np.set_string_function(_ndarray_summary, repr=True)
         return x
 
     _VERBOSE_REPRS = {
         Tensor: Tensor.__repr__,
         nn.Module: nn.Module.__repr__,
-        numpy.ndarray: _verbose_ndarray,
+        np.ndarray: _verbose_ndarray,
     }
 
     class ReprStr(str):
@@ -151,11 +152,11 @@ if not os.environ.get("T3W_VERBOSE", False):
 
     Tensor.__repr__ = _tensor_summary
     nn.Module.__repr__ = _module_summary
-    numpy.set_string_function(_ndarray_summary, repr=True)
+    np.set_string_function(_ndarray_summary, repr=True)
 
     try:
 
-        suppress_traceback.append(__file__)
+        # suppress_traceback.append(__file__)
         suppress_traceback.append(torch)
 
         import rich.traceback
@@ -247,6 +248,11 @@ class IDatum(Interface):
         """
         dataset_type, root, split, index = uuid
         return dataset_type(root, split)[index]
+
+    def __repr__(self) -> str:
+        C1 = self.__class__.__name__
+        D1 = self.uuid[0].__name__
+        return f"{C1}.from_uuid(({D1}, {', '.join([repr(x) for x in self.uuid[1:]])}))"
 
 
 class IMiniBatch(Interface):
@@ -742,6 +748,7 @@ class TopLevelModule(nn.Module):
         self.training_progress = _TrainingProgress()
         self.regularizer_reweight:float = regularizer_reweight
 
+        self._device = "cpu"
         self.distributed_devices = []
         self.ddp_enabled = False
         self.ddp_rank = 0
@@ -760,6 +767,7 @@ class TopLevelModule(nn.Module):
         devices = self._parse_multi_device(device)
         if 1 == len(devices):
             self.user_model.to(device)
+            self._device = torch.device(device)
         else:
             self.distributed_devices = devices
             self.ddp_port = _find_free_port()
@@ -808,7 +816,10 @@ class TopLevelModule(nn.Module):
     @property
     def device(self):
         """current device (not supporting model parallelzation)"""
-        return next(self.user_model.parameters()).device
+        try:
+            return next(self.user_model.parameters()).device
+        except StopIteration:
+            return self._device
 
     def save(self, path):
         """save current training states to the disk.
@@ -818,7 +829,7 @@ class TopLevelModule(nn.Module):
             * user model state_dict
             * user optimizer state_dict
             * user lr_scheduler state_dict
-            * current random states of ``random``, ``numpy.random`` and ``torch.random``.
+            * current random states of ``random``, ``np.random`` and ``torch.random``.
 
         Warning:
             No parent directory will be produced if not exist.
@@ -835,7 +846,7 @@ class TopLevelModule(nn.Module):
                     "lr_scheduler": self.lr_scheduler.state_dict() if self.lr_scheduler is not None else None,
                     "random_states": {
                         "random": random.getstate(),
-                        "numpy": numpy.random.get_state(),
+                        "np": np.random.get_state(),
                         "torch": torch.random.get_rng_state(),
                     }
                 },
@@ -861,7 +872,7 @@ class TopLevelModule(nn.Module):
         if self.lr_scheduler is not None:
             self.lr_scheduler.load_state_dict(ckpt_dict['lr_scheduler'])
         random.setstate(ckpt_dict['random_states']['random'])
-        numpy.random.set_state(ckpt_dict['random_states']['numpy'])
+        np.random.set_state(ckpt_dict['random_states']['np'])
         torch.random.set_rng_state(ckpt_dict['random_states']['torch'].cpu())
         return model_load_return
 
@@ -932,14 +943,15 @@ class TopLevelModule(nn.Module):
 
 class ProbeData(nn.Module):
 
-    def __init__(self) -> None:
+    def __init__(self, breakpoint) -> None:
         super().__init__()
-        self.dummy_param = nn.Parameter(torch.tensor([0.]))
+        self.breakpoint = breakpoint
 
     def forward(self, data: "IMiniBatch"):
-        pprint(data, max_depth=2, max_length=16)
-        breakpoint()
-        print()
+        if self.breakpoint:
+            pprint(data, max_depth=2, max_length=16)
+            breakpoint()
+            exit()
 
 
 class EvalLoop:
@@ -956,9 +968,10 @@ class EvalLoop:
                  batch_size: int = None,
                  metrics: Mapping[str, IDatasetMetric] = dict(),
                  side_effects: Sequence["ISideEffect"] = [],
+                 breakpoint: bool = False,
                  ) -> None:
         self.dataset = dataset
-        self.model = model or TopLevelModule(ProbeData())
+        self.model = model or TopLevelModule(ProbeData(breakpoint=breakpoint))
         self.metrics = metrics
         self.handle:_EventHandler = _EventHandler(side_effects)
         self.loader:DataLoader = None
@@ -1010,7 +1023,7 @@ class EvalLoop:
 
 def _seed_worker(worker_id):
     worker_seed = torch.initial_seed() % 2**32
-    numpy.random.seed(worker_seed)
+    np.random.seed(worker_seed)
     random.seed(worker_seed)
 
 
