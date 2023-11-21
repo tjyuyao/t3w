@@ -19,7 +19,7 @@ from typing import Any, Sequence, NewType, Optional, Mapping, Type, Hashable, Ca
 from functools import wraps
 from glob import glob
 from torch.utils.data import DataLoader, Sampler, default_collate, DistributedSampler
-from torch import nn, Tensor
+from torch import nn, Tensor, FloatTensor
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import _LRScheduler
 from torch.nn.parallel import DistributedDataParallel
@@ -32,7 +32,7 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 
 
-__version__ = '0.1.2dev1'
+__version__ = '0.1.3'
 
 
 cli = typer.Typer(
@@ -173,12 +173,13 @@ else:
         return data
 
 
-FloatScalarTensor = NewType("FloatScalarTensor", Float[Tensor, ""])
-"""This is a type alias for "float scalar tensor", which is the return type for :meth:`IDatumMetric.forward` method.
+FloatScalarTensor = NewType("MiniBatchFloats", Float[Tensor, ""])
+MiniBatchFloats = NewType("MiniBatchFloats", Float[Tensor, "minibatch"])
+"""This is a sequence of float, the return type for :meth:`IMiniBatchMetric.forward` method, each scalar float value corresponds to an example in the minibatch.
 """
 
-StepReturnDict = NewType("StepReturnDict", Dict[Literal["losses", "metrics"], Dict[str, FloatScalarTensor]])
-"""This is the returned type of :meth:`TopLevelModule.step`. Typically, users receive this type of data in the event :meth:`ISideEffect.on_train_step_finished`.
+StepReturnDict = NewType("StepReturnDict", Dict[Literal["losses", "metrics"], Dict[str, MiniBatchFloats]])
+"""This is the returned type of :meth:`TopLevelModule.step`. Users may can receive data of this type in the event :meth:`ISideEffect.on_train_step_finished`.
 """
 
 
@@ -213,7 +214,7 @@ class IDatum(Interface):
 
     @staticmethod
     def collate(data: Sequence["IDatum"]) -> "IMiniBatch":
-        """collate a mini batch of data into an :class:`IMiniBatch` consumable by user's model and :class:`IDatumMetric`.
+        """collate a mini batch of data into an :class:`IMiniBatch` consumable by user's model and :class:`IMiniBatchMetric`.
 
         This function is called by :class:`DataLoader` in the :class:`TrainLoop` or :class:`EvalLoop` to collate independently sampled data
         into a mini batch, before which is passed to the :meth:`TopLevelModule.forward`.
@@ -269,7 +270,7 @@ class IMiniBatch(Interface):
 
     See also:
       * :meth:`TopLevelModule.forward`
-      * :meth:`IDatumMetric.forward`
+      * :meth:`IMiniBatchMetric.forward`
       * :meth:`ISideEffect.on_eval_step_started`
       * :meth:`ISideEffect.on_eval_step_finished`
       * :meth:`ISideEffect.on_train_step_started`
@@ -300,7 +301,7 @@ class IMiniBatch(Interface):
     Note:
         In DDP mode, when data cannot be evenly distributed to multiple devices at the last iteration of a dataset epoch,
         :class:`DistributedSampler` will pad the samples to ensure same batch size on all devices. The padded samples would
-        cause minor error in the evaluation result and should be avoided. Fortunately, :class:`EvalLoop` automatically marks this behavior to the ``padding_mask`` flag, and users can easily handle this case when implementing a custom :class:`IDatumMetric`.
+        cause minor error in the evaluation result and should be avoided. Fortunately, :class:`EvalLoop` automatically marks this behavior to the ``padding_mask`` flag, so :meth:`IMiniBatchMetric.__call__` can handle this case properly during computing an average.
 
     See also:
       :meth:`EvalLoop.mark_padding`
@@ -388,11 +389,11 @@ class IDataset(Interface):
         pass
 
 
-class IDatumMetric(nn.Module, Interface):
+class IMiniBatchMetric(nn.Module, Interface):
     """The interface of compute metric for datum in a mini-batch.
 
     Note:
-        We differentiate the :class:`IDatumMetric` and :class:`IDatasetMetric`,
+        We differentiate the :class:`IMiniBatchMetric` and :class:`IDatasetMetric`,
         where the former compute metric value for a batch of data, while the
         latter aggregate datum metric of each batch for a entire dataset (typically
         an "average meter"). The dataset level metric mainly focus on correct computation
@@ -408,7 +409,7 @@ class IDatumMetric(nn.Module, Interface):
     explicitly specify it in your subclass definition.
     """
 
-    def forward(self, mb: IMiniBatch) -> FloatScalarTensor:
+    def forward(self, mb: IMiniBatch) -> MiniBatchFloats | FloatScalarTensor:
         """
 
         Calling of this method is delegated to :class:`TrainLoop` or :class:EvalLoop` at their construction time.
@@ -419,16 +420,27 @@ class IDatumMetric(nn.Module, Interface):
             mb (IMiniBatch): the mini-batch of data which have been processed by user_model.
 
         Returns:
-            FloatScalarTensor: return metric scalar value.
+            MiniBatchFloats | FloatScalarTensor: returns a sequence or a single value (regarded as the same for every example in the minibatch) of metric values.
         """
         pass
 
+    def __call__(self, mb: IMiniBatch) -> FloatScalarTensor:
+        """ call forward() and compute the mean value of it.
+        """
+        metric_values:FloatTensor = super().__call__(mb).float()
+        if metric_values.numel() == 1:
+            return metric_values
+        elif metric_values.size(0) == mb.full_batch_size:
+            return metric_values[mb.padding_mask].mean()
+        else:
+            return metric_values.mean()
 
-class ILoss(IDatumMetric):
+
+class ILoss(IMiniBatchMetric):
     """The interface of compute loss for datum in a mini-batch.
 
     Note:
-        In t3w, we adopt the fact that a loss function is a special type of metric that support backpropagation. Therefore :class:`ILoss` inherites :class:`IDatumMetric` and you can use an ``ILoss`` whereever an ``IDatumMetric`` is suited.
+        In t3w, we adopt the fact that a loss function is a special type of metric that support backpropagation. Therefore :class:`ILoss` inherites :class:`IMiniBatchMetric` and you can use an ``ILoss`` whereever an ``IMiniBatchMetric`` is suited.
     """
 
     loss_reweight: float = 1.
@@ -441,7 +453,7 @@ class ILoss(IDatumMetric):
     higher_better: bool = False
     """higher value of a loss always implies worse performance. Don't bother to specify it in the subclasses."""
 
-    def forward(self, mb: IMiniBatch) -> FloatScalarTensor:
+    def forward(self, mb: IMiniBatch) -> MiniBatchFloats | FloatScalarTensor:
         """
 
         Calling of this method is delegated to :class:`TrainLoop` at its construction time.
@@ -458,11 +470,11 @@ class ILoss(IDatumMetric):
         pass
 
 
-class LearningRate(IDatumMetric):
+class LearningRate(IMiniBatchMetric):
     """This class report current learning rate through the standard metric interface.
 
     This is not a typical metric but it is a commonly used one agnostic to tasks. So we implement it early here.
-    It is also a good demonstration of how to use the exposed :class:`TopLevelModule` as the :attr:`IMiniBatch.model` attribute. Since the metric computation is applied after the user_model's ``forward()``, the ``model`` attribute is absolutely available in a :meth:`IDatumMetric.forward` method.
+    It is also a good demonstration of how to use the exposed :class:`TopLevelModule` as the :attr:`IMiniBatch.model` attribute. Since the metric computation is applied after the user_model's ``forward()``, the ``model`` attribute is absolutely available in a :meth:`IMiniBatchMetric.forward` method.
     """
 
     def __init__(self, param_group=0) -> None:
@@ -486,11 +498,11 @@ class LearningRate(IDatumMetric):
         return torch.tensor(mb.model.optim.param_groups[self.param_group]['lr'])
 
 
-class IDatasetMetric(IDatumMetric):
+class IDatasetMetric(IMiniBatchMetric):
     """The interface of a dataset level metric (aggregation algorithm on multi devices).
 
     Note:
-        We differentiate the :class:`IDatumMetric` and :class:`IDatasetMetric`,
+        We differentiate the :class:`IMiniBatchMetric` and :class:`IDatasetMetric`,
         where the former compute metric value for a batch of data, while the
         latter aggregate datum metric of each batch for a entire dataset
         (typically an "average meter"). The dataset level metric mainly focus on
@@ -510,25 +522,25 @@ class IDatasetMetric(IDatumMetric):
         system.
 
     See also:
-        :class:`IDatumMetric`, :class:`AverageMetric`.
+        :class:`IMiniBatchMetric`, :class:`AverageMetric`.
     """
 
-    datum_metric: IDatumMetric
+    minibatch_metric: IMiniBatchMetric
     """The dataset metric has a standard behavior to composite a datum metric instance, and the calling
     of the datum metric is delegated to :meth:`update`.
     """
 
-    def __init__(self, datum_metric: IDatumMetric) -> None:
-        """store ``datum_metric`` and reset the statistics.
+    def __init__(self, minibatch_metric: IMiniBatchMetric) -> None:
+        """store ``minibatch_metric`` and reset the statistics.
 
         Args:
-            datum_metric (IDatumMetric): internal datum_metric instance to embed.
+            minibatch_metric (IMiniBatchMetric): internal minibatch_metric instance to embed.
         """
         super().__init__()
-        self.datum_metric = datum_metric
+        self.minibatch_metric = minibatch_metric
         self.reset()
 
-    def forward(self, mb: IMiniBatch) -> FloatScalarTensor:
+    def forward(self, mb: IMiniBatch) -> MiniBatchFloats:
         """allows using dataset metric like datum metric.
 
         Warning:
@@ -544,7 +556,7 @@ class IDatasetMetric(IDatumMetric):
             mb (IMiniBatch): a mini-batch of data.
 
         Returns:
-            FloatScalarTensor: current dataset metric value.
+            MiniBatchFloats: current dataset metric value.
         """
         self.update(mb)
         self.synchronize()
@@ -579,7 +591,7 @@ class AverageMetric(IDatasetMetric):
         self.cnt = 0
 
     def update(self, mb: IMiniBatch) -> None:
-        new_val = self.datum_metric(mb).item()
+        new_val = self.minibatch_metric(mb).item()
         k = mb.batch_size
         self.sum += new_val * k
         self.cnt += k
@@ -777,9 +789,9 @@ class TopLevelModule(nn.Module):
             self,
             mb: IMiniBatch,
             losses: Mapping[str, ILoss] = None,
-            metrics: Mapping[str, IDatumMetric] = None,
+            metrics: Mapping[str, IMiniBatchMetric] = None,
             step_dict: StepReturnDict = None,
-        ) -> Union[FloatScalarTensor, IMiniBatch]:
+        ) -> Union[MiniBatchFloats, IMiniBatch]:
         """
 
         In training mode, this will call ``self.user_model(mb)``, compute ``losses`` and ``metrics``, collect results to fill in ``step_dict``, and return weighted sum of all losses (to be backward).
@@ -789,11 +801,11 @@ class TopLevelModule(nn.Module):
         Args:
             mb (IMiniBatch): _description_
             losses (Mapping[str, ILoss], optional): _description_. Defaults to None.
-            metrics (Mapping[str, IDatumMetric], optional): _description_. Defaults to None.
+            metrics (Mapping[str, IMiniBatchMetric], optional): _description_. Defaults to None.
             step_dict (StepReturnDict, optional): _description_. Defaults to None.
 
         Returns:
-            Union[FloatScalarTensor, IMiniBatch]: _description_
+            Union[MiniBatchFloats, IMiniBatch]: _description_
         """
         mb.to(self.device)
         mb.model = self
@@ -1044,7 +1056,7 @@ class TrainLoop:
             dataset: IDataset,
             model: TopLevelModule,
             losses: Mapping[str, ILoss],
-            metrics: Mapping[str, IDatumMetric],
+            metrics: Mapping[str, IMiniBatchMetric],
             batch_size: Optional[int] = None,
             sampler: Sampler = None,
             num_acc_grad: int = 1,
@@ -1060,7 +1072,7 @@ class TrainLoop:
             model (TopLevelModule): the top level model.
             dataset (IDataset): train split of the dataset.
             losses (Mapping[str, ILoss]): losses to be evaluated.
-            metrics (Mapping[str, IDatumMetric]): metrics to be evaluated
+            metrics (Mapping[str, IMiniBatchMetric]): metrics to be evaluated
             batch_size (Optional[int], optional): train batch size. Defaults to the ``train_batch_size`` static attribute of :class:`IDatum`.
             sampler (Sampler, optional): a custom sampler instance for the dataloader. Defaults to ``RandomSampler`` or ``DistributedSampler``.
             num_acc_grad (int, optional): step interval to apply gradient descent. Defaults to 1.
@@ -1346,7 +1358,7 @@ class SaveBestModelsSideEffect(ISideEffect):
         if not (self.num_max_keep > 0): return
 
         metric_value = loop.metric_values[self.metric_name]
-        higher_better = loop.metrics[self.metric_name].datum_metric.higher_better
+        higher_better = loop.metrics[self.metric_name].minibatch_metric.higher_better
         better = lambda a, b: (higher_better and a >= b) or (not higher_better and a <= b)
 
         if self.history:

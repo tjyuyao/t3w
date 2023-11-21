@@ -48,14 +48,14 @@ class NLLLoss(ILoss):
         return F.nll_loss(mb.logits, mb.gt)
 
 
-class MiniBatchAccuracy(IDatumMetric):
+class MiniBatchAccuracy(IMiniBatchMetric):
 
     higher_better = True
 
-    def forward(self, mb: MNISTMiniBatch) -> FloatScalarTensor:
+    def forward(self, mb: MNISTMiniBatch) -> MiniBatchFloats:
         mb.pred = mb.logits.argmax(dim=1)
         mb.correct = mb.pred.eq(mb.gt)
-        return mb.correct[mb.padding_mask].float().mean(dim=0)
+        return mb.correct
 
 
 class MNISTDataset(IDataset):
@@ -73,7 +73,7 @@ class MNISTDataset(IDataset):
 
     def __len__(self):
         return len(self.dataset)
-    
+
     def __getitem__(self, index: int) -> IDatum:
         input, gt = self.dataset[index]
         return MNISTDatum(input, gt, index)
@@ -120,7 +120,7 @@ def eval(
     ckpt: str = "",
     device:str="cuda:0",
 ):
-    
+
     side_effects = [
         TqdmSideEffect(),
     ]
@@ -141,7 +141,7 @@ def eval(
         side_effects=side_effects,
         batch_size=601,
     )
-    
+
     eval_loop()
 
 
@@ -157,7 +157,7 @@ def train(
     seed:int=42,
 ):
     manual_seed(seed, strict=True)
-    
+
     experiment = "mnist-basicnet-adadelta-steplr"
     experiment = f"{experiment}-{desc}" if desc else experiment
 
