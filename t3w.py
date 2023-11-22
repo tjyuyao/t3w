@@ -32,7 +32,7 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 
 
 cli = typer.Typer(
@@ -277,52 +277,25 @@ class IMiniBatch(Interface):
       * :meth:`ISideEffect.on_train_step_finished`
     """
 
-    @property
-    def batch_size(self) -> int:
-        """valid batch size (exclude padding). See :attr:`padding_mask`."""
-        return self.padding_mask.int().sum().item()
+    # @cached_property
+    # def batch_size(self) -> int:
+    #     raise AttributeError(f"'{self.__class__.__name__}' object has no attribute 'batch_size', it should be implemented by user in the \"collate\" function.")
 
-    @property
-    def full_batch_size(self) -> int:
-        """actually collated batch size (include padding). See :attr:`padding_mask`."""
-        return self._full_batch_size
-
-    @batch_size.setter
-    def batch_size(self, full_batch_size):
-        self._full_batch_size = full_batch_size
-        self.padding_mask = torch.ones((full_batch_size,), dtype=torch.bool)
-
-    padding_mask: Bool[Tensor, "_"]
-    """a bool tensor of shape ``(full_batch_size,)`` where ``True`` indicates the corresponding datum is **NOT** a padded one.
+    _nopad_batch_size: int = None
+    """
 
     Note:
-        The ``full_batch_size`` property stores the ``batch_size`` argument passed to the :meth:`IMiniBatch.__init__` method. This may be actually less than the ``(val_)batch_size`` argument told :meth:`EvalLoop.__init__` because ``drop_last=False``.
-
-    Note:
-        In DDP mode, when data cannot be evenly distributed to multiple devices at the last iteration of a dataset epoch,
-        :class:`DistributedSampler` will pad the samples to ensure same batch size on all devices. The padded samples would
-        cause minor error in the evaluation result and should be avoided. Fortunately, :class:`EvalLoop` automatically marks this behavior to the ``padding_mask`` flag, so :meth:`IMiniBatchMetric.__call__` can handle this case properly during computing an average.
+        In DDP mode, when data cannot be evenly distributed to multiple devices at the last iteration of a dataset epoch, :class:`DistributedSampler` will pad the samples to ensure same batch size on all devices. The padded samples would cause minor error in the evaluation result and should be avoided. Fortunately, :class:`EvalLoop` automatically mantains ``_nopad_batch_size``, so :meth:`IMiniBatchMetric.__call__` can handle this case properly during computing an average.
 
     See also:
       :meth:`EvalLoop.mark_padding`
     """
 
-    model:"TopLevelModule"
+    model:"TopLevelModule" = None
     """The :class:`TopLevelModule` which is consuming and modifying this instance of :class:`IMiniBatch`.
-
 
     The :class:`TopLevelModule` will fill this attribute right before calling the `forward()` method of its internal user_model. Therefore, the ``user_model.forward()``, :meth:`ISideEffect.on_evak_step_finished`, and :meth:`ISideEffect.on_train_step_finished` can make use of it. Before that, this attribute is defaulted to ``None``.
     """
-
-    def __init__(self, batch_size) -> None:
-        """
-
-        Args:
-            batch_size (int): the actual number of current batch, including padded one. This is typically counted by :meth:`IDatum.collate`.
-        """
-        self.batch_size = batch_size
-        self.model = None
-
 
     def to(self, device: torch.device):
         """defines how to move this mini-batch type into specified device.
@@ -430,10 +403,8 @@ class IMiniBatchMetric(nn.Module, Interface):
         metric_values:FloatTensor = super().__call__(mb).float()
         if metric_values.numel() == 1:
             return metric_values
-        elif metric_values.size(0) == mb.full_batch_size:
-            return metric_values[mb.padding_mask].mean()
         else:
-            return metric_values.mean()
+            return metric_values[:mb._nopad_batch_size].mean()
 
 
 class ILoss(IMiniBatchMetric):
@@ -578,6 +549,12 @@ class IDatasetMetric(IMiniBatchMetric):
         """synchronize local statistics."""
         pass
 
+    def float(self):
+        return self.eval()
+
+    # def __repr__(self):
+    #     return str(self.eval())
+
 
 class AverageMetric(IDatasetMetric):
     """The average metric across data.
@@ -592,7 +569,7 @@ class AverageMetric(IDatasetMetric):
 
     def update(self, mb: IMiniBatch) -> None:
         new_val = self.minibatch_metric(mb).item()
-        k = mb.batch_size
+        k = mb._nopad_batch_size
         self.sum += new_val * k
         self.cnt += k
 
@@ -1026,11 +1003,10 @@ class EvalLoop:
 
     def mark_padding(self, step, mb: IMiniBatch):
         if dist.is_initialized():
-            processed = mb.full_batch_size * (step * dist.get_world_size() + dist.get_rank())
+            processed = self.batch_size * (step * dist.get_world_size() + dist.get_rank())
         else:
-            processed = mb.full_batch_size * step
-        valid = max(min(len(self.dataset) - processed, mb.full_batch_size), 0)
-        mb.padding_mask[valid:].zero_()
+            processed = self.batch_size * step
+        mb._nopad_batch_size = max(min(len(self.dataset) - processed, self.batch_size), 0)
 
 
 def _seed_worker(worker_id):
