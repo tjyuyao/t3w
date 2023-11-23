@@ -13,7 +13,7 @@ https://github.com/tjyuyao/t3w/blob/main/LICENSE
 # reStructuredText Python: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cross-referencing-python-objects
 
 from __future__ import annotations
-import torch, gzip, random, os, math, weakref
+import torch, gzip, random, os, weakref
 import numpy as np
 from typing import Any, Sequence, NewType, Optional, Mapping, Type, Hashable, Callable, Dict, Literal, Union, List
 from functools import wraps
@@ -27,46 +27,10 @@ from jaxtyping import Float, Shaped, Bool
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from rich.pretty import pprint
-import typer, click
 import torch.distributed as dist
 import torch.multiprocessing as mp
 
-
-__version__ = '0.1.4'
-
-
-cli = typer.Typer(
-    add_completion=False,
-)
-"""Typer: Typer is a library we choose for building type hints based CLI applications.
-
-Example:
-
-    Here is a simple example::
-
-        import typer
-
-        cli = typer.Typer()
-
-
-        @cli.command()
-        def hello(name: str):
-            print(f"Hello {name}")
-
-
-        @cli.command()
-        def goodbye(name: str, formal: bool = False):
-            if formal:
-                print(f"Goodbye Ms. {name}. Have a good day.")
-            else:
-                print(f"Bye {name}!")
-
-
-        if __name__ == "__main__":
-            cli()
-
-See https://github.com/tiangolo/typer for more usage information.
-"""
+from .utils.verbose import verbose
 
 
 def manual_seed(seed:int, strict:bool=False):
@@ -82,95 +46,6 @@ def manual_seed(seed:int, strict:bool=False):
     if strict:
         os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
         torch.use_deterministic_algorithms(True, warn_only=True)
-
-
-def millify(n:int, names=["", " K", " M", " B", " T"]):
-    """format an integer number into a human-friendly string.
-
-    Args:
-        n (int): the number to be formatted.
-        names (list, optional): postfix string for one, thousand, million, etc. Defaults to ["", " K", " M", " B", " T"].
-
-    Returns:
-        str: the fomatted string.
-    """
-    n = float(n)
-    millidx = max(0, min(len(names) - 1, int(math.floor(0 if n == 0 else math.log10(abs(n)) / 3))))
-    return "{:.1f}{}".format(n / 10 ** (3 * millidx), names[millidx]).replace(".0", "")
-
-suppress_traceback = []
-
-# Some monkey-patch for more concise output.
-if not os.environ.get("T3W_VERBOSE", False):
-
-    def _ndarray_summary(self:np.ndarray):
-        if len(self.shape):
-            nan_count = np.isnan(self).sum() if isinstance(self, np.floating) else 0
-            nan_str = f" nan={nan_count}," if nan_count else ""
-            return f"NDArray({tuple(self.shape)}, {str(self.dtype).replace('torch.', '')},{nan_str} \"cpu\")"
-        else:
-            return f"Scalar({self.item()}, {str(self.dtype).replace('torch.', '')}, \"cpu\")"
-
-    def _tensor_summary(self:Tensor):
-        if len(self.shape):
-            nan_count = torch.isnan(self).sum() if torch.is_floating_point(self) else 0
-            nan_str = f" nan={nan_count}," if nan_count else ""
-            return f"Tensor({tuple(self.shape)}, {str(self.dtype).replace('torch.', '')},{nan_str} \"{str(self.device)}\")"
-        else:
-            return f"Scalar({self.item()}, {str(self.dtype).replace('torch.', '')}, \"{str(self.device)}\")"
-
-    def _module_summary(self:nn.Module):
-        nparams = sum(p.numel() for p in self.parameters())
-        try: device = next(self.parameters()).device
-        except StopIteration: device = None
-        head_repr = self.extra_repr()
-        tail_repr = f"nparams={millify(nparams)}, device=\"{device}\""
-        args_repr = f"{head_repr}, {tail_repr}" if head_repr else tail_repr
-        return f"{self.__class__.__name__}({args_repr})"
-
-    def _verbose_ndarray(x):
-        np.set_string_function(None)
-        x = repr(x)
-        np.set_string_function(_ndarray_summary, repr=True)
-        return x
-
-    _VERBOSE_REPRS = {
-        Tensor: Tensor.__repr__,
-        nn.Module: nn.Module.__repr__,
-        np.ndarray: _verbose_ndarray,
-    }
-
-    class ReprStr(str):
-        def __repr__(self):
-            return self
-
-    def verbose(data):
-        for T, fn in _VERBOSE_REPRS.items():
-            if isinstance(data, T):
-                return ReprStr(fn(data))
-        return data
-
-    Tensor.__repr__ = _tensor_summary
-    nn.Module.__repr__ = _module_summary
-    np.set_string_function(_ndarray_summary, repr=True)
-
-    try:
-
-        # suppress_traceback.append(__file__)
-        suppress_traceback.append(torch)
-
-        import rich.traceback
-        _old_from_exception = rich.traceback.Traceback.from_exception
-        def _rich_traceback_from_exception(cls, *args, suppress:List=[], **kwargs):
-            suppress.extend(suppress_traceback)
-            kwargs['locals_max_length'] = os.environ.get("T3W_LOCALS_MAXLEN", 3)
-            return _old_from_exception(*args, suppress=suppress, **kwargs)
-        rich.traceback.Traceback.from_exception = classmethod(_rich_traceback_from_exception)
-    except ImportError: pass
-
-else:
-    def verbose(data):
-        return data
 
 
 FloatScalarTensor = NewType("MiniBatchFloats", Float[Tensor, ""])
@@ -932,7 +807,7 @@ class TopLevelModule(nn.Module):
 
 class ProbeData(nn.Module):
 
-    def __init__(self, breakpoint) -> None:
+    def __init__(self, breakpoint:bool = True) -> None:
         super().__init__()
         self.breakpoint = breakpoint
 
@@ -1134,7 +1009,7 @@ class TrainLoop:
                 self.handle('on_train_step_started', self, step, mb)
                 step_return = self.step(mb)
                 self.handle('on_train_step_finished', self, step, mb, step_return)
-            if len(step_return["losses"]):
+            if self.model.lr_scheduler is not None and len(step_return["losses"]):
                 self.model.lr_scheduler.step()
             if self.eval_loop and epoch % self.epoch_per_eval == 0: self.eval_loop()
             self.model.training_progress.inc_epoch()
@@ -1165,15 +1040,12 @@ class _EventHandler:
                 abort = 0
                 if dist.get_rank() == 0 or side_effect.is_distributed:
                     try: getattr(side_effect, event)(*args, **kwargs)
-                    except click.Abort:
+                    except:
                         abort = 1
                 object_list = [None for _ in range(dist.get_world_size())]
                 dist.all_gather_object(object_list, abort)
                 if sum(object_list):
-                    if dist.get_rank() == 0:
-                        click.echo(click.style("Aborted.", fg="red"), color=True)
-                    import sys
-                    sys.exit()
+                    exit()
             else:
                 getattr(side_effect, event)(*args, **kwargs)
 
@@ -1220,140 +1092,15 @@ class ISideEffect(Interface):
         pass
 
 
-class TqdmSideEffect(ISideEffect):
+def command(
+    model:Type[nn.Module] = ProbeData,
+    optim:Type[Optimizer] = None,
+    lr_scheduler:Type[_LRScheduler] = None,
+):
+    def decorator(main):
+        @wraps(main)
+        def wrapper(*args, **kw):
 
-    def __init__(self, postfix_keys:Sequence[str]= []) -> None:
-        super().__init__()
-        from tqdm import tqdm
-        self.tqdm = tqdm
-        self.postfix_keys = postfix_keys
-
-    def on_eval_started(self, loop: "EvalLoop"):
-        self.eval_pbar = self.tqdm(desc=f"Eval {loop.model.training_progress.epoch}", total=len(loop.loader), leave=False, dynamic_ncols=True)
-
-    def on_eval_step_finished(self, loop: "EvalLoop", step: int, mb: "IMiniBatch"):
-        self.eval_pbar.update()
-
-    def on_eval_finished(self, loop: "EvalLoop"):
-        self.eval_pbar.close()
-        metrics_dict = dict()
-        metrics_dict["epoch"] = loop.model.training_progress.epoch
-        metrics_dict.update(loop.metric_values)
-        self.tqdm.write(repr(metrics_dict))
-
-    def on_train_started(self, loop: "TrainLoop"):
-        self.train_epoch_pbar = self.tqdm(desc="Epochs", total=loop.epochs, leave=False, dynamic_ncols=True)
-
-    def on_train_epoch_started(self, loop: "TrainLoop", epoch: int):
-        self.train_step_pbar = self.tqdm(desc=f"Train {epoch}", total=(loop.iter_per_epoch or len(loop.loader)), leave=False, dynamic_ncols=True)
-
-    def on_train_step_finished(self, loop: "TrainLoop", step: int, mb: "IMiniBatch", step_return: StepReturnDict):
-        self.train_step_pbar.update()
-
-        step_postfix = dict()
-        for key in self.postfix_keys:
-            if key in step_return["losses"]:
-                loss_reweight, loss_raw_value = step_return["losses"][key]
-                step_postfix[key] = f"{loss_reweight}*{loss_raw_value:.5f}"
-            elif key in step_return["metrics"]:
-                step_postfix[key] = f"{step_return['metrics'][key]:.5f}"
-            else:
-                pass  # missing key ignored
-        self.train_step_pbar.set_postfix(step_postfix)
-
-    def on_train_epoch_finished(self, loop: "TrainLoop", epoch: int):
-        self.train_step_pbar.close()
-        self.train_epoch_pbar.update()
-
-    def on_train_finished(self, loop: "TrainLoop"):
-        self.train_epoch_pbar.close()
-
-
-class AimSideEffect(ISideEffect):
-
-    def __init__(
-            self,
-            repo: Union[str, Path],
-            experiment: str,
-            hparams_dict: Dict[str, Any],
-        ) -> None:
-        super().__init__()
-        self.run_kwargs = dict(repo=repo, experiment=experiment)
-        self.hparams_dict = hparams_dict
-
-    def on_train_started(self, loop: TrainLoop):
-        import aim
-        self.run = aim.Run(**self.run_kwargs)
-        self.run['hparams'] = self.hparams_dict
-
-    def on_eval_finished(self, loop: EvalLoop):
-        prog = loop.model.training_progress
-        for name, value in loop.metric_values.items():
-            self.run.track(value, name=f"eval/{name}", step=prog.step, epoch=prog.epoch)
-
-    def on_train_step_finished(self, loop: TrainLoop, step: int, mb: "IMiniBatch", step_return: StepReturnDict):
-        prog = loop.model.training_progress
-        for name, (loss_reweight, loss_raw_value) in step_return['losses'].items():
-            self.run.track(loss_raw_value, name=f"train/loss/{name}/raw", step=prog.step, epoch=prog.epoch)
-            self.run.track(loss_reweight * loss_raw_value, name=f"train/loss/{name}/reweighted", step=prog.step, epoch=prog.epoch)
-        for name, value in step_return['metrics'].items():
-            self.run.track(value, name=f"train/metric/{name}", step=prog.step, epoch=prog.epoch)
-
-
-class SaveBestModelsSideEffect(ISideEffect):
-
-    def __init__(
-            self,
-            metric_name: str,
-            num_max_keep: int,
-            save_path_prefix: str="./",
-        ) -> None:
-        super().__init__()
-        self.metric_name = metric_name
-        self.num_max_keep = num_max_keep
-        self.save_path_prefix = save_path_prefix
-        self.history:List[Dict[Literal["metric_value", "saved_path"], Any]] = []
-
-    def on_train_started(self, loop: TrainLoop):
-        assert self.metric_name in loop.eval_loop.metrics.keys(), "metric_name for saving model does not exist in eval_loop"
-
-        matched_existing_paths = [path for path in glob(self.save_path_prefix+"*") if self.metric_name in path and ".pt" in path]
-
-        if len(matched_existing_paths):
-            import sys
-            sys.stdin = os.fdopen(0)
-            click.echo(f"{self.__class__.__name__}: found existing checkpoint files matching given prefix:")
-            for path in matched_existing_paths:
-                click.echo(f'\t* {path}')
-            if click.confirm("Should I DELETE them for current running?", default=False, abort=True):
-                for path in matched_existing_paths:
-                    os.remove(path)
-
-    def on_eval_finished(self, loop: EvalLoop):
-
-        if not (self.num_max_keep > 0): return
-
-        metric_value = loop.metric_values[self.metric_name]
-        higher_better = loop.metrics[self.metric_name].minibatch_metric.higher_better
-        better = lambda a, b: (higher_better and a >= b) or (not higher_better and a <= b)
-
-        if self.history:
-            sorted_history = sorted(
-                self.history,
-                key=lambda item: item["metric_value"],
-                reverse=higher_better
-            )
-            topk = sorted_history[:self.num_max_keep][-1]
-            if not better(metric_value, topk["metric_value"]):
-                return
-            if len(sorted_history) >= self.num_max_keep:
-                for item in sorted_history[self.num_max_keep-1:]:
-                    os.remove(item['saved_path'])
-                self.history = sorted_history[:self.num_max_keep-1]
-
-        current = dict(
-            metric_value=metric_value,
-            saved_path=f"{self.save_path_prefix}-ep{loop.model.training_progress.epoch}-step{millify(loop.model.training_progress.step)}-{self.metric_name}={metric_value:.5f}.pt.gz".replace("--ep", "-ep"),
-        )
-        loop.model.save(current["saved_path"])
-        self.history.append(current)
+            return main(*args, **kw)
+        return wrapper
+    return decorator
