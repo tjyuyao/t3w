@@ -1018,14 +1018,15 @@ class TrainLoop:
     def step(self, mb: IMiniBatch):
         """Implement a single train step, with gradiant accumulate."""
         step_dict = dict(losses=dict(), metrics=dict())
+        training_progress = self.model.training_progress
+        if training_progress.step % self.num_acc_grad == 0:
+            self.model.optim.zero_grad()
         train_loss = self.model_forward(mb, self.losses, self.metrics, step_dict)
         if isinstance(train_loss, Tensor):
             (train_loss / self.num_acc_grad).backward()
-            training_progress = self.model.training_progress
             training_progress.inc_step()
             if training_progress.step % self.num_acc_grad == 0:
                 self.model.optim.step()
-                self.model.optim.zero_grad()
         return step_dict
 
 
