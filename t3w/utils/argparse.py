@@ -181,6 +181,7 @@ class ArgumentParser(argparse.ArgumentParser):
         include_args: Optional[List[str]] = None,
         ignore_args: Optional[List[str]] = [],
         help: str = None,
+        prefix: bool = False,
         **defaults,
     ):
         """adds a group of arguments based on the parsing of the signature of ``class_or_function``.
@@ -195,6 +196,19 @@ class ArgumentParser(argparse.ArgumentParser):
             ignore_args: A list of argument names not to be parsed from the command line. Defaults to [].
             **defaults: Overwrites the defaults in function signature.
         """
+
+        # Infer prefix
+        if dest and (prefix is True):
+            prefix = dest + "_"
+        elif isinstance(prefix, str):
+            prefix = prefix + "_"
+        else:
+            prefix = ""
+
+        # Preprocess defaults
+        if 1 == len(defaults) and "defaults" in defaults:
+            defaults = defaults["defaults"]
+        defaults = {(prefix + name): value for name, value in defaults.items()}
 
         # Create an OutputBuilder to store parsed arguments
         if dest:
@@ -224,16 +238,18 @@ class ArgumentParser(argparse.ArgumentParser):
             param.arg_name: param.description for param in docstring.params
         }
 
+        is_ignored = lambda param_name: (param_name in ignore_args) or (
+            isinstance(include_args, Sequence) and param_name not in include_args
+        )
+
         # Add arguments for command line processing
         for param_name, param in sig.parameters.items():
             # Skip **kwargs
-            if param.kind == Parameter.VAR_KEYWORD:
+            if dest and param.kind == Parameter.VAR_KEYWORD:
                 builder.pass_extra_kwargs = True
                 continue
 
-            ignored_flag = (param_name in ignore_args) or (
-                isinstance(include_args, Sequence) and param_name not in include_args
-            )
+            ignored_flag = is_ignored(param_name)
 
             # Parse argument define
             argument_kwargs = kwargs_from_param(
@@ -241,7 +257,8 @@ class ArgumentParser(argparse.ArgumentParser):
                 doc=param_to_description,
                 class_or_function_name=class_or_function.__name__,
                 ignored_flag=ignored_flag,
-                **defaults
+                defaults=defaults,
+                prefix=prefix,
             )
 
             # Skip ignored args
@@ -251,21 +268,30 @@ class ArgumentParser(argparse.ArgumentParser):
                 continue
 
             # Add argument
-            group.add_argument(f"--{param_name}", **argument_kwargs)
+            group.add_argument(f"--{prefix}{param_name}", **argument_kwargs)
 
             # Fill builder param names
             if dest:
-                builder.keyword_arguments[param_name] = None
+                builder.keyword_arguments[param_name] = prefix + param_name
+
+        if dest and builder.pass_extra_kwargs:
+            trim_left = len(prefix)
+            for prefixed_name, value in defaults.items():
+                param_name = prefixed_name[trim_left:]
+                if is_ignored(param_name): continue
+                group.add_argument(f"--{prefixed_name}", **kwargs_from_value(value))
+                builder.keyword_arguments[param_name] = prefixed_name
+
 
     def add_options(self, **kwargs):
         for argname, value in kwargs.items():
-            self.add_argument(f"--{argname}", type=type(value), default=value)
+            self.add_argument(f"--{argname}", **kwargs_from_value(value))
 
     def parse_known_args(self, args=None, namespace=None):
         args, argv = super().parse_known_args(args=args, namespace=namespace)
         for dest, builder in self._typed_group_args.items():
-            for key in builder.keyword_arguments:
-                builder.keyword_arguments[key] = getattr(args, key)
+            for param_name, prefixed_name in builder.keyword_arguments.items():
+                builder.keyword_arguments[param_name] = getattr(args, prefixed_name)
             if not builder.partial:
                 builder = builder()
             setattr(args, dest, builder)
@@ -297,13 +323,16 @@ def kwargs_from_param(
     defaults=dict(),
     explicit_bool=True,
     ignored_flag=False,
+    prefix="",
 ):
     kwargs = dict()
-    
+
+    prefixed_name = prefix + param.name
+
     # Get the default or required of the argument
-    if param.name in defaults:
-        kwargs["default"] = defaults[param.name]
-        del defaults[param.name]
+    if prefixed_name in defaults:
+        kwargs["default"] = defaults[prefixed_name]
+        del defaults[prefixed_name]
     elif param.default != Parameter.empty:
         kwargs["default"] = param.default
     else:
@@ -457,11 +486,40 @@ def kwargs_from_param(
         if kwargs.get("required", False):
             kwargs["help"] += "required"
         else:
-            kwargs["help"] += f'default={kwargs.get("default", None)}'
+            kwargs["help"] += f'default={repr(kwargs.get("default", None))}'
 
         kwargs["help"] += ")"
 
         # Description
-        kwargs["help"] += " " + doc.get(param.name, "")
+        docstring_help = " " + doc.get(param.name, "")
+        docstring_help = docstring_help.replace("Default", "docstring default")
+        docstring_help = docstring_help.replace("DEFAULT", "docstring default")
+        docstring_help = docstring_help.replace("default", "docstring default")
+        kwargs["help"] += docstring_help
+
+    return kwargs
+
+
+def kwargs_from_value(
+    value: Any
+):
+    kwargs = dict()
+    kwargs["type"] = type(value)
+    kwargs["default"] = value
+
+    # Set help
+    if True:
+        kwargs["help"] = "("
+
+        # Type
+        kwargs["help"] += type_to_str(kwargs["type"]) + ", "
+
+        # Required/default
+        if kwargs.get("required", False):
+            kwargs["help"] += "required"
+        else:
+            kwargs["help"] += f'default={repr(value)}'
+
+        kwargs["help"] += ")"
 
     return kwargs

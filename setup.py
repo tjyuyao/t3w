@@ -1,6 +1,6 @@
 from setuptools import setup
 
-with open("t3w.py", 'r') as script_file:
+with open("t3w/__init__.py", 'r') as script_file:
     for line in script_file:
         if not line.startswith("__version__ = "): continue
         __version__ = eval(line[14:].rstrip()); break
@@ -22,7 +22,7 @@ setup(
     py_modules=["t3w"],
     install_requires=[
         "jaxtyping",
-        "typer[all]",
+        # "typer[all]",
     ],
     extras_require={
         "common": [
