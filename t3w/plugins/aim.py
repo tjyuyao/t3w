@@ -8,10 +8,12 @@ class AimSideEffect(ISideEffect):
             repo: Union[str, Path],
             experiment: str,
             hparams_dict: Dict[str, Any],
+            description: str = None,
             track_weights_every_n_steps: int = None,
         ) -> None:
         super().__init__()
         self.run_kwargs = dict(repo=repo, experiment=experiment)
+        self.description = description
         self.hparams_dict = hparams_dict
         self.track_weights_every_n_steps = track_weights_every_n_steps
 
@@ -20,9 +22,9 @@ class AimSideEffect(ISideEffect):
         from aim.storage.treeutils_non_native import convert_to_native_object
 
         self.run = aim.Run(**self.run_kwargs)
+        if self.description:
+            self.run.description = self.description
         self.run['hparams'] = {k:convert_to_native_object(v, strict=False) for k, v in self.hparams_dict.items()}
-        if self.track_weights_every_n_steps:
-            track_params_dists(loop.model, self.run)
 
     def on_eval_finished(self, loop: EvalLoop):
         prog = loop.model.training_progress

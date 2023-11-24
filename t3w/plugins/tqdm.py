@@ -43,9 +43,11 @@ class TqdmSideEffect(ISideEffect):
         for key in postfix_keys:
             if key in step_return["losses"]:
                 loss_reweight, loss_raw_value = step_return["losses"][key]
-                step_postfix[key] = f"{loss_reweight}*{loss_raw_value:.5f}"
+                loss_raw_value = f"{loss_raw_value:.4f}"[:6]
+                step_postfix[key] = f"{loss_reweight}*{loss_raw_value}"
             elif key in step_return["metrics"]:
-                step_postfix[key] = f"{step_return['metrics'][key]:.5f}"
+                metric_value = f"{step_return['metrics'][key]:.4f}"[:6]
+                step_postfix[key] = f"{metric_value}"
             else:
                 pass  # missing key ignored
         self.train_step_pbar.set_postfix(step_postfix)
