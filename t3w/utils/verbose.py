@@ -43,9 +43,17 @@ if not os.environ.get("T3W_VERBOSE", False):
         np.set_string_function(_ndarray_summary, repr=True)
         return x
 
+    _module_raw_repr = nn.Module.__repr__
+
+    def _verbose_module(x:nn.Module):
+        nn.Module.__repr__ = _module_raw_repr
+        x = repr(x)
+        nn.Module.__repr__ = _module_summary
+        return x
+
     _VERBOSE_REPRS = {
         Tensor: Tensor.__repr__,
-        nn.Module: nn.Module.__repr__,
+        nn.Module: _verbose_module,
         np.ndarray: _verbose_ndarray,
     }
 
