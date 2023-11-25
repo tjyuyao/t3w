@@ -22,6 +22,7 @@ setup(
     py_modules=["t3w"],
     install_requires=[
         "jaxtyping",
+        "pandas",
         # "typer[all]",
     ],
     extras_require={
