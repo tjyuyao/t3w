@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -34,9 +34,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -57,15 +56,6 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  
-  <div id="pst-scroll-pixel-helper"></div>
-
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -122,7 +112,6 @@
   
 
 <a class="navbar-brand logo" href="../index.html">
-  
   
   
   
@@ -268,10 +257,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
 `);
 </script>
@@ -279,11 +268,13 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -299,6 +290,69 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.Interface"><code class="docutils literal notranslate"><span class="pre">Interface</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum"><code class="docutils literal notranslate"><span class="pre">IDatum</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.uuid"><code class="docutils literal notranslate"><span class="pre">IDatum.uuid</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.train_batch_size"><code class="docutils literal notranslate"><span class="pre">IDatum.train_batch_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.val_batch_size"><code class="docutils literal notranslate"><span class="pre">IDatum.val_batch_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.num_workers"><code class="docutils literal notranslate"><span class="pre">IDatum.num_workers</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.collate"><code class="docutils literal notranslate"><span class="pre">IDatum.collate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.from_uuid"><code class="docutils literal notranslate"><span class="pre">IDatum.from_uuid()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatch"><code class="docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatch.model"><code class="docutils literal notranslate"><span class="pre">IMiniBatch.model</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatch.to"><code class="docutils literal notranslate"><span class="pre">IMiniBatch.to()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDataset"><code class="docutils literal notranslate"><span class="pre">IDataset</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDataset.datum_type"><code class="docutils literal notranslate"><span class="pre">IDataset.datum_type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDataset.__init__"><code class="docutils literal notranslate"><span class="pre">IDataset.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatchMetric"><code class="docutils literal notranslate"><span class="pre">IMiniBatchMetric</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatchMetric.higher_better"><code class="docutils literal notranslate"><span class="pre">IMiniBatchMetric.higher_better</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatchMetric.forward"><code class="docutils literal notranslate"><span class="pre">IMiniBatchMetric.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ILoss"><code class="docutils literal notranslate"><span class="pre">ILoss</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ILoss.loss_reweight"><code class="docutils literal notranslate"><span class="pre">ILoss.loss_reweight</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ILoss.higher_better"><code class="docutils literal notranslate"><span class="pre">ILoss.higher_better</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ILoss.forward"><code class="docutils literal notranslate"><span class="pre">ILoss.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.__init__"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.minibatch_metric"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.minibatch_metric</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.forward"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.forward()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.eval"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.eval()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.reset"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.update"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.synchronize"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.synchronize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.float"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.float()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect"><code class="docutils literal notranslate"><span class="pre">ISideEffect</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.is_distributed"><code class="docutils literal notranslate"><span class="pre">ISideEffect.is_distributed</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_eval_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_eval_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_eval_step_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_eval_step_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_eval_step_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_eval_step_finished()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_eval_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_eval_finished()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_epoch_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_epoch_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_step_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_step_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_step_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_step_finished()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_epoch_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_epoch_finished()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_finished()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -310,6 +364,447 @@ document.write(`
                   
   <section id="interfaces">
 <h1>Interfaces<a class="headerlink" href="#interfaces" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.Interface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">Interface</span></span><a class="headerlink" href="#t3w.Interface" title="Permalink to this definition">#</a></dt>
+<dd><p>This is a special abstract class to indicate its direct subclasses are interface and should be implemented by the user.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Every direct subclass of <a class="reference internal" href="#t3w.Interface" title="t3w.Interface"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interface</span></code></a> has its name starting with letter “I”.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.IDatum">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">IDatum</span></span><a class="headerlink" href="#t3w.IDatum" title="Permalink to this definition">#</a></dt>
+<dd><p>The interface for a single datum. Your dataset is meant to have abundant of this type of objects.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> or <a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.EvalLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvalLoop</span></code></a> can directly make use of attributes and methods defined here through the
+<a class="reference internal" href="#t3w.IDataset.datum_type" title="t3w.IDataset.datum_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IDataset.datum_type</span></code></a> link.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.IDatum.uuid">
+<span class="sig-name descname"><span class="pre">uuid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Hashable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#t3w.IDatum.uuid" title="Permalink to this definition">#</a></dt>
+<dd><p>universal unique identifier for tracking datum information, optional.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.IDatum.train_batch_size">
+<span class="sig-name descname"><span class="pre">train_batch_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#t3w.IDatum.train_batch_size" title="Permalink to this definition">#</a></dt>
+<dd><p><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> will use this value through <a class="reference internal" href="#t3w.IDataset.datum_type" title="t3w.IDataset.datum_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IDataset.datum_type</span></code></a> as default batch size value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.IDatum.val_batch_size">
+<span class="sig-name descname"><span class="pre">val_batch_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#t3w.IDatum.val_batch_size" title="Permalink to this definition">#</a></dt>
+<dd><p><a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.EvalLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvalLoop</span></code></a> will use this value through <a class="reference internal" href="#t3w.IDataset.datum_type" title="t3w.IDataset.datum_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IDataset.datum_type</span></code></a> as default batch size value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.IDatum.num_workers">
+<span class="sig-name descname"><span class="pre">num_workers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#t3w.IDatum.num_workers" title="Permalink to this definition">#</a></dt>
+<dd><p><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> or <a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.EvalLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvalLoop</span></code></a> will use this value through <a class="reference internal" href="#t3w.IDataset.datum_type" title="t3w.IDataset.datum_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IDataset.datum_type</span></code></a> for <cite>DataLoader.num_workers</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDatum.collate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#t3w.IDatum" title="t3w.core.IDatum"><span class="pre">IDatum</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></span><a class="headerlink" href="#t3w.IDatum.collate" title="Permalink to this definition">#</a></dt>
+<dd><p>collate a mini batch of data into an <a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a> consumable by user’s model and <a class="reference internal" href="#t3w.IMiniBatchMetric" title="t3w.IMiniBatchMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatchMetric</span></code></a>.</p>
+<p>This function is called by <code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code> in the <a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> or <a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.EvalLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvalLoop</span></code></a> to collate independently sampled data
+into a mini batch, before which is passed to the <a class="reference internal" href="core.html#t3w.TopLevelModule.forward" title="t3w.TopLevelModule.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopLevelModule.forward()</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is strongly suggested not to use the pytorch’s <code class="xref py py-func docutils literal notranslate"><span class="pre">default_collate()</span></code> function but override it here.
+This is because <code class="xref py py-func docutils literal notranslate"><span class="pre">default_collate()</span></code> does not support extra types other than numerical tensors, and make
+users not easy to manage their batch data in an object-oriented-programming paradigm. Be explicit, and
+write your own collate function to produce your <a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a> type.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>list</em><em>(</em><a class="reference internal" href="#t3w.IDatum" title="t3w.IDatum"><em>IDatum</em></a><em>)</em>) – sampled mini batch of data as a sequence.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the collated mini batch.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch">IMiniBatch</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDatum.from_uuid">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_uuid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Hashable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#t3w.IDatum" title="t3w.core.IDatum"><span class="pre">IDatum</span></a></span></span><a class="headerlink" href="#t3w.IDatum.from_uuid" title="Permalink to this definition">#</a></dt>
+<dd><p>build the exact datum from given <code class="docutils literal notranslate"><span class="pre">uuid</span></code>.</p>
+<p>Ignore this factory method for basic training workflow. It is
+useful for some workflows that mine, track and analyse specific interesting data.
+One may embed dataset_type, split, and index information to fully recover a datum’s identity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>uuid</strong> (<em>Hashable</em>) – universal unique identifier of the disired datum.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#t3w.IDatum" title="t3w.IDatum">IDatum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.IMiniBatch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">IMiniBatch</span></span><a class="headerlink" href="#t3w.IMiniBatch" title="Permalink to this definition">#</a></dt>
+<dd><p>The interface for a minibatch of datum.</p>
+<p>It plays the central role of a data context passing around models, metrics, losses and callbacks.
+All interfaces in <code class="docutils literal notranslate"><span class="pre">t3w</span></code> has a strict typing requirement, this especially emphasize that functions
+are required to return specific type of data, instead of dynamic types. The flexibility of <code class="docutils literal notranslate"><span class="pre">t3w</span></code>
+is not harmed though, because it is user’s freedom to modify the definition of subclasses of the
+<a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a> interface. And all the functions receives a <a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a> as input, are
+allowed (or supposed) to modify it in place. Therefore, standard behaviors of <code class="docutils literal notranslate"><span class="pre">t3w</span></code> core libraries
+and :class:<code class="docutils literal notranslate"><span class="pre">ISideEffect</span></code> based plugin system can rely on the typing system, while users can write
+flexible code in their independent namespace.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="core.html#t3w.TopLevelModule.forward" title="t3w.TopLevelModule.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopLevelModule.forward()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#t3w.IMiniBatchMetric.forward" title="t3w.IMiniBatchMetric.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IMiniBatchMetric.forward()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#t3w.ISideEffect.on_eval_step_started" title="t3w.ISideEffect.on_eval_step_started"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ISideEffect.on_eval_step_started()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#t3w.ISideEffect.on_eval_step_finished" title="t3w.ISideEffect.on_eval_step_finished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ISideEffect.on_eval_step_finished()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#t3w.ISideEffect.on_train_step_started" title="t3w.ISideEffect.on_train_step_started"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ISideEffect.on_train_step_started()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#t3w.ISideEffect.on_train_step_finished" title="t3w.ISideEffect.on_train_step_finished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ISideEffect.on_train_step_finished()</span></code></a></p></li>
+</ul>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.IMiniBatch.model">
+<span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="core.html#t3w.TopLevelModule" title="t3w.core.TopLevelModule"><span class="pre">TopLevelModule</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#t3w.IMiniBatch.model" title="Permalink to this definition">#</a></dt>
+<dd><p>The <a class="reference internal" href="core.html#t3w.TopLevelModule" title="t3w.TopLevelModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">TopLevelModule</span></code></a> which is consuming and modifying this instance of <a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a>.</p>
+<p>The <a class="reference internal" href="core.html#t3w.TopLevelModule" title="t3w.TopLevelModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">TopLevelModule</span></code></a> will fill this attribute right before calling the <cite>forward()</cite> method of its internal user_model. Therefore, the <code class="docutils literal notranslate"><span class="pre">user_model.forward()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">ISideEffect.on_evak_step_finished()</span></code>, and <a class="reference internal" href="#t3w.ISideEffect.on_train_step_finished" title="t3w.ISideEffect.on_train_step_finished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ISideEffect.on_train_step_finished()</span></code></a> can make use of it. Before that, this attribute is defaulted to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IMiniBatch.to">
+<span class="sig-name descname"><span class="pre">to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.IMiniBatch.to" title="Permalink to this definition">#</a></dt>
+<dd><p>defines how to move this mini-batch type into specified device.</p>
+<p>The default implementation in the base class <a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a> moves all direct attributes which are instances of <code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code> to target device. This can be good enough for common usage, but nothing stops you from customizing it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="core.html#t3w.TopLevelModule.forward" title="t3w.TopLevelModule.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopLevelModule.forward()</span></code></a> will call this function right before calling <code class="docutils literal notranslate"><span class="pre">user_model.forward()</span></code>, so don’t bother to do it yourself. You only need to specify the target device at the <a class="reference internal" href="core.html#t3w.TopLevelModule" title="t3w.TopLevelModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">TopLevelModule</span></code></a> level using its <a class="reference internal" href="core.html#t3w.TopLevelModule.to" title="t3w.TopLevelModule.to"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopLevelModule.to()</span></code></a> method.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="core.html#t3w.TopLevelModule.to" title="t3w.TopLevelModule.to"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopLevelModule.to()</span></code></a></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>device</strong> (<em>torch.device</em>) – target device.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.IDataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">IDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.IDataset" title="Permalink to this definition">#</a></dt>
+<dd><p>The interface for the entire dataset (and its split).</p>
+<p>This is very simillar to <code class="docutils literal notranslate"><span class="pre">torch.Dataset</span></code> (sized dataset) interface, with only subtle modifications
+that <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code> is required to return an instance of <a class="reference internal" href="#t3w.IDataset.datum_type" title="t3w.IDataset.datum_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">datum_type</span></code></a>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.IDataset.datum_type">
+<span class="sig-name descname"><span class="pre">datum_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#t3w.IDatum" title="t3w.core.IDatum"><span class="pre">IDatum</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#t3w.IDataset.datum_type" title="Permalink to this definition">#</a></dt>
+<dd><p>User implemented IDatum subclass’ <strong>typename</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Subclass of <code class="docutils literal notranslate"><span class="pre">IDataset</span></code> must specify this attribute in order to fetch the class attribute including <a class="reference internal" href="#t3w.IDatum.train_batch_size" title="t3w.IDatum.train_batch_size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IDatum.train_batch_size</span></code></a>, <a class="reference internal" href="#t3w.IDatum.val_batch_size" title="t3w.IDatum.val_batch_size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IDatum.val_batch_size</span></code></a>, and <a class="reference internal" href="#t3w.IDatum.num_workers" title="t3w.IDatum.num_workers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IDatum.num_workers</span></code></a>, etc.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDataset.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#t3w.IDataset.__init__" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<em>str</em>) – path of the root directory of specified dataset.</p></li>
+<li><p><strong>split</strong> (<em>str</em><em>, </em><em>optional</em>) – identifier for a subset. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.IMiniBatchMetric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">IMiniBatchMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.IMiniBatchMetric" title="Permalink to this definition">#</a></dt>
+<dd><p>The interface of compute metric for datum in a mini-batch.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We differentiate the <a class="reference internal" href="#t3w.IMiniBatchMetric" title="t3w.IMiniBatchMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatchMetric</span></code></a> and <a class="reference internal" href="#t3w.IDatasetMetric" title="t3w.IDatasetMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">IDatasetMetric</span></code></a>,
+where the former compute metric value for a batch of data, while the
+latter aggregate datum metric of each batch for a entire dataset (typically
+an “average meter”). The dataset level metric mainly focus on correct computation
+and synchronization of variable batch sizes and among devices.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#t3w.ILoss" title="t3w.ILoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ILoss</span></code></a>, <a class="reference internal" href="#t3w.IDatasetMetric" title="t3w.IDatasetMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">IDatasetMetric</span></code></a>, <a class="reference internal" href="metrics.html#t3w.AverageMetric" title="t3w.AverageMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AverageMetric</span></code></a>.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.IMiniBatchMetric.higher_better">
+<span class="sig-name descname"><span class="pre">higher_better</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#t3w.IMiniBatchMetric.higher_better" title="Permalink to this definition">#</a></dt>
+<dd><p>specifies whether higher value of the metric implies better performance.
+This can be useful for e.g. metric based best model saving. Always
+explicitly specify this class variable in your subclass definition.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IMiniBatchMetric.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MiniBatchFloats</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">FloatScalarTensor</span></span></span><a class="headerlink" href="#t3w.IMiniBatchMetric.forward" title="Permalink to this definition">#</a></dt>
+<dd><p>Calling of this method is delegated to <a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> or :class:EvalLoop` at their construction time.
+The <code class="docutils literal notranslate"><span class="pre">mb</span></code> argument must have been through the user_model’s <code class="docutils literal notranslate"><span class="pre">forward</span></code> method already, and the loops pass
+it on to metrics to calculate the metric value, which must be a float scalar tensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mb</strong> (<a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><em>IMiniBatch</em></a>) – the mini-batch of data which have been processed by user_model.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns a sequence or a single value (regarded as the same for every example in the minibatch) of metric values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>MiniBatchFloats | FloatScalarTensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.ILoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">ILoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ILoss" title="Permalink to this definition">#</a></dt>
+<dd><p>The interface of compute loss for datum in a mini-batch.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In t3w, we adopt the fact that a loss function is a special type of metric that support backpropagation. Therefore <a class="reference internal" href="#t3w.ILoss" title="t3w.ILoss"><code class="xref py py-class docutils literal notranslate"><span class="pre">ILoss</span></code></a> inherites <a class="reference internal" href="#t3w.IMiniBatchMetric" title="t3w.IMiniBatchMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatchMetric</span></code></a> and you can use an <code class="docutils literal notranslate"><span class="pre">ILoss</span></code> whereever an <code class="docutils literal notranslate"><span class="pre">IMiniBatchMetric</span></code> is suited.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.ILoss.loss_reweight">
+<span class="sig-name descname"><span class="pre">loss_reweight</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#t3w.ILoss.loss_reweight" title="Permalink to this definition">#</a></dt>
+<dd><p>Losses has the raw version and reweighted version in lots of circumstances. Use this standard attribute to specify your weight of current loss.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the “losses” subdict of <code class="xref py py-class docutils literal notranslate"><span class="pre">StepReturn</span></code>, the value of each loss will be reported as a pair of float value <code class="docutils literal notranslate"><span class="pre">(loss_reweight,</span> <span class="pre">loss_raw_value)</span></code> with event <code class="xref py py-meth docutils literal notranslate"><span class="pre">on_train_step_finished()</span></code> emitted. This is the standard behavior that extension codes can rely on. Non-loss metrics are reported as pure floats.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.ILoss.higher_better">
+<span class="sig-name descname"><span class="pre">higher_better</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#t3w.ILoss.higher_better" title="Permalink to this definition">#</a></dt>
+<dd><p>higher value of a loss always implies worse performance. Don’t bother to specify it in the subclasses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ILoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MiniBatchFloats</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">FloatScalarTensor</span></span></span><a class="headerlink" href="#t3w.ILoss.forward" title="Permalink to this definition">#</a></dt>
+<dd><p>Calling of this method is delegated to <a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> at its construction time.
+The <code class="docutils literal notranslate"><span class="pre">mb</span></code> argument must have been through the user_model’s <code class="docutils literal notranslate"><span class="pre">forward</span></code> method already, and the loops pass
+it on to various losses to calculate the loss value, which must be a float scalar tensor. And
+then the losses will be reweighted and summed together for a backward autodiff pass.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mb</strong> (<a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><em>IMiniBatch</em></a>) – the mini-batch of data which have been processed by user_model.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>return loss scalar value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>FloatScalarTensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.IDatasetMetric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">IDatasetMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minibatch_metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatchMetric" title="t3w.core.IMiniBatchMetric"><span class="pre">IMiniBatchMetric</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.IDatasetMetric" title="Permalink to this definition">#</a></dt>
+<dd><p>The interface of a dataset level metric (aggregation algorithm on multi devices).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We differentiate the <a class="reference internal" href="#t3w.IMiniBatchMetric" title="t3w.IMiniBatchMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatchMetric</span></code></a> and <a class="reference internal" href="#t3w.IDatasetMetric" title="t3w.IDatasetMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">IDatasetMetric</span></code></a>,
+where the former compute metric value for a batch of data, while the
+latter aggregate datum metric of each batch for a entire dataset
+(typically an “average meter”). The dataset level metric mainly focus on
+correct computation and synchronization of variable batch sizes and
+among devices.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Typically, <a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> only accepts datum metric because of
+changing parameters, while <a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.EvalLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvalLoop</span></code></a> only accepts dataset metric
+because it want statistics on the entire dataset, and only call
+<a class="reference internal" href="#t3w.IDatasetMetric.synchronize" title="t3w.IDatasetMetric.synchronize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IDatasetMetric.synchronize()</span></code></a> once right before emitting event
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">on_eval_finished()</span></code>. Other use cases are still possible and
+<code class="docutils literal notranslate"><span class="pre">synchronize()</span></code> should also remain correct after arbitrary times of
+call, e.g. a running average dataset metric can be used in a train loop,
+but it is still considered non-standard behavior in <code class="docutils literal notranslate"><span class="pre">t3w</span></code> and should
+prefer implemented and maintained in user space using the side effects
+system.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#t3w.IMiniBatchMetric" title="t3w.IMiniBatchMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatchMetric</span></code></a>, <a class="reference internal" href="metrics.html#t3w.AverageMetric" title="t3w.AverageMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AverageMetric</span></code></a>.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDatasetMetric.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minibatch_metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatchMetric" title="t3w.core.IMiniBatchMetric"><span class="pre">IMiniBatchMetric</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#t3w.IDatasetMetric.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>store <code class="docutils literal notranslate"><span class="pre">minibatch_metric</span></code> and reset the statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>minibatch_metric</strong> (<a class="reference internal" href="#t3w.IMiniBatchMetric" title="t3w.IMiniBatchMetric"><em>IMiniBatchMetric</em></a>) – internal minibatch_metric instance to embed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.IDatasetMetric.minibatch_metric">
+<span class="sig-name descname"><span class="pre">minibatch_metric</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#t3w.IMiniBatchMetric" title="t3w.IMiniBatchMetric"><span class="pre">IMiniBatchMetric</span></a></em><a class="headerlink" href="#t3w.IDatasetMetric.minibatch_metric" title="Permalink to this definition">#</a></dt>
+<dd><p>The dataset metric has a standard behavior to composite a datum metric instance, and the calling
+of the datum metric is delegated to <a class="reference internal" href="#t3w.IDatasetMetric.update" title="t3w.IDatasetMetric.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDatasetMetric.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MiniBatchFloats</span></span></span><a class="headerlink" href="#t3w.IDatasetMetric.forward" title="Permalink to this definition">#</a></dt>
+<dd><p>allows using dataset metric like datum metric.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is non-standard behavior so please be careful implementing a
+<a class="reference internal" href="#t3w.IDatasetMetric" title="t3w.IDatasetMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">IDatasetMetric</span></code></a> that supposed to be used as a datum metric,
+especially ensure multiple call of synchronization among multiple
+devices does not have ambiguity, for example by separately store the
+synchronized and local version of states.</p>
+<p><strong>This will be changed in a future version, by using a breaking API with stateless synchronization.</strong></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mb</strong> (<a class="reference internal" href="#t3w.IMiniBatch" title="t3w.IMiniBatch"><em>IMiniBatch</em></a>) – a mini-batch of data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>current dataset metric value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>MiniBatchFloats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDatasetMetric.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#t3w.IDatasetMetric.eval" title="Permalink to this definition">#</a></dt>
+<dd><p>get target metric value based on internal statistics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDatasetMetric.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#t3w.IDatasetMetric.reset" title="Permalink to this definition">#</a></dt>
+<dd><p>clear internal statistics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDatasetMetric.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#t3w.IDatasetMetric.update" title="Permalink to this definition">#</a></dt>
+<dd><p>clear internal statistics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDatasetMetric.synchronize">
+<span class="sig-name descname"><span class="pre">synchronize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#t3w.IDatasetMetric.synchronize" title="Permalink to this definition">#</a></dt>
+<dd><p>synchronize local statistics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.IDatasetMetric.float">
+<span class="sig-name descname"><span class="pre">float</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#t3w.IDatasetMetric.float" title="Permalink to this definition">#</a></dt>
+<dd><p>Casts all floating point parameters and buffers to <code class="docutils literal notranslate"><span class="pre">float</span></code> datatype.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method modifies the module in-place.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>self</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Module</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.ISideEffect">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">ISideEffect</span></span><a class="headerlink" href="#t3w.ISideEffect" title="Permalink to this definition">#</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.ISideEffect.is_distributed">
+<span class="sig-name descname"><span class="pre">is_distributed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#t3w.ISideEffect.is_distributed" title="Permalink to this definition">#</a></dt>
+<dd><p>if False, the event will only be invoked on the rank 0 sub-process; otherwise on all sub-processes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_eval_started">
+<span class="sig-name descname"><span class="pre">on_eval_started</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.core.EvalLoop"><span class="pre">EvalLoop</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_eval_started" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_eval_step_started">
+<span class="sig-name descname"><span class="pre">on_eval_step_started</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.core.EvalLoop"><span class="pre">EvalLoop</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_eval_step_started" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_eval_step_finished">
+<span class="sig-name descname"><span class="pre">on_eval_step_finished</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.core.EvalLoop"><span class="pre">EvalLoop</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_eval_step_finished" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_eval_finished">
+<span class="sig-name descname"><span class="pre">on_eval_finished</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.core.EvalLoop"><span class="pre">EvalLoop</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_eval_finished" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_train_started">
+<span class="sig-name descname"><span class="pre">on_train_started</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.core.TrainLoop"><span class="pre">TrainLoop</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_train_started" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_train_epoch_started">
+<span class="sig-name descname"><span class="pre">on_train_epoch_started</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.core.TrainLoop"><span class="pre">TrainLoop</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_train_epoch_started" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_train_step_started">
+<span class="sig-name descname"><span class="pre">on_train_step_started</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.core.TrainLoop"><span class="pre">TrainLoop</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_train_step_started" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_train_step_finished">
+<span class="sig-name descname"><span class="pre">on_train_step_finished</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.core.TrainLoop"><span class="pre">TrainLoop</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_return</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="typedefs.html#t3w.StepReturnDict" title="t3w.StepReturnDict"><span class="pre">StepReturnDict</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_train_step_finished" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_train_epoch_finished">
+<span class="sig-name descname"><span class="pre">on_train_epoch_finished</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.core.TrainLoop"><span class="pre">TrainLoop</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_train_epoch_finished" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.ISideEffect.on_train_finished">
+<span class="sig-name descname"><span class="pre">on_train_finished</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.core.TrainLoop"><span class="pre">TrainLoop</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.ISideEffect.on_train_finished" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -318,10 +813,11 @@ document.write(`
 
               
               
-              
-              
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="typedefs.html"
@@ -341,12 +837,84 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.Interface"><code class="docutils literal notranslate"><span class="pre">Interface</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum"><code class="docutils literal notranslate"><span class="pre">IDatum</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.uuid"><code class="docutils literal notranslate"><span class="pre">IDatum.uuid</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.train_batch_size"><code class="docutils literal notranslate"><span class="pre">IDatum.train_batch_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.val_batch_size"><code class="docutils literal notranslate"><span class="pre">IDatum.val_batch_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.num_workers"><code class="docutils literal notranslate"><span class="pre">IDatum.num_workers</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.collate"><code class="docutils literal notranslate"><span class="pre">IDatum.collate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatum.from_uuid"><code class="docutils literal notranslate"><span class="pre">IDatum.from_uuid()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatch"><code class="docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatch.model"><code class="docutils literal notranslate"><span class="pre">IMiniBatch.model</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatch.to"><code class="docutils literal notranslate"><span class="pre">IMiniBatch.to()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDataset"><code class="docutils literal notranslate"><span class="pre">IDataset</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDataset.datum_type"><code class="docutils literal notranslate"><span class="pre">IDataset.datum_type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDataset.__init__"><code class="docutils literal notranslate"><span class="pre">IDataset.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatchMetric"><code class="docutils literal notranslate"><span class="pre">IMiniBatchMetric</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatchMetric.higher_better"><code class="docutils literal notranslate"><span class="pre">IMiniBatchMetric.higher_better</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IMiniBatchMetric.forward"><code class="docutils literal notranslate"><span class="pre">IMiniBatchMetric.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ILoss"><code class="docutils literal notranslate"><span class="pre">ILoss</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ILoss.loss_reweight"><code class="docutils literal notranslate"><span class="pre">ILoss.loss_reweight</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ILoss.higher_better"><code class="docutils literal notranslate"><span class="pre">ILoss.higher_better</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ILoss.forward"><code class="docutils literal notranslate"><span class="pre">ILoss.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.__init__"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.minibatch_metric"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.minibatch_metric</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.forward"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.forward()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.eval"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.eval()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.reset"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.update"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.synchronize"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.synchronize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.IDatasetMetric.float"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric.float()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect"><code class="docutils literal notranslate"><span class="pre">ISideEffect</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.is_distributed"><code class="docutils literal notranslate"><span class="pre">ISideEffect.is_distributed</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_eval_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_eval_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_eval_step_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_eval_step_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_eval_step_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_eval_step_finished()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_eval_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_eval_finished()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_epoch_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_epoch_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_step_started"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_step_started()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_step_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_step_finished()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_epoch_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_epoch_finished()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.ISideEffect.on_train_finished"><code class="docutils literal notranslate"><span class="pre">ISideEffect.on_train_finished()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
@@ -390,8 +958,8 @@ By Yuyao Huang
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

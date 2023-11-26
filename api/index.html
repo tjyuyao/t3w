@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -34,9 +34,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -57,15 +56,6 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  
-  <div id="pst-scroll-pixel-helper"></div>
-
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -122,7 +112,6 @@
   
 
 <a class="navbar-brand logo" href="../index.html">
-  
   
   
   
@@ -268,10 +257,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
 `);
 </script>
@@ -279,7 +268,7 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
 `);
 </script>
@@ -313,13 +302,50 @@ document.write(`
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="globals.html">Globals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="typedefs.html">TypeDefs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interfaces.html">Interfaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="core.html">Core APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="metrics.html">Metrics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="side_effects.html">SideEffects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helpers.html">Helper Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hidden.html">Hidden Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="typedefs.html">TypeDefs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedefs.html#t3w.FloatScalarTensor"><code class="docutils literal notranslate"><span class="pre">FloatScalarTensor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="typedefs.html#t3w.StepReturnDict"><code class="docutils literal notranslate"><span class="pre">StepReturnDict</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="interfaces.html">Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.Interface"><code class="docutils literal notranslate"><span class="pre">Interface</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IDatum"><code class="docutils literal notranslate"><span class="pre">IDatum</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IMiniBatch"><code class="docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IDataset"><code class="docutils literal notranslate"><span class="pre">IDataset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IMiniBatchMetric"><code class="docutils literal notranslate"><span class="pre">IMiniBatchMetric</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.ILoss"><code class="docutils literal notranslate"><span class="pre">ILoss</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.IDatasetMetric"><code class="docutils literal notranslate"><span class="pre">IDatasetMetric</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html#t3w.ISideEffect"><code class="docutils literal notranslate"><span class="pre">ISideEffect</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Core APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core.html#t3w.TopLevelModule"><code class="docutils literal notranslate"><span class="pre">TopLevelModule</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#t3w.EvalLoop"><code class="docutils literal notranslate"><span class="pre">EvalLoop</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#t3w.TrainLoop"><code class="docutils literal notranslate"><span class="pre">TrainLoop</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">Metrics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html#t3w.AverageMetric"><code class="docutils literal notranslate"><span class="pre">AverageMetric</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html#t3w.LearningRate"><code class="docutils literal notranslate"><span class="pre">LearningRate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="side_effects.html">SideEffects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="side_effects.html#t3w.TqdmSideEffect"><code class="docutils literal notranslate"><span class="pre">TqdmSideEffect</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="side_effects.html#t3w.AimSideEffect"><code class="docutils literal notranslate"><span class="pre">AimSideEffect</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="side_effects.html#t3w.SaveBestModelsSideEffect"><code class="docutils literal notranslate"><span class="pre">SaveBestModelsSideEffect</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html">Helper Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#t3w.manual_seed"><code class="docutils literal notranslate"><span class="pre">manual_seed()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#t3w.utils.millify"><code class="docutils literal notranslate"><span class="pre">millify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hidden.html">Hidden Details</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hidden.html#t3w.core._find_free_port"><code class="docutils literal notranslate"><span class="pre">_find_free_port()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hidden.html#t3w.core._subprocess"><code class="docutils literal notranslate"><span class="pre">_subprocess()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hidden.html#t3w.core._TrainingProgress"><code class="docutils literal notranslate"><span class="pre">_TrainingProgress</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -330,10 +356,11 @@ document.write(`
 
               
               
-              
-              
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="../index.html"
@@ -353,7 +380,10 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -402,8 +432,8 @@ By Yuyao Huang
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

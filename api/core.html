@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -34,9 +34,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -57,15 +56,6 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  
-  <div id="pst-scroll-pixel-helper"></div>
-
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -122,7 +112,6 @@
   
 
 <a class="navbar-brand logo" href="../index.html">
-  
   
   
   
@@ -268,10 +257,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
 `);
 </script>
@@ -279,11 +268,13 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -299,6 +290,52 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule"><code class="docutils literal notranslate"><span class="pre">TopLevelModule</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.__init__"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.user_model"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.user_model</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.optim"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.optim</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.lr_scheduler"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.lr_scheduler</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.training_progress"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.training_progress</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.regularizer_reweight"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.regularizer_reweight</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.to"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.to()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.forward"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.forward()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.device"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.device</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.save"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.save()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.load"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop"><code class="docutils literal notranslate"><span class="pre">EvalLoop</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.__init__"><code class="docutils literal notranslate"><span class="pre">EvalLoop.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.dataset"><code class="docutils literal notranslate"><span class="pre">EvalLoop.dataset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.model"><code class="docutils literal notranslate"><span class="pre">EvalLoop.model</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.metrics"><code class="docutils literal notranslate"><span class="pre">EvalLoop.metrics</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.loader"><code class="docutils literal notranslate"><span class="pre">EvalLoop.loader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.batch_size"><code class="docutils literal notranslate"><span class="pre">EvalLoop.batch_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.metric_values"><code class="docutils literal notranslate"><span class="pre">EvalLoop.metric_values</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.mark_padding"><code class="docutils literal notranslate"><span class="pre">EvalLoop.mark_padding()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop"><code class="docutils literal notranslate"><span class="pre">TrainLoop</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.__init__"><code class="docutils literal notranslate"><span class="pre">TrainLoop.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.dataset"><code class="docutils literal notranslate"><span class="pre">TrainLoop.dataset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.model"><code class="docutils literal notranslate"><span class="pre">TrainLoop.model</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.losses"><code class="docutils literal notranslate"><span class="pre">TrainLoop.losses</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.metrics"><code class="docutils literal notranslate"><span class="pre">TrainLoop.metrics</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.batch_size"><code class="docutils literal notranslate"><span class="pre">TrainLoop.batch_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.num_acc_grad"><code class="docutils literal notranslate"><span class="pre">TrainLoop.num_acc_grad</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.epochs"><code class="docutils literal notranslate"><span class="pre">TrainLoop.epochs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.eval_loop"><code class="docutils literal notranslate"><span class="pre">TrainLoop.eval_loop</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.loader"><code class="docutils literal notranslate"><span class="pre">TrainLoop.loader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.step"><code class="docutils literal notranslate"><span class="pre">TrainLoop.step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -310,6 +347,291 @@ document.write(`
                   
   <section id="core-apis">
 <h1>Core APIs<a class="headerlink" href="#core-apis" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.TopLevelModule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">TopLevelModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optimizer</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_scheduler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_LRScheduler</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularizer_reweight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.TopLevelModule" title="Permalink to this definition">#</a></dt>
+<dd><p>A central API that manages the <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> related features.</p>
+<dl class="simple">
+<dt>This top level module helps its owner loop on infrastructure the code, and helps user by providing useful low-level utilities, including</dt><dd><ul class="simple">
+<li><p>manages model checkpoint saving and loading,</p></li>
+<li><p>moves user_model to other device(s) and trigger DDP execution mode,</p></li>
+<li><p>computes losses and metrics specified by the loop.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We delegate losses computation to <a class="reference internal" href="#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> (see
+<a class="reference internal" href="#t3w.TrainLoop.__init__" title="t3w.TrainLoop.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TrainLoop.__init__()</span></code></a>), while the loop delegates it further to
+<a class="reference internal" href="#t3w.TopLevelModule.forward" title="t3w.TopLevelModule.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopLevelModule.forward()</span></code></a>. This is clever because torch’s
+<code class="docutils literal notranslate"><span class="pre">DataDistributedParallel</span></code> class wraps the top level module instead of
+the user’s model therefore always has a loss tensor as output and be
+able to find unused parameters during training, while user can stick to
+the suggested standard OOP paradigm in the userspace by operating on the
+<a class="reference internal" href="interfaces.html#t3w.IMiniBatch" title="t3w.IMiniBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a> instance.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optimizer</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_scheduler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_LRScheduler</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularizer_reweight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#t3w.TopLevelModule.__init__" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – user defined model.</p></li>
+<li><p><strong>optim</strong> (<em>Optimizer</em><em>, </em><em>optional</em>) – user defined optimizer. Defaults to None.</p></li>
+<li><p><strong>lr_scheduler</strong> (<em>_LRScheduler</em><em>, </em><em>optional</em>) – user defined lr_scheduler. Defaults to None.</p></li>
+<li><p><strong>regularizer_reweight</strong> (<em>float</em><em>, </em><em>optional</em>) – the weight of the regularizer_loss if any. Defaults to 1.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.user_model">
+<span class="sig-name descname"><span class="pre">user_model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">nn.Module</span></em><a class="headerlink" href="#t3w.TopLevelModule.user_model" title="Permalink to this definition">#</a></dt>
+<dd><p>User’s model consumes and updates the input <a class="reference internal" href="interfaces.html#t3w.IMiniBatch" title="t3w.IMiniBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a> data in its forward method, and optionally return a model specific regularizer loss.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.optim">
+<span class="sig-name descname"><span class="pre">optim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optimizer</span></em><a class="headerlink" href="#t3w.TopLevelModule.optim" title="Permalink to this definition">#</a></dt>
+<dd><p>Stores user defined optimizer, the calling is further delegated to <a class="reference internal" href="#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.lr_scheduler">
+<span class="sig-name descname"><span class="pre">lr_scheduler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">_LRScheduler</span></em><a class="headerlink" href="#t3w.TopLevelModule.lr_scheduler" title="Permalink to this definition">#</a></dt>
+<dd><p>Stores user defined learning rate scheduler, the calling is further delegated to <a class="reference internal" href="#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.training_progress">
+<span class="sig-name descname"><span class="pre">training_progress</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="hidden.html#t3w.core._TrainingProgress" title="t3w.core._TrainingProgress"><span class="pre">_TrainingProgress</span></a></em><a class="headerlink" href="#t3w.TopLevelModule.training_progress" title="Permalink to this definition">#</a></dt>
+<dd><p>Stores training process of current model. It is part of the checkpoint state_dict. Modification in userspace is not intended.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.regularizer_reweight">
+<span class="sig-name descname"><span class="pre">regularizer_reweight</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#t3w.TopLevelModule.regularizer_reweight" title="Permalink to this definition">#</a></dt>
+<dd><p>Stores the weight of regularizer loss if the model has one. It is <strong>NOT</strong> part of the checkpoint state_dict.  Modification in userspace at training should be done through the <code class="docutils literal notranslate"><span class="pre">loop</span></code> argument in event <code class="xref py py-meth docutils literal notranslate"><span class="pre">on_train_step_started()</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.to">
+<span class="sig-name descname"><span class="pre">to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.TopLevelModule.to" title="Permalink to this definition">#</a></dt>
+<dd><p>move model to target device or trigger DDP execution if multiple target devices are provided.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When multiple target devices are specified, the parameters will not be moved until the subprocesses
+are spawned by the <a class="reference internal" href="#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> or <a class="reference internal" href="#t3w.EvalLoop" title="t3w.EvalLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvalLoop</span></code></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>device</strong> (<em>str</em>) – “cuda:0”, “cuda:0,1”, “cuda:0-3” are all valid inputs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="interfaces.html#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.ILoss" title="t3w.core.ILoss"><span class="pre">ILoss</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IMiniBatchMetric" title="t3w.core.IMiniBatchMetric"><span class="pre">IMiniBatchMetric</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="typedefs.html#t3w.StepReturnDict" title="t3w.StepReturnDict"><span class="pre">StepReturnDict</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MiniBatchFloats</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></span><a class="headerlink" href="#t3w.TopLevelModule.forward" title="Permalink to this definition">#</a></dt>
+<dd><p>In training mode, this will call <code class="docutils literal notranslate"><span class="pre">self.user_model(mb)</span></code>, compute <code class="docutils literal notranslate"><span class="pre">losses</span></code> and <code class="docutils literal notranslate"><span class="pre">metrics</span></code>, collect results to fill in <code class="docutils literal notranslate"><span class="pre">step_dict</span></code>, and return weighted sum of all losses (to be backward).</p>
+<p>In evaluation mode, this will call <code class="docutils literal notranslate"><span class="pre">self.user_model(mb)</span></code> and return mb.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mb</strong> (<a class="reference internal" href="interfaces.html#t3w.IMiniBatch" title="t3w.IMiniBatch"><em>IMiniBatch</em></a>) – _description_</p></li>
+<li><p><strong>losses</strong> (<em>Mapping</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="interfaces.html#t3w.ILoss" title="t3w.ILoss"><em>ILoss</em></a><em>]</em><em>, </em><em>optional</em>) – _description_. Defaults to None.</p></li>
+<li><p><strong>metrics</strong> (<em>Mapping</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="interfaces.html#t3w.IMiniBatchMetric" title="t3w.IMiniBatchMetric"><em>IMiniBatchMetric</em></a><em>]</em><em>, </em><em>optional</em>) – _description_. Defaults to None.</p></li>
+<li><p><strong>step_dict</strong> (<a class="reference internal" href="typedefs.html#t3w.StepReturnDict" title="t3w.StepReturnDict"><em>StepReturnDict</em></a><em>, </em><em>optional</em>) – _description_. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>_description_</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[MiniBatchFloats, <a class="reference internal" href="interfaces.html#t3w.IMiniBatch" title="t3w.IMiniBatch">IMiniBatch</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.device">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">device</span></span><a class="headerlink" href="#t3w.TopLevelModule.device" title="Permalink to this definition">#</a></dt>
+<dd><p>current device (not supporting model parallelzation)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.TopLevelModule.save" title="Permalink to this definition">#</a></dt>
+<dd><p>save current training states to the disk.</p>
+<dl class="simple">
+<dt>The states to be maintained include:</dt><dd><ul class="simple">
+<li><p>training progress</p></li>
+<li><p>user model state_dict</p></li>
+<li><p>user optimizer state_dict</p></li>
+<li><p>user lr_scheduler state_dict</p></li>
+<li><p>current random states of <code class="docutils literal notranslate"><span class="pre">random</span></code>, <code class="docutils literal notranslate"><span class="pre">np.random</span></code> and <code class="docutils literal notranslate"><span class="pre">torch.random</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>No parent directory will be produced if not exist.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – save path.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.TopLevelModule.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.TopLevelModule.load" title="Permalink to this definition">#</a></dt>
+<dd><p>load a previous top level model checkpoint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – load file path</p></li>
+<li><p><strong>strict</strong> (<em>bool</em><em>, </em><em>optional</em>) – passed on to user_model’s <code class="docutils literal notranslate"><span class="pre">load_state_dict(strict=?)</span></code> option. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returned incompitable keys of user_model’s <code class="docutils literal notranslate"><span class="pre">load_state_dict()</span></code> method.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_IncompitableKeys</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.EvalLoop">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">EvalLoop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="interfaces.html#t3w.IDataset" title="t3w.core.IDataset"><span class="pre">IDataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.TopLevelModule" title="t3w.core.TopLevelModule"><span class="pre">TopLevelModule</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IDatasetMetric" title="t3w.core.IDatasetMetric"><span class="pre">IDatasetMetric</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">IMediaProducer</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side_effects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="interfaces.html#t3w.ISideEffect" title="t3w.core.ISideEffect"><span class="pre">ISideEffect</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breakpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.EvalLoop" title="Permalink to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="t3w.EvalLoop.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="interfaces.html#t3w.IDataset" title="t3w.core.IDataset"><span class="pre">IDataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.TopLevelModule" title="t3w.core.TopLevelModule"><span class="pre">TopLevelModule</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IDatasetMetric" title="t3w.core.IDatasetMetric"><span class="pre">IDatasetMetric</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">IMediaProducer</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side_effects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="interfaces.html#t3w.ISideEffect" title="t3w.core.ISideEffect"><span class="pre">ISideEffect</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breakpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#t3w.EvalLoop.__init__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.EvalLoop.dataset">
+<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IDataset" title="t3w.core.IDataset"><span class="pre">IDataset</span></a></em><a class="headerlink" href="#t3w.EvalLoop.dataset" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.EvalLoop.model">
+<span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#t3w.TopLevelModule" title="t3w.core.TopLevelModule"><span class="pre">TopLevelModule</span></a></em><a class="headerlink" href="#t3w.EvalLoop.model" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.EvalLoop.metrics">
+<span class="sig-name descname"><span class="pre">metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IDatasetMetric" title="t3w.core.IDatasetMetric"><span class="pre">IDatasetMetric</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#t3w.EvalLoop.metrics" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.EvalLoop.loader">
+<span class="sig-name descname"><span class="pre">loader</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataLoader</span></em><a class="headerlink" href="#t3w.EvalLoop.loader" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.EvalLoop.batch_size">
+<span class="sig-name descname"><span class="pre">batch_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#t3w.EvalLoop.batch_size" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="t3w.EvalLoop.metric_values">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metric_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#t3w.EvalLoop.metric_values" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.EvalLoop.mark_padding">
+<span class="sig-name descname"><span class="pre">mark_padding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="interfaces.html#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.EvalLoop.mark_padding" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="t3w.TrainLoop">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">TrainLoop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="interfaces.html#t3w.IDataset" title="t3w.core.IDataset"><span class="pre">IDataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.TopLevelModule" title="t3w.core.TopLevelModule"><span class="pre">TopLevelModule</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.ILoss" title="t3w.core.ILoss"><span class="pre">ILoss</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IMiniBatchMetric" title="t3w.core.IMiniBatchMetric"><span class="pre">IMiniBatchMetric</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">IMediaProducer</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sampler</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_acc_grad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_per_epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch_per_eval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.EvalLoop" title="t3w.core.EvalLoop"><span class="pre">EvalLoop</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side_effects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="interfaces.html#t3w.ISideEffect" title="t3w.core.ISideEffect"><span class="pre">ISideEffect</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.TrainLoop" title="Permalink to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="t3w.TrainLoop.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="interfaces.html#t3w.IDataset" title="t3w.core.IDataset"><span class="pre">IDataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.TopLevelModule" title="t3w.core.TopLevelModule"><span class="pre">TopLevelModule</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.ILoss" title="t3w.core.ILoss"><span class="pre">ILoss</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IMiniBatchMetric" title="t3w.core.IMiniBatchMetric"><span class="pre">IMiniBatchMetric</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">medias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">IMediaProducer</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sampler</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_acc_grad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_per_epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch_per_eval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#t3w.EvalLoop" title="t3w.core.EvalLoop"><span class="pre">EvalLoop</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side_effects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="interfaces.html#t3w.ISideEffect" title="t3w.core.ISideEffect"><span class="pre">ISideEffect</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#t3w.TrainLoop.__init__" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="#t3w.TopLevelModule" title="t3w.TopLevelModule"><em>TopLevelModule</em></a>) – the top level model.</p></li>
+<li><p><strong>dataset</strong> (<a class="reference internal" href="interfaces.html#t3w.IDataset" title="t3w.IDataset"><em>IDataset</em></a>) – train split of the dataset.</p></li>
+<li><p><strong>losses</strong> (<em>Mapping</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="interfaces.html#t3w.ILoss" title="t3w.ILoss"><em>ILoss</em></a><em>]</em>) – losses to be evaluated.</p></li>
+<li><p><strong>metrics</strong> (<em>Mapping</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="interfaces.html#t3w.IMiniBatchMetric" title="t3w.IMiniBatchMetric"><em>IMiniBatchMetric</em></a><em>]</em>) – metrics to be evaluated</p></li>
+<li><p><strong>batch_size</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – train batch size. Defaults to the <code class="docutils literal notranslate"><span class="pre">train_batch_size</span></code> static attribute of <a class="reference internal" href="interfaces.html#t3w.IDatum" title="t3w.IDatum"><code class="xref py py-class docutils literal notranslate"><span class="pre">IDatum</span></code></a>.</p></li>
+<li><p><strong>sampler</strong> (<em>Sampler</em><em>, </em><em>optional</em>) – a custom sampler instance for the dataloader. Defaults to <code class="docutils literal notranslate"><span class="pre">RandomSampler</span></code> or <code class="docutils literal notranslate"><span class="pre">DistributedSampler</span></code>.</p></li>
+<li><p><strong>num_acc_grad</strong> (<em>int</em><em>, </em><em>optional</em>) – step interval to apply gradient descent. Defaults to 1.</p></li>
+<li><p><strong>epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – total training epochs. Defaults to 100.</p></li>
+<li><p><strong>iter_per_epoch</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – manually define iteration number of an epoch. Defaults to <code class="docutils literal notranslate"><span class="pre">len(dataloader)</span></code>.</p></li>
+<li><p><strong>epoch_per_eval</strong> (<em>int</em><em>, </em><em>optional</em>) – epoch interval to apply <code class="docutils literal notranslate"><span class="pre">eval_loop</span></code>. Defaults to 1.</p></li>
+<li><p><strong>eval_loop</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#t3w.EvalLoop" title="t3w.EvalLoop"><em>EvalLoop</em></a><em>]</em><em>, </em><em>optional</em>) – an <a class="reference internal" href="#t3w.EvalLoop" title="t3w.EvalLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvalLoop</span></code></a> instance. Defaults to None.</p></li>
+<li><p><strong>side_effects</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="interfaces.html#t3w.ISideEffect" title="t3w.ISideEffect"><em>ISideEffect</em></a><em>]</em><em>, </em><em>optional</em>) – Defaults to [].</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TrainLoop.dataset">
+<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IDataset" title="t3w.core.IDataset"><span class="pre">IDataset</span></a></em><a class="headerlink" href="#t3w.TrainLoop.dataset" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TrainLoop.model">
+<span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#t3w.TopLevelModule" title="t3w.core.TopLevelModule"><span class="pre">TopLevelModule</span></a></em><a class="headerlink" href="#t3w.TrainLoop.model" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TrainLoop.losses">
+<span class="sig-name descname"><span class="pre">losses</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.ILoss" title="t3w.core.ILoss"><span class="pre">ILoss</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#t3w.TrainLoop.losses" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TrainLoop.metrics">
+<span class="sig-name descname"><span class="pre">metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="interfaces.html#t3w.IDatasetMetric" title="t3w.core.IDatasetMetric"><span class="pre">IDatasetMetric</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#t3w.TrainLoop.metrics" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TrainLoop.batch_size">
+<span class="sig-name descname"><span class="pre">batch_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#t3w.TrainLoop.batch_size" title="Permalink to this definition">#</a></dt>
+<dd><p>The normal mini batch size during training.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TrainLoop.num_acc_grad">
+<span class="sig-name descname"><span class="pre">num_acc_grad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#t3w.TrainLoop.num_acc_grad" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TrainLoop.epochs">
+<span class="sig-name descname"><span class="pre">epochs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#t3w.TrainLoop.epochs" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TrainLoop.eval_loop">
+<span class="sig-name descname"><span class="pre">eval_loop</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#t3w.EvalLoop" title="t3w.core.EvalLoop"><span class="pre">EvalLoop</span></a></em><a class="headerlink" href="#t3w.TrainLoop.eval_loop" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="t3w.TrainLoop.loader">
+<span class="sig-name descname"><span class="pre">loader</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataLoader</span></em><a class="headerlink" href="#t3w.TrainLoop.loader" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="t3w.TrainLoop.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="interfaces.html#t3w.IMiniBatch" title="t3w.core.IMiniBatch"><span class="pre">IMiniBatch</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w.TrainLoop.step" title="Permalink to this definition">#</a></dt>
+<dd><p>Implement a single train step, with gradiant accumulate.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -318,10 +640,11 @@ document.write(`
 
               
               
-              
-              
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="interfaces.html"
@@ -341,12 +664,67 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule"><code class="docutils literal notranslate"><span class="pre">TopLevelModule</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.__init__"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.user_model"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.user_model</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.optim"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.optim</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.lr_scheduler"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.lr_scheduler</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.training_progress"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.training_progress</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.regularizer_reweight"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.regularizer_reweight</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.to"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.to()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.forward"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.forward()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.device"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.device</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.save"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.save()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TopLevelModule.load"><code class="docutils literal notranslate"><span class="pre">TopLevelModule.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop"><code class="docutils literal notranslate"><span class="pre">EvalLoop</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.__init__"><code class="docutils literal notranslate"><span class="pre">EvalLoop.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.dataset"><code class="docutils literal notranslate"><span class="pre">EvalLoop.dataset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.model"><code class="docutils literal notranslate"><span class="pre">EvalLoop.model</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.metrics"><code class="docutils literal notranslate"><span class="pre">EvalLoop.metrics</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.loader"><code class="docutils literal notranslate"><span class="pre">EvalLoop.loader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.batch_size"><code class="docutils literal notranslate"><span class="pre">EvalLoop.batch_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.metric_values"><code class="docutils literal notranslate"><span class="pre">EvalLoop.metric_values</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.EvalLoop.mark_padding"><code class="docutils literal notranslate"><span class="pre">EvalLoop.mark_padding()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop"><code class="docutils literal notranslate"><span class="pre">TrainLoop</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.__init__"><code class="docutils literal notranslate"><span class="pre">TrainLoop.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.dataset"><code class="docutils literal notranslate"><span class="pre">TrainLoop.dataset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.model"><code class="docutils literal notranslate"><span class="pre">TrainLoop.model</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.losses"><code class="docutils literal notranslate"><span class="pre">TrainLoop.losses</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.metrics"><code class="docutils literal notranslate"><span class="pre">TrainLoop.metrics</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.batch_size"><code class="docutils literal notranslate"><span class="pre">TrainLoop.batch_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.num_acc_grad"><code class="docutils literal notranslate"><span class="pre">TrainLoop.num_acc_grad</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.epochs"><code class="docutils literal notranslate"><span class="pre">TrainLoop.epochs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.eval_loop"><code class="docutils literal notranslate"><span class="pre">TrainLoop.eval_loop</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.loader"><code class="docutils literal notranslate"><span class="pre">TrainLoop.loader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w.TrainLoop.step"><code class="docutils literal notranslate"><span class="pre">TrainLoop.step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
@@ -390,8 +768,8 @@ By Yuyao Huang
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>
