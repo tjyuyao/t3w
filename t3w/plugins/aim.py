@@ -5,14 +5,15 @@ class AimSideEffect(ISideEffect):
 
     def __init__(
             self,
-            repo: Union[str, Path],
             experiment: str,
             hparams_dict: Dict[str, Any],
+            run_hash: str = None,
             description: str = None,
+            repo: Union[str, Path] = "./",
             track_weights_every_n_steps: int = None,
         ) -> None:
         super().__init__()
-        self.run_kwargs = dict(repo=repo, experiment=experiment)
+        self.run_kwargs = dict(run_hash=run_hash, repo=repo, experiment=experiment)
         self.description = description
         self.hparams_dict = hparams_dict
         self.track_weights_every_n_steps = track_weights_every_n_steps

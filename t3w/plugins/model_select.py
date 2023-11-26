@@ -1,4 +1,6 @@
+from pathlib import Path
 from t3w.core import *
+from t3w.utils.verbose import millify
 
 
 class SaveBestModelsSideEffect(ISideEffect):
@@ -14,6 +16,7 @@ class SaveBestModelsSideEffect(ISideEffect):
         self.num_max_keep = num_max_keep
         self.save_path_prefix = save_path_prefix
         self.history:List[Dict[Literal["metric_value", "saved_path"], Any]] = []
+        Path(save_path_prefix + "-").parent.mkdir(parents=True, exist_ok=True)
 
     def on_train_started(self, loop: TrainLoop):
         assert self.metric_name in loop.eval_loop.metrics.keys(), "metric_name for saving model does not exist in eval_loop"
@@ -21,15 +24,7 @@ class SaveBestModelsSideEffect(ISideEffect):
         matched_existing_paths = [path for path in glob(self.save_path_prefix+"*") if self.metric_name in path and ".pt" in path]
 
         if len(matched_existing_paths):
-            raise NotImplementedError()
-            # import sys
-            # sys.stdin = os.fdopen(0)
-            # click.echo(f"{self.__class__.__name__}: found existing checkpoint files matching given prefix:")
-            # for path in matched_existing_paths:
-            #     click.echo(f'\t* {path}')
-            # if click.confirm("Should I DELETE them for current running?", default=False, abort=True):
-            #     for path in matched_existing_paths:
-            #         os.remove(path)
+            raise FileExistsError(f"{self.__class__.__name__}: found existing checkpoint files matching {self.save_path_prefix}*")
 
     def on_eval_finished(self, loop: EvalLoop):
 
@@ -53,9 +48,10 @@ class SaveBestModelsSideEffect(ISideEffect):
                     os.remove(item['saved_path'])
                 self.history = sorted_history[:self.num_max_keep-1]
 
+        short_bar = "-" if Path(self.save_path_prefix + "-").name != "-" else ""
         current = dict(
             metric_value=metric_value,
-            saved_path=f"{self.save_path_prefix}-ep{loop.model.training_progress.epoch}-step{millify(loop.model.training_progress.step)}-{self.metric_name}={metric_value:.5f}.pt.gz".replace("--ep", "-ep"),
+            saved_path=f"{self.save_path_prefix}{short_bar}ep{loop.model.training_progress.epoch}-step{millify(loop.model.training_progress.step)}-{self.metric_name}={metric_value:.5f}.pt.gz".replace("--ep", "-ep"),
         )
         loop.model.save(current["saved_path"])
         self.history.append(current)

@@ -16,6 +16,7 @@ from __future__ import annotations
 import torch, gzip, random, os, weakref
 import numpy as np
 from typing import Any, Sequence, NewType, Optional, Mapping, Type, Hashable, Callable, Dict, Literal, Union, List
+from enum import Enum
 from functools import wraps
 from glob import glob
 from torch.utils.data import DataLoader, Sampler, default_collate, DistributedSampler
@@ -251,10 +252,10 @@ class IMiniBatchMetric(nn.Module, Interface):
         :class:`ILoss`, :class:`IDatasetMetric`, :class:`AverageMetric`.
     """
 
-    higher_better: bool = True
+    higher_better: bool
     """specifies whether higher value of the metric implies better performance.
-    This can be useful for e.g. metric based best model saving. Better always
-    explicitly specify it in your subclass definition.
+    This can be useful for e.g. metric based best model saving. Always
+    explicitly specify this class variable in your subclass definition.
     """
 
     def forward(self, mb: IMiniBatch) -> MiniBatchFloats | FloatScalarTensor:
@@ -460,6 +461,65 @@ class AverageMetric(IDatasetMetric):
             self.cnt = sum(obj['cnt'] for obj in object_list)
         else:
             self.reset()
+
+
+class MediaType(str, Enum):
+    IMAGE_PIL = "pillow"
+    FIGURE_MPL = "matplotlib"
+    FIGURE_PX = "plotly"
+    TEXT = "str"
+
+
+@dataclass
+class MediaData:
+    media_data: Any
+    media_type: MediaType
+    media_note: str
+
+
+class IMediaProducer(nn.Module, Interface):
+
+    def on_epoch_start(self):
+        pass
+
+    def forward(self, mb: IMiniBatch) -> Sequence[MediaData]:
+        pass
+
+    def on_epoch_end(self):
+        pass
+
+
+class _MediaManager:
+
+    def __init__(self, medias: Sequence[IMediaProducer]):
+        self.producers = medias
+        self.medias_cache = []
+
+    def update_and_sync(self, mb:IMiniBatch):
+        medias = []
+        for producer in self.producers:
+            media = producer.forward(mb)
+            if not isinstance(media, Sequence) and isinstance(media[0], MediaData):
+                raise TypeError(f"Media Producer {producer.__class__.__name__} is expected to output a sequence of MediaData, got {type(media)}")
+            medias += media
+
+        if dist.is_initialized():
+            object_list = [None for _ in range(dist.get_world_size())]
+            dist.gather_object(
+                obj=medias,
+                object_gather_list=object_list,
+                dst=0,
+            )
+            medias = []
+            if dist.get_rank() == 0:
+                for obj in object_list:
+                    medias += obj
+
+        self.medias_cache = medias
+
+    def notify(self, events):
+        for producer in self.producers:
+            getattr(producer, events)()
 
 
 def _find_free_port():
@@ -831,12 +891,14 @@ class EvalLoop:
                  model: TopLevelModule = None,
                  batch_size: int = None,
                  metrics: Mapping[str, IDatasetMetric] = dict(),
+                 medias: Sequence[IMediaProducer] = [],
                  side_effects: Sequence["ISideEffect"] = [],
                  breakpoint: bool = False,
                  ) -> None:
         self.dataset = dataset
         self.model = model or TopLevelModule(ProbeData(breakpoint=breakpoint))
         self.metrics = metrics
+        self.medias = _MediaManager(medias)
         self.handle:_EventHandler = _EventHandler(side_effects)
         self.loader:DataLoader = None
         self.batch_size:int = batch_size or self.dataset.datum_type.val_batch_size
@@ -859,6 +921,7 @@ class EvalLoop:
         self.model.train(False)
         for metric in self.metrics.values():
             metric.reset()
+        self.medias.notify("on_epoch_start")
         self.handle('on_eval_started', self)
         for step, mb in enumerate(self.loader):
             self.handle('on_eval_step_started', self, step, mb)
@@ -866,9 +929,11 @@ class EvalLoop:
             self.mark_padding(step, mb)
             for metric in self.metrics.values():
                 metric.update(mb)
+            self.medias.update_and_sync(mb)
             self.handle('on_eval_step_finished', self, step, mb)
         for metric in self.metrics.values():
             metric.synchronize()
+        self.medias.notify("on_epoch_end")
         self.handle('on_eval_finished', self)
         self.model.train(True)
 
@@ -907,7 +972,8 @@ class TrainLoop:
             dataset: IDataset,
             model: TopLevelModule,
             losses: Mapping[str, ILoss],
-            metrics: Mapping[str, IMiniBatchMetric],
+            metrics: Mapping[str, IMiniBatchMetric] = dict(),
+            medias: Sequence[IMediaProducer] = [],
             batch_size: Optional[int] = None,
             sampler: Sampler = None,
             num_acc_grad: int = 1,
@@ -937,6 +1003,7 @@ class TrainLoop:
         self.model:TopLevelModule = model
         self.losses = losses
         self.metrics = metrics
+        self.medias = _MediaManager(medias)
         self.batch_size:int = batch_size or self.dataset.datum_type.train_batch_size
         """The normal mini batch size during training. """
         self.num_acc_grad = num_acc_grad
@@ -1000,6 +1067,7 @@ class TrainLoop:
         self.handle('on_train_started', self)
         for epoch in range(start_epoch, self.epochs):
             self.handle('on_train_epoch_started', self, epoch)
+            self.medias.notify("on_epoch_start")
             for step in range(data_size):
                 try: mb = next(iter_loader)
                 except StopIteration:
@@ -1013,6 +1081,7 @@ class TrainLoop:
                 self.model.lr_scheduler.step()
             if self.eval_loop and epoch % self.epoch_per_eval == 0: self.eval_loop()
             self.model.training_progress.inc_epoch()
+            self.medias.notify("on_epoch_end")
             self.handle('on_train_epoch_finished', self, epoch)
 
     def step(self, mb: IMiniBatch):
@@ -1027,6 +1096,7 @@ class TrainLoop:
             training_progress.inc_step()
             if training_progress.step % self.num_acc_grad == 0:
                 self.model.optim.step()
+        self.medias.update_and_sync(mb)
         return step_dict
 
 
