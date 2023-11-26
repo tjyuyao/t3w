@@ -2,12 +2,7 @@ import os
 from setuptools import setup
 
 
-with open(f"{os.path.dirname(__file__)}/t3w/__init__.py", 'r') as script_file:
-    for line in script_file:
-        if not line.startswith("__version__ = "): continue
-        __version__ = eval(line[14:].rstrip()); break
-    else:
-        __version__ = '0.0.0'
+__version__ = '0.2.0'
 
 with open("README.md", 'r') as readme_file:
     long_description = readme_file.read()
