@@ -3,7 +3,6 @@ import numpy as np
 
 from typing import List
 from torch import nn, Tensor
-from rich.pretty import pprint
 
 
 suppress_traceback = []
