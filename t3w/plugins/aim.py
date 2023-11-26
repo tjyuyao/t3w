@@ -1,4 +1,5 @@
 from t3w.core import *
+from t3w.core import EvalLoop, IMiniBatch
 
 
 class AimSideEffect(ISideEffect):
@@ -17,6 +18,14 @@ class AimSideEffect(ISideEffect):
         self.description = description
         self.hparams_dict = hparams_dict
         self.track_weights_every_n_steps = track_weights_every_n_steps
+        self.run = None
+
+    def on_eval_started(self, loop: EvalLoop):
+        if self.run is not None:
+            return
+
+        import aim
+        self.run = aim.Run(**self.run_kwargs)
 
     def on_train_started(self, loop: TrainLoop):
         import aim
@@ -43,3 +52,17 @@ class AimSideEffect(ISideEffect):
             from aim.sdk.adapters.pytorch import track_params_dists, track_gradients_dists
             track_params_dists(loop.model, self.run)
             track_gradients_dists(loop.model, self.run)
+
+    def on_eval_step_finished(self, loop: EvalLoop, step: int, mb: IMiniBatch):
+        self.handle_medias(step, loop.medias.get_latest_output())
+
+    def handle_medias(self, step:int, media_cache:Sequence[MediaData]):
+        from aim import Figure
+
+        media: MediaData
+        for media in media_cache:
+            if media.media_type in [MediaType.FIGURE_MPL, MediaType.FIGURE_PX]:
+                aim_figure = Figure(media.media_data)
+                self.run.track(aim_figure, name="figures", step=step, context={"note": media.media_note})
+            else:
+                raise NotImplementedError(f"Unsupported media type '{media.media_type}'.")

@@ -489,14 +489,21 @@ class IMediaProducer(nn.Module, Interface):
         pass
 
 
-class _MediaManager:
+class MediaManager:
 
     def __init__(self, medias: Sequence[IMediaProducer]):
         self.producers = medias
-        self.medias_cache = []
+        self.output_cache = []
+
+    def get_latest_output(self) -> Sequence[MediaData]:
+        return self.output_cache
 
     def update_and_sync(self, mb:IMiniBatch):
+        if 0 == len(self.producers):
+            return []
+
         medias = []
+
         for producer in self.producers:
             media = producer.forward(mb)
             if not isinstance(media, Sequence) and isinstance(media[0], MediaData):
@@ -515,7 +522,7 @@ class _MediaManager:
                 for obj in object_list:
                     medias += obj
 
-        self.medias_cache = medias
+        self.output_cache = medias
 
     def notify(self, events):
         for producer in self.producers:
@@ -898,7 +905,7 @@ class EvalLoop:
         self.dataset = dataset
         self.model = model or TopLevelModule(ProbeData(breakpoint=breakpoint))
         self.metrics = metrics
-        self.medias = _MediaManager(medias)
+        self.medias = MediaManager(medias)
         self.handle:_EventHandler = _EventHandler(side_effects)
         self.loader:DataLoader = None
         self.batch_size:int = batch_size or self.dataset.datum_type.val_batch_size
@@ -1003,7 +1010,7 @@ class TrainLoop:
         self.model:TopLevelModule = model
         self.losses = losses
         self.metrics = metrics
-        self.medias = _MediaManager(medias)
+        self.medias = MediaManager(medias)
         self.batch_size:int = batch_size or self.dataset.datum_type.train_batch_size
         """The normal mini batch size during training. """
         self.num_acc_grad = num_acc_grad

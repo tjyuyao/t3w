@@ -27,11 +27,11 @@ setup(
     ],
     extras_require={
         "common": [
-            "aim",
+            "wandb",
             "tqdm",
         ],
         "all": [
-            "aim",
+            "wandb",
             "tqdm",
         ]
     },

@@ -90,7 +90,7 @@ else:
         return data
 
 
-def millify(n:int, names=["", " K", " M", " B", " T"]):
+def millify(n:int, names=["", "K", "M", "B", "T"]):
     """format an integer number into a human-friendly string.
 
     Args:
