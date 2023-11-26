@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -34,8 +34,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -55,6 +56,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -111,6 +121,7 @@
   
 
 <a class="navbar-brand logo" href="../index.html">
+  
   
   
   
@@ -256,10 +267,10 @@
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -267,13 +278,11 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
+
 </div></div>
       
     </div>
@@ -289,15 +298,6 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w._find_free_port"><code class="docutils literal notranslate"><span class="pre">_find_free_port()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w._subprocess"><code class="docutils literal notranslate"><span class="pre">_subprocess()</span></code></a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -309,81 +309,6 @@ document.write(`
                   
   <section id="hidden-details">
 <h1>Hidden Details<a class="headerlink" href="#hidden-details" title="Permalink to this heading">#</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="t3w._find_free_port">
-<span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">_find_free_port</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#t3w._find_free_port" title="Permalink to this definition">#</a></dt>
-<dd><p>find a not used port for DDP.</p>
-<p><a class="reference external" href="https://stackoverflow.com/a/45690594">https://stackoverflow.com/a/45690594</a></p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="t3w._subprocess">
-<span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">_subprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rank</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.EvalLoop"><span class="pre">EvalLoop</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><span class="pre">TrainLoop</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3w._subprocess" title="Permalink to this definition">#</a></dt>
-<dd><p>spawned sub processes entrypoint function.</p>
-<p>a <a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.EvalLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvalLoop</span></code></a> or <a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> will spawn multiple processes if
-the <a class="reference internal" href="core.html#t3w.TopLevelModule" title="t3w.TopLevelModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">TopLevelModule</span></code></a> it attacted to are told to move its parameters
-to multiple devices by <a class="reference internal" href="core.html#t3w.TopLevelModule.to" title="t3w.TopLevelModule.to"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopLevelModule.to()</span></code></a>. This implies a distributed
-execution of the loop. The sub processes will then init a communication
-group, actually place model to the target devices, wrap it with torch’s
-:class:<code class="docutils literal notranslate"><span class="pre">DistributedDataParallel</span></code> wrapper, and call the loop’s <code class="docutils literal notranslate"><span class="pre">__call__</span></code>
-again like a single process execution. Finally, it cleans up context and
-exit to the spawning point of the father process.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rank</strong> (<em>int</em>) – the index of the subprocess, starting from <code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">len(distributed_devices)</span> <span class="pre">-</span> <span class="pre">1</span></code>.</p></li>
-<li><p><strong>loop</strong> (<a class="reference internal" href="core.html#t3w.EvalLoop" title="t3w.EvalLoop"><em>EvalLoop</em></a><em> | </em><a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><em>TrainLoop</em></a>) – the entire loop context is passed to the subprocess.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3w.</span></span><span class="sig-name descname"><span class="pre">TopLevelModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optimizer</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_scheduler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_LRScheduler</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularizer_reweight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>A central API that manages the <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> related features.</p>
-<dl class="simple">
-<dt>This top level module helps its owner loop on infrastructure the code, and helps user by providing useful low-level utilities, including</dt><dd><ul class="simple">
-<li><p>manages model checkpoint saving and loading,</p></li>
-<li><p>moves user_model to other device(s) and trigger DDP execution mode,</p></li>
-<li><p>computes losses and metrics specified by the loop.</p></li>
-</ul>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>We delegate losses computation to <a class="reference internal" href="core.html#t3w.TrainLoop" title="t3w.TrainLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainLoop</span></code></a> (see
-<a class="reference internal" href="core.html#t3w.TrainLoop.__init__" title="t3w.TrainLoop.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TrainLoop.__init__()</span></code></a>), while the loop delegates it further to
-<a class="reference internal" href="core.html#t3w.TopLevelModule.forward" title="t3w.TopLevelModule.forward"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TopLevelModule.forward()</span></code></a>. This is clever because torch’s
-<code class="docutils literal notranslate"><span class="pre">DataDistributedParallel</span></code> class wraps the top level module instead of
-the user’s model therefore always has a loss tensor as output and be
-able to find unused parameters during training, while user can stick to
-the suggested standard OOP paradigm in the userspace by operating on the
-<a class="reference internal" href="interfaces.html#t3w.IMiniBatch" title="t3w.IMiniBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMiniBatch</span></code></a> instance.</p>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">_fix_optim_states</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
-<dd><p>_LRScheduler of PyTorch makes a monkey patch on the optimizer to help detect the proper order of calling
-<code class="docutils literal notranslate"><span class="pre">optim.step</span></code> and <code class="docutils literal notranslate"><span class="pre">lr_scheduler.step</span></code>, this patch will be lost though in a multi-processing spawning.
-We reproduce this monkey patch in the sub process to repress the warning information.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_parse_multi_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">device</span><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>devices</strong> (<em>-</em>) – e.g. “cuda”, “cuda:0”, “cuda:0,1”, “cuda:0-2”, “cuda:0-1,3”.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List[“torch.device”]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 
 
@@ -392,11 +317,10 @@ We reproduce this monkey patch in the sub process to repress the warning informa
 
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="helpers.html"
@@ -407,30 +331,12 @@ We reproduce this monkey patch in the sub process to repress the warning informa
         <p class="prev-next-title">Helper Functions</p>
       </div>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w._find_free_port"><code class="docutils literal notranslate"><span class="pre">_find_free_port()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#t3w._subprocess"><code class="docutils literal notranslate"><span class="pre">_subprocess()</span></code></a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
@@ -474,8 +380,8 @@ By Yuyao Huang
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
 
   <footer class="bd-footer">
   </footer>
