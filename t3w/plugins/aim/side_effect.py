@@ -4,6 +4,7 @@ from .patch import Run
 from PIL import Image as PIL_Image
 import aim
 import matplotlib.figure
+from functools import cached_property
 
 
 class AimSideEffect(ISideEffect):
@@ -22,20 +23,18 @@ class AimSideEffect(ISideEffect):
         self.description = description
         self.hparams_dict = hparams_dict
         self.track_weights_every_n_steps = track_weights_every_n_steps
-        self.run = None
 
-    def on_eval_started(self, loop: EvalLoop):
-        if self.run is not None:
-            return
-        self.run = Run(**self.run_kwargs)
-
-    def on_train_started(self, loop: TrainLoop):
+    @cached_property
+    def run(self):
         from aim.storage.treeutils_non_native import convert_to_native_object
 
-        self.run = Run(**self.run_kwargs)
+        run = Run(**self.run_kwargs)
         if self.description:
-            self.run.description = self.description
-        self.run['hparams'] = {k:convert_to_native_object(v, strict=False) for k, v in self.hparams_dict.items()}
+            run.description = self.description
+        run['hparams'] = {k:convert_to_native_object(v, strict=False)
+                          for k, v in self.hparams_dict.items()}
+
+        return run
 
     def on_eval_finished(self, loop: EvalLoop):
         prog = loop.model.training_progress
@@ -44,9 +43,11 @@ class AimSideEffect(ISideEffect):
 
     def on_train_step_finished(self, loop: TrainLoop, step: int, mb: "IMiniBatch", step_return: StepReturnDict):
         prog = loop.model.training_progress
+
         for name, (loss_reweight, loss_raw_value) in step_return['losses'].items():
             self.run.track(loss_raw_value, name=f"train/loss/{name}/raw", step=prog.step, epoch=prog.epoch)
             self.run.track(loss_reweight * loss_raw_value, name=f"train/loss/{name}/reweighted", step=prog.step, epoch=prog.epoch)
+
         for name, value in step_return['metrics'].items():
             self.run.track(value, name=f"train/metric/{name}", step=prog.step, epoch=prog.epoch)
         if self.track_weights_every_n_steps and (step + 1) % self.track_weights_every_n_steps == 0:
@@ -54,18 +55,21 @@ class AimSideEffect(ISideEffect):
             track_params_dists(loop.model, self.run)
             track_gradients_dists(loop.model, self.run)
 
-    def on_eval_step_finished(self, loop: EvalLoop, step: int, mb: IMiniBatch):
-        self.handle_medias(step, loop.medias.get_latest_output())
+        self.handle_medias(loop.medias.get_latest_output(), step=prog.epoch, training=True)
 
-    def handle_medias(self, step:int, media_cache:Sequence[MediaData]):
+    def on_eval_step_finished(self, loop: EvalLoop, step: int, mb: IMiniBatch):
+        prog = loop.model.training_progress
+        self.handle_medias(loop.medias.get_latest_output(), step=prog.epoch, training=False)
+
+    def handle_medias(self, media_cache:Sequence[MediaData], step:NotImplemented, training:bool):
         media: MediaData
         for media in media_cache:
             if media.media_type in [MediaType.FIGURE_PX]:
                 aim_figure = aim.Figure(media.media_data)
-                self.run.track(aim_figure, name=media.media_type, step=step, context={"note": media.media_note})
+                self.run.track(aim_figure, name=media.media_type, step=step, context={"note": media.media_note, "training": training})
             elif media.media_type in [MediaType.FIGURE_MPL]:
                 aim_image = aim.Image(fig2img(media.media_data))
-                self.run.track(aim_image, name=media.media_type, step=step, context={"note": media.media_note})
+                self.run.track(aim_image, name=media.media_type, step=step, context={"note": media.media_note, "training": training})
             else:
                 raise NotImplementedError(f"Unsupported media type '{media.media_type}'.")
 

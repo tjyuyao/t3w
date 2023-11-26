@@ -1,6 +1,8 @@
 from pathlib import Path
 from t3w.core import *
+from t3w.core import EvalLoop
 from t3w.utils.verbose import millify
+from functools import cached_property
 
 
 class SaveBestModelsSideEffect(ISideEffect):
@@ -20,11 +22,19 @@ class SaveBestModelsSideEffect(ISideEffect):
 
     def on_train_started(self, loop: TrainLoop):
         assert self.metric_name in loop.eval_loop.metrics.keys(), "metric_name for saving model does not exist in eval_loop"
+        self._guard_duplicated_saving_path
 
+    def on_eval_started(self, loop: EvalLoop):
+        self._guard_duplicated_saving_path
+
+    @cached_property
+    def _guard_duplicated_saving_path(self):
         matched_existing_paths = [path for path in glob(self.save_path_prefix+"*") if self.metric_name in path and ".pt" in path]
 
         if len(matched_existing_paths):
             raise FileExistsError(f"{self.__class__.__name__}: found existing checkpoint files matching {self.save_path_prefix}*")
+
+        return True
 
     def on_eval_finished(self, loop: EvalLoop):
 

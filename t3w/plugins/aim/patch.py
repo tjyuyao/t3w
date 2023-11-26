@@ -15,7 +15,7 @@ from t3w.utils.misc import generate_run_hash as t3w_generate_run_hash
 # [feat] Allow users to specify the run_hash: https://github.com/aimhubio/aim/pull/2738/commits/fd48e0a3dc7e505fff86791dd30d70b3d899b008
 class Run(aim.Run):
 
-    def __init__(self, run_hash: str | None = None, *, repo: str | Repo | pathlib.Path | None = None, read_only: bool = False, experiment: str | None = None, force_resume: bool = False, system_tracking_interval: int | float | None = ..., log_system_params: bool | None = False, capture_terminal_logs: bool | None = True):
+    def __init__(self, run_hash: str | None = None, *, repo: str | Repo | pathlib.Path | None = None, read_only: bool = False, experiment: str | None = None, force_resume: bool = False, system_tracking_interval: int | float | None = 600, log_system_params: bool | None = False, capture_terminal_logs: bool | None = True):
 
         self._resources: Optional[BasicRunAutoClean] = None
 

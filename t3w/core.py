@@ -1086,8 +1086,8 @@ class TrainLoop:
                 self.handle('on_train_step_finished', self, step, mb, step_return)
             if self.model.lr_scheduler is not None and len(step_return["losses"]):
                 self.model.lr_scheduler.step()
-            if self.eval_loop and epoch % self.epoch_per_eval == 0: self.eval_loop()
             self.model.training_progress.inc_epoch()
+            if self.eval_loop and epoch % self.epoch_per_eval == 0: self.eval_loop()
             self.medias.notify("on_epoch_end")
             self.handle('on_train_epoch_finished', self, epoch)
 
