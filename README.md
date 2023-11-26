@@ -7,6 +7,6 @@ T3W is a lightweight framework for training PyTorch models written by Yuyao Huan
 
 See the concise example [mnist_example.py](https://github.com/tjyuyao/t3w/blob/main/mnist_example.py).
 
-If you feel like using `t3w.py`, you can install it with `pip install t3w`, `pip install t3w[common]`, or `pip install t3w[all]`, where the `[common]` tag will install dependencies for commonly used side effects (like `tqdm` etc), and `[all]` tag will install dependencies for all supported side effects. Note that the mnist example requires installing `t3w[common]`.
+If you feel like using `t3w.py`, you can install it with `pip install t3w`.
 
 API documentation is currently available at https://tjyuyao.github.io/t3w/api/. We are going to add more detailed user guide in the future.

@@ -1,5 +1,9 @@
 from t3w.core import *
 from t3w.core import EvalLoop, IMiniBatch
+from .patch import Run
+from PIL import Image as PIL_Image
+import aim
+import matplotlib.figure
 
 
 class AimSideEffect(ISideEffect):
@@ -23,15 +27,12 @@ class AimSideEffect(ISideEffect):
     def on_eval_started(self, loop: EvalLoop):
         if self.run is not None:
             return
-
-        import aim
-        self.run = aim.Run(**self.run_kwargs)
+        self.run = Run(**self.run_kwargs)
 
     def on_train_started(self, loop: TrainLoop):
-        import aim
         from aim.storage.treeutils_non_native import convert_to_native_object
 
-        self.run = aim.Run(**self.run_kwargs)
+        self.run = Run(**self.run_kwargs)
         if self.description:
             self.run.description = self.description
         self.run['hparams'] = {k:convert_to_native_object(v, strict=False) for k, v in self.hparams_dict.items()}
@@ -57,12 +58,23 @@ class AimSideEffect(ISideEffect):
         self.handle_medias(step, loop.medias.get_latest_output())
 
     def handle_medias(self, step:int, media_cache:Sequence[MediaData]):
-        from aim import Figure
-
         media: MediaData
         for media in media_cache:
-            if media.media_type in [MediaType.FIGURE_MPL, MediaType.FIGURE_PX]:
-                aim_figure = Figure(media.media_data)
-                self.run.track(aim_figure, name="figures", step=step, context={"note": media.media_note})
+            if media.media_type in [MediaType.FIGURE_PX]:
+                aim_figure = aim.Figure(media.media_data)
+                self.run.track(aim_figure, name=media.media_type, step=step, context={"note": media.media_note})
+            elif media.media_type in [MediaType.FIGURE_MPL]:
+                aim_image = aim.Image(fig2img(media.media_data))
+                self.run.track(aim_image, name=media.media_type, step=step, context={"note": media.media_note})
             else:
                 raise NotImplementedError(f"Unsupported media type '{media.media_type}'.")
+
+
+def fig2img(fig:matplotlib.figure.Figure) -> PIL_Image:
+    """Convert a Matplotlib figure to a PIL Image and return it"""
+    import io
+    buf = io.BytesIO()
+    fig.savefig(buf)
+    buf.seek(0)
+    img = PIL_Image.open(buf)
+    return img

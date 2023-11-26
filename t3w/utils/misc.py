@@ -1,23 +1,11 @@
 import os
-import time
 import uuid
 from contextlib import contextmanager
-
-
-def base32_timestamp():
-    cur = time.localtime()
-    base32 = "0123456789abcdefghjklmnpqrtuvwxy"
-    y = base32[cur.tm_year%10]
-    m = base32[cur.tm_mon]
-    d = base32[cur.tm_mday]
-    h = base32[cur.tm_hour]
-    M = base32[cur.tm_min//2]
-    s = base32[time.time_ns()%1024//32] + base32[time.time_ns()%32]
-    return f"{y}{m}{d}{h}{M}{s}"
+from datetime import datetime
 
 
 def generate_run_hash(hash_length=24) -> str:
-    full_hash = base32_timestamp() + uuid.uuid4().hex
+    full_hash = datetime.now().strftime("%y%m%d%H%M%S") + uuid.uuid4().hex
     return full_hash[:hash_length]
 
 

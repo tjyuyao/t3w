@@ -23,16 +23,14 @@ setup(
     install_requires=[
         "jaxtyping",
         "pandas",
+        "aim",
+        "tqdm"
         # "typer[all]",
     ],
     extras_require={
-        "common": [
-            "wandb",
-            "tqdm",
-        ],
-        "all": [
-            "wandb",
-            "tqdm",
-        ]
+        # "all": [
+        #     "aim",
+        #     "tqdm",
+        # ]
     },
 )
