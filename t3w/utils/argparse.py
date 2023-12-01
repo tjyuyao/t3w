@@ -364,23 +364,6 @@ def kwargs_from_param(
             if len(var_args) == 0:
                 var_args = (str, type(None))
 
-            # Raise error if type function is not explicitly provided for Union types (not including Optionals)
-            if get_origin(var_type) in UNION_TYPES and not (
-                len(var_args) == 2 and var_args[1] == type(None)
-            ):
-                raise ArgumentTypeError(
-                    f"{class_or_function_name}({prefixed_name})\n"
-                    "For Union types, you must include an explicit type function in the configure method. "
-                    "For example,\n\n"
-                    "def to_number(string: str) -> Union[float, int]:\n"
-                    "    return float(string) if '.' in string else int(string)\n\n"
-                    "class Args(Tap):\n"
-                    "    arg: Union[float, int]\n"
-                    "\n"
-                    "    def configure(self) -> None:\n"
-                    "        self.add_argument('--arg', type=to_number)"
-                )
-
             if len(var_args) > 0:
                 var_type = var_args[0]
 
