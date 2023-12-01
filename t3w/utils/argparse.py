@@ -339,7 +339,7 @@ def kwargs_from_param(
         kwargs["required"] = True
 
     # Parse type of the argument
-    if True:
+    if not ignored_flag:
         # Get type of the argument
         if param.annotation != Parameter.empty:
             # Any type defaults to str (needed for dataclasses where all non-default attributes must have a type)
@@ -351,9 +351,6 @@ def kwargs_from_param(
         # Infer type by the default value
         elif not kwargs.get("required", False):
             var_type = type(kwargs["default"])
-        # This param is ignored and need no more parsing
-        elif ignored_flag:
-            return kwargs
         else:
             raise ArgumentTypeError(
                 f"The parameter named '{param.name}' of '{class_or_function_name}' has not defined type annotation or default value to infer its type. Please add either to it, or add the param name to the 'ignore_args'. "
@@ -372,6 +369,7 @@ def kwargs_from_param(
                 len(var_args) == 2 and var_args[1] == type(None)
             ):
                 raise ArgumentTypeError(
+                    f"{class_or_function_name}({prefixed_name})\n"
                     "For Union types, you must include an explicit type function in the configure method. "
                     "For example,\n\n"
                     "def to_number(string: str) -> Union[float, int]:\n"
@@ -476,7 +474,7 @@ def kwargs_from_param(
             kwargs["type"] = var_type
 
     # Set help
-    if True:
+    if not ignored_flag:
         kwargs["help"] = "("
 
         # Type

@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 
-__version__ = '0.2.1.post2'
+__version__ = '0.2.2'
 
 with open("README.md", 'r') as readme_file:
     long_description = readme_file.read()
@@ -21,7 +21,8 @@ setup(
         "jaxtyping",
         "pandas",
         "aim",
-        "tqdm"
+        "tqdm",
+        "typing_inspect",
         # "typer[all]",
     ],
     extras_require={
