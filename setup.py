@@ -1,8 +1,8 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
-__version__ = '0.2.1'
+__version__ = '0.2.1.post2'
 
 with open("README.md", 'r') as readme_file:
     long_description = readme_file.read()
@@ -16,7 +16,7 @@ setup(
     description="Typed Thin PyTorch Wrapper",
     long_description=long_description,
     long_description_content_type='text/markdown',
-    py_modules=["t3w"],
+    packages=find_packages(),
     install_requires=[
         "jaxtyping",
         "pandas",
