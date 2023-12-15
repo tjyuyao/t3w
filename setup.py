@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 
-__version__ = '0.2.2.post1'
+__version__ = '0.2.2.post2'
 
 with open("README.md", 'r') as readme_file:
     long_description = readme_file.read()
@@ -22,6 +22,8 @@ setup(
         "pandas",
         "aim",
         "tqdm",
+        "rich",
+        "docstring_parser",
         "typing_inspect",
         # "typer[all]",
     ],

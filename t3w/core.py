@@ -978,7 +978,7 @@ class TrainLoop:
             self,
             dataset: IDataset,
             model: TopLevelModule,
-            losses: Mapping[str, ILoss],
+            losses: Mapping[str, ILoss] = dict(),
             metrics: Mapping[str, IMiniBatchMetric] = dict(),
             medias: Sequence[IMediaProducer] = [],
             batch_size: Optional[int] = None,
