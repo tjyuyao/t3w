@@ -613,6 +613,10 @@ class _TrainingProgress:
     epoch: int = 0
     """number of the total training epoch."""
 
+    steps_per_epoch: int = 0
+
+    total_epochs: int = 0
+
     def inc_step(self):
         """increase the training step by 1."""
         self.step += 1
@@ -679,7 +683,7 @@ class TopLevelModule(nn.Module):
         self.training_progress = _TrainingProgress()
         self.regularizer_reweight:float = regularizer_reweight
 
-        self._device = "cpu"
+        self._device = torch.device("cpu")
         self.distributed_devices = []
         self.ddp_enabled = False
         self.ddp_rank = 0
@@ -1014,7 +1018,6 @@ class TrainLoop:
         self.batch_size:int = batch_size or self.dataset.datum_type.train_batch_size
         """The normal mini batch size during training. """
         self.num_acc_grad = num_acc_grad
-        self.epochs = epochs
         self.iter_per_epoch = iter_per_epoch
         self.epoch_per_eval = epoch_per_eval
         self.eval_loop = eval_loop
@@ -1023,6 +1026,8 @@ class TrainLoop:
         self.model_forward = model.forward
         self.loader:DataLoader = None
         self.ddp_model: DistributedDataParallel = None
+        self.progress.steps_per_epoch = iter_per_epoch // num_acc_grad
+        self.progress.total_epochs = epochs
 
     def __call__(self):
         """Implement iter_based and epoch_based train_loop with hooks."""
@@ -1105,6 +1110,19 @@ class TrainLoop:
                 self.model.optim.step()
         self.medias.update_and_sync(mb)
         return step_dict
+
+    @property
+    def progress(self):
+        return self.model.training_progress
+
+    @property
+    def epochs(self) -> int:
+        return self.progress.total_epochs
+
+    @epochs.setter
+    def epochs(self, value:int):
+        self.progress.total_epochs = value
+        return value
 
 
 class _EventHandler:

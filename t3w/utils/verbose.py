@@ -54,6 +54,9 @@ if not os.environ.get("T3W_VERBOSE", False):
         Tensor: Tensor.__repr__,
         nn.Module: _verbose_module,
         np.ndarray: _verbose_ndarray,
+        list: lambda c: [verbose(i) for i in c],
+        tuple: lambda c: tuple([verbose(i) for i in c]),
+        dict: lambda c: {k:verbose(v) for k, v in c.items()},
     }
 
     class ReprStr(str):
