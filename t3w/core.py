@@ -13,6 +13,7 @@ https://github.com/tjyuyao/t3w/blob/main/LICENSE
 # reStructuredText Python: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cross-referencing-python-objects
 
 from __future__ import annotations
+from abc import ABC, abstractmethod
 import torch, gzip, random, os, weakref
 import numpy as np
 from typing import Any, Sequence, NewType, Optional, Mapping, Type, Hashable, Callable, Dict, Literal, Union, List
@@ -59,7 +60,7 @@ StepReturnDict = NewType("StepReturnDict", Dict[Literal["losses", "metrics"], Di
 """
 
 
-class Interface:
+class Interface(ABC):
     """This is a special abstract class to indicate its direct subclasses are interface and should be implemented by the user.
 
     Note:
@@ -202,11 +203,16 @@ class IDataset(Interface):
     """
 
     datum_type: Type[IDatum]
-    """User implemented IDatum subclass' **typename**.
+    
+    @property
+    @abstractmethod
+    def datum_type(self) -> Type[IDatum]:
+        """User implemented IDatum subclass' **typename**.
 
-    Note:
-        Subclass of ``IDataset`` must specify this attribute in order to fetch the class attribute including :attr:`IDatum.train_batch_size`, :attr:`IDatum.val_batch_size`, and :attr:`IDatum.num_workers`, etc.
-    """
+        Note:
+            Subclass of ``IDataset`` must specify this attribute in order to fetch the class attribute including :attr:`IDatum.train_batch_size`, :attr:`IDatum.val_batch_size`, and :attr:`IDatum.num_workers`, etc.
+        """
+        pass
 
     def __init__(self, root:str, split:str=None) -> None:
         """
@@ -1026,8 +1032,7 @@ class TrainLoop:
         self.model_forward = model.forward
         self.loader:DataLoader = None
         self.ddp_model: DistributedDataParallel = None
-        self.progress.steps_per_epoch = iter_per_epoch // num_acc_grad
-        self.progress.total_epochs = epochs
+        self.epochs = epochs
 
     def __call__(self):
         """Implement iter_based and epoch_based train_loop with hooks."""
@@ -1076,6 +1081,7 @@ class TrainLoop:
         start_epoch = self.model.training_progress.epoch
         iter_loader = iter(())
         data_size = self.iter_per_epoch or len(self.loader)
+        self.progress.steps_per_epoch = data_size // self.num_acc_grad
         self.handle('on_train_started', self)
         for epoch in range(start_epoch, self.epochs):
             self.handle('on_train_epoch_started', self, epoch)
