@@ -1,5 +1,6 @@
 import os
 import uuid
+import shutil
 from contextlib import contextmanager
 from datetime import datetime
 
@@ -17,3 +18,10 @@ def work_directory(path: str):
         yield
     finally:
         os.chdir(curr)
+
+
+def rm_r(path):
+    if os.path.isdir(path) and not os.path.islink(path):
+        shutil.rmtree(path)
+    elif os.path.exists(path):
+        os.remove(path)

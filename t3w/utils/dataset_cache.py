@@ -2,6 +2,8 @@ from pathlib import Path
 import mgzip
 import pickle
 
+from .misc import rm_r
+
 
 class CachedDataset:
 
@@ -9,7 +11,7 @@ class CachedDataset:
         self.raw_dataset = raw_dataset
         self.cache_dir = Path(cache_dir)
         self.compresslevel = compresslevel
-        Path(self.cache_dir).mkdir(exist_ok=True)
+        self.mkcache()
 
     def __len__(self):
         return len(self.raw_dataset)
@@ -28,3 +30,10 @@ class CachedDataset:
     @property
     def datum_type(self):
         return self.raw_dataset.datum_type
+
+    def rmcache(self):
+        rm_r(self.cache_dir)
+        self.mkcache()
+
+    def mkcache(self):
+        Path(self.cache_dir).mkdir(exist_ok=True)
