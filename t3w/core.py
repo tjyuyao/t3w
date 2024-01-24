@@ -520,7 +520,7 @@ class MediaManager:
             object_list = [None for _ in range(dist.get_world_size())]
             dist.gather_object(
                 obj=medias,
-                object_gather_list=object_list,
+                object_gather_list=object_list if dist.get_rank() == 0 else None,
                 dst=0,
             )
             medias = []
