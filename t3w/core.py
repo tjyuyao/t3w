@@ -203,7 +203,7 @@ class IDataset(Interface):
     """
 
     datum_type: Type[IDatum]
-    
+
     @property
     @abstractmethod
     def datum_type(self) -> Type[IDatum]:
@@ -576,7 +576,7 @@ def _subprocess(rank, loop: Union["EvalLoop", "TrainLoop"]):
     os.environ.setdefault("MASTER_PORT", str(model.ddp_port))
 
     dist.init_process_group(
-        backend=os.environ.get("T3W_DDP_BACKEND", 'nccl'),
+        backend=os.environ.get("T3W_DDP_BACKEND", 'gloo'),
         rank=rank,
         world_size=len(devices),
     )
@@ -584,6 +584,7 @@ def _subprocess(rank, loop: Union["EvalLoop", "TrainLoop"]):
 
     if isinstance(loop, TrainLoop):
         model._fix_optim_states()
+
         loop.ddp_model = DistributedDataParallel(
             model,
             static_graph=os.environ.get("T3W_STATIC_GRAPH", '1')=='1',
@@ -859,7 +860,7 @@ class TopLevelModule(nn.Module):
             List["torch.device"]
         """
 
-        if isinstance(devices, (int, torch.device)): return ([devices], None)
+        if isinstance(devices, (int, torch.device)): return [devices]
 
         # determine device type
         if devices[:3] == "cpu": device_type = "cpu"
@@ -931,8 +932,8 @@ class EvalLoop:
             batch_size=self.batch_size,
             collate_fn=self.dataset.datum_type.collate,
             num_workers=self.dataset.datum_type.num_workers,
-            pin_memory=self.model.device.type!="cpu",
-            pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
+            # pin_memory=self.model.device.type!="cpu",
+            # pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
         )
 
         self.model.train(False)
