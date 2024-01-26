@@ -14,7 +14,7 @@ https://github.com/tjyuyao/t3w/blob/main/LICENSE
 
 from __future__ import annotations
 from abc import ABC, abstractmethod
-import torch, gzip, random, os, weakref
+import torch, gzip, random, os, sys, traceback, weakref
 import numpy as np
 from typing import Any, Sequence, NewType, Optional, Mapping, Type, Hashable, Callable, Dict, Literal, Union, List
 from enum import Enum
@@ -33,6 +33,9 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 
 from .utils.verbose import verbose
+
+from tblib import pickling_support
+pickling_support.install()
 
 
 def manual_seed(seed:int, strict:bool=False):
@@ -1140,14 +1143,25 @@ class _EventHandler:
     def __call__(self, event: str, *args, **kwargs):
         for side_effect in self.side_effects:
             if dist.is_initialized():
+                rank = dist.get_rank()
+                world_size = dist.get_world_size()
                 abort = 0
-                if dist.get_rank() == 0 or side_effect.is_distributed:
+                exc_info = None
+                if rank == 0 or side_effect.is_distributed:
                     try: getattr(side_effect, event)(*args, **kwargs)
                     except:
+                        exc_info = sys.exc_info()
                         abort = 1
-                object_list = [None for _ in range(dist.get_world_size())]
-                dist.all_gather_object(object_list, abort)
-                if sum(object_list):
+                abort_counter = [None for _ in range(world_size)]
+                dist.all_gather_object(abort_counter, abort)
+                if sum(abort_counter):
+                    exceptions = [None for _ in range(world_size)] if rank == 0 else None
+                    dist.gather_object(exc_info, exceptions, dst=0)
+                    if rank == 0:
+                        for exc_info in exceptions:
+                            if exc_info is not None:
+                                traceback.print_exception(*exc_info)
+                                break
                     exit()
             else:
                 getattr(side_effect, event)(*args, **kwargs)

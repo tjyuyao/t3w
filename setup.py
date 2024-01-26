@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 with open("README.md", 'r') as readme_file:
     long_description = readme_file.read()
@@ -25,6 +25,7 @@ setup(
         "rich",
         "docstring_parser",
         "typing_inspect",
+        "tblib",
         # "mgzip",
         # "typer[all]",
     ],
