@@ -1,5 +1,5 @@
 from pathlib import Path
-import mgzip
+import gzip
 import pickle
 
 from .misc import rm_r
@@ -19,11 +19,11 @@ class CachedDataset:
     def __getitem__(self, index):
         cached_datum = self.cache_dir / (str(index) + ".gz")
         if cached_datum.exists():
-            with mgzip.open(str(cached_datum)) as fp:
+            with gzip.open(str(cached_datum)) as fp:
                 datum = pickle.load(fp)
         else:
             datum = self.raw_dataset[index]
-            with mgzip.open(str(cached_datum), "wb", compresslevel=self.compresslevel) as fp:
+            with gzip.open(str(cached_datum), "wb", compresslevel=self.compresslevel) as fp:
                 pickle.dump(datum, fp)
         return datum
 
