@@ -935,8 +935,8 @@ class EvalLoop:
             batch_size=self.batch_size,
             collate_fn=self.dataset.datum_type.collate,
             num_workers=self.dataset.datum_type.num_workers,
-            # pin_memory=self.model.device.type!="cpu",
-            # pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
+            pin_memory=self.model.device.type!="cpu",
+            pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
         )
 
         self.model.train(False)
