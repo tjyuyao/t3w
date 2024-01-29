@@ -715,6 +715,8 @@ class TopLevelModule(nn.Module):
         if 1 == len(devices):
             self.user_model.to(device)
             self._device = torch.device(device)
+            if self.optim is not None:
+                self.optim.load_state_dict(self.optim.state_dict())
         else:
             self.distributed_devices = devices
             self.ddp_port = _find_free_port()
