@@ -43,11 +43,10 @@ class TqdmSideEffect(ISideEffect):
         for key in postfix_keys:
             if key in step_return["losses"]:
                 loss_reweight, loss_raw_value = step_return["losses"][key]
-                loss_raw_value = f"{loss_raw_value:.4f}"[:6]
+                loss_raw_value = _format_float(loss_raw_value)
                 step_postfix[key] = f"{loss_reweight}*{loss_raw_value}"
             elif key in step_return["metrics"]:
-                metric_value = f"{step_return['metrics'][key]:.4f}"[:6]
-                step_postfix[key] = f"{metric_value}"
+                step_postfix[key] = _format_float(step_return['metrics'][key])
             else:
                 pass  # missing key ignored
         self.train_step_pbar.set_postfix(step_postfix)
@@ -58,3 +57,16 @@ class TqdmSideEffect(ISideEffect):
 
     def on_train_finished(self, loop: "TrainLoop"):
         self.train_epoch_pbar.close()
+
+
+def _format_float(x) -> str:
+    try:
+        if isinstance(x, Tensor):
+            x = x.item()
+        if np.isnan(x):
+            s = "nan"
+        else:
+            s = f"{x:.4f}"[:6]
+    except:
+        s = str(x)
+    return s
