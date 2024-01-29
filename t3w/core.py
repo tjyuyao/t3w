@@ -289,7 +289,7 @@ class IMiniBatchMetric(nn.Module, Interface):
         if metric_values.numel() == 1:
             return metric_values
         else:
-            return metric_values[:mb._nopad_batch_size].mean()
+            return metric_values[:mb._nopad_batch_size].mean()  #: WARN: nan when nopad_bs == 0
 
 
 class ILoss(IMiniBatchMetric):
@@ -453,6 +453,8 @@ class AverageMetric(IDatasetMetric):
         self.cnt = 0
 
     def update(self, mb: IMiniBatch) -> None:
+        if mb._nopad_batch_size == 0:
+            return
         new_val = self.minibatch_metric(mb).item()
         k = mb._nopad_batch_size
         self.sum += new_val * k
