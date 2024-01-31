@@ -581,11 +581,13 @@ def _subprocess(rank, loop: Union["EvalLoop", "TrainLoop"]):
     os.environ.setdefault("MASTER_PORT", str(model.ddp_port))
 
     dist.init_process_group(
-        backend=os.environ.get("T3W_DDP_BACKEND", 'gloo'),
+        backend=os.environ.get("T3W_DDP_BACKEND", 'nccl'),
         rank=rank,
         world_size=len(devices),
     )
     dist.barrier()
+
+    torch.cuda.set_device(devices[rank])
 
     if isinstance(loop, TrainLoop):
         model._fix_optim_states()
