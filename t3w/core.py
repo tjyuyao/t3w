@@ -572,6 +572,7 @@ def _subprocess(rank, loop: Union["EvalLoop", "TrainLoop"]):
 
     model = loop.model
     devices = model.distributed_devices
+    torch.cuda.set_device(devices[rank])
     model.to(devices[rank])
     model.distributed_devices = []
     model.ddp_rank = rank
@@ -586,8 +587,6 @@ def _subprocess(rank, loop: Union["EvalLoop", "TrainLoop"]):
         world_size=len(devices),
     )
     dist.barrier()
-
-    torch.cuda.set_device(devices[rank])
 
     if isinstance(loop, TrainLoop):
         model._fix_optim_states()
