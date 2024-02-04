@@ -20,7 +20,7 @@ from typing import Any, Sequence, NewType, Optional, Mapping, Type, Hashable, Ca
 from enum import Enum
 from functools import wraps
 from glob import glob
-from torch.utils.data import DataLoader, Sampler, default_collate, DistributedSampler
+from torch.utils.data import DataLoader, Sampler, default_collate, DistributedSampler, BatchSampler
 from torch import nn, Tensor, FloatTensor
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import _LRScheduler
@@ -267,6 +267,8 @@ class IMiniBatchMetric(nn.Module, Interface):
     explicitly specify this class variable in your subclass definition.
     """
 
+    raw_output: MiniBatchFloats
+
     def forward(self, mb: IMiniBatch) -> MiniBatchFloats | FloatScalarTensor:
         """
 
@@ -285,11 +287,12 @@ class IMiniBatchMetric(nn.Module, Interface):
     def __call__(self, mb: IMiniBatch) -> FloatScalarTensor:
         """ call forward() and compute the mean value of it.
         """
-        metric_values:FloatTensor = super().__call__(mb).float()
-        if metric_values.numel() == 1:
-            return metric_values
+        self.raw_output = self.forward(mb).float()
+        if self.raw_output.numel() == 1:
+            return self.raw_output
         else:
-            return metric_values[:mb._nopad_batch_size].mean()  #: WARN: nan when nopad_bs == 0
+            self.raw_output = self.raw_output[:mb._nopad_batch_size]  #: WARN: nan when nopad_bs == 0
+            return self.raw_output.mean()
 
 
 class ILoss(IMiniBatchMetric):
@@ -1002,6 +1005,7 @@ class TrainLoop:
             medias: Sequence[IMediaProducer] = [],
             batch_size: Optional[int] = None,
             sampler: Sampler = None,
+            batch_sampler: BatchSampler = None,
             num_acc_grad: int = 1,
             epochs: int = 100,
             iter_per_epoch: Optional[int] = None,
@@ -1038,6 +1042,7 @@ class TrainLoop:
         self.eval_loop = eval_loop
         self.handle:_EventHandler = _EventHandler(side_effects)
         self.sampler = sampler
+        self.batch_sampler = batch_sampler
         self.model_forward = model.forward
         self.loader:DataLoader = None
         self.ddp_model: DistributedDataParallel = None
@@ -1058,19 +1063,29 @@ class TrainLoop:
         if self.model.ddp_enabled:
             self.model_forward = self.ddp_model.forward
 
-            loader_kwargs = dict(
-                sampler=self.sampler or DistributedSampler(self.dataset, shuffle=True, drop_last=True),
-            )
+            loader_kwargs = dict()
+
+            if self.batch_sampler:
+                loader_kwargs["batch_sampler"] = self.batch_sampler
+            elif self.sampler:
+                loader_kwargs["sampler"] = self.sampler
+            else:
+                loader_kwargs["sampler"] = DistributedSampler(self.dataset, shuffle=True, drop_last=True)
+
         else:
             g = torch.Generator()
             g.manual_seed(torch.initial_seed())
             loader_kwargs = dict(
-                shuffle=self.sampler is None,
-                sampler=self.sampler,
                 generator=g,
                 drop_last=True,
                 worker_init_fn=_seed_worker,
             )
+            if self.batch_sampler:
+                loader_kwargs["batch_sampler"] = self.batch_sampler
+            elif self.sampler:
+                loader_kwargs["sampler"] = self.sampler
+            else:
+                loader_kwargs["shuffle"] = True
 
         if isinstance(loader_kwargs['sampler'], DistributedSampler):
             set_epoch = lambda epoch: loader_kwargs['sampler'].set_epoch(epoch)
@@ -1101,6 +1116,7 @@ class TrainLoop:
                     set_epoch(self.model.training_progress.step // len(self.loader))
                     iter_loader = iter(self.loader)
                     mb = next(iter_loader)
+                self.mark_padding(step, mb)
                 self.handle('on_train_step_started', self, step, mb)
                 step_return = self.step(mb)
                 self.handle('on_train_step_finished', self, step, mb, step_return)
@@ -1139,6 +1155,12 @@ class TrainLoop:
         self.progress.total_epochs = value
         return value
 
+    def mark_padding(self, step, mb: IMiniBatch):
+        if dist.is_initialized():
+            processed = self.batch_size * (step * dist.get_world_size() + dist.get_rank())
+        else:
+            processed = self.batch_size * step
+        mb._nopad_batch_size = max(min(len(self.dataset) - processed, self.batch_size), 0)
 
 class _EventHandler:
 

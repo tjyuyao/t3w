@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 
-__version__ = '0.3.3'
+__version__ = '0.3.4-alpha'
 
 with open("README.md", 'r') as readme_file:
     long_description = readme_file.read()
