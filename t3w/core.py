@@ -32,8 +32,6 @@ from rich.pretty import pprint
 import torch.distributed as dist
 import torch.multiprocessing as mp
 
-from .utils.verbose import verbose
-
 from tblib import pickling_support
 pickling_support.install()
 
@@ -1069,8 +1067,10 @@ class TrainLoop:
                 loader_kwargs["batch_sampler"] = self.batch_sampler
             elif self.sampler:
                 loader_kwargs["sampler"] = self.sampler
+                loader_kwargs["batch_size"] = self.batch_size
             else:
                 loader_kwargs["sampler"] = DistributedSampler(self.dataset, shuffle=True, drop_last=True)
+                loader_kwargs["batch_size"] = self.batch_size
 
         else:
             g = torch.Generator()
@@ -1084,17 +1084,18 @@ class TrainLoop:
                 loader_kwargs["batch_sampler"] = self.batch_sampler
             elif self.sampler:
                 loader_kwargs["sampler"] = self.sampler
+                loader_kwargs["batch_size"] = self.batch_size
             else:
                 loader_kwargs["shuffle"] = True
+                loader_kwargs["batch_size"] = self.batch_size
 
-        if isinstance(loader_kwargs['sampler'], DistributedSampler):
+        if isinstance(loader_kwargs.get('sampler', None), DistributedSampler):
             set_epoch = lambda epoch: loader_kwargs['sampler'].set_epoch(epoch)
         else:
             set_epoch = lambda _: None
 
         self.loader = DataLoader(
             self.dataset,
-            batch_size=self.batch_size,
             num_workers=self.dataset.datum_type.num_workers,
             collate_fn=self.dataset.datum_type.collate,
             pin_memory=self.model.device.type!="cpu",

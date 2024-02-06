@@ -42,7 +42,7 @@ class HarderBatchSampler(Sampler[List[int]], ISideEffect):
         return self
 
     def __next__(self) -> List[int]:
-        self.batch_indices = choices(self.indices, self.weights, self.batch_size)
+        self.batch_indices = choices(self.indices, self.weights, k=self.batch_size)
         return self.batch_indices
 
     def __len__(self):
