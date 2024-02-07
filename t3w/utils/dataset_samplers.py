@@ -47,5 +47,5 @@ class HarderBatchSampler(Sampler[List[int]], ISideEffect):
 
     def __len__(self):
         if dist.is_initialized():
-            return self.num_samples // dist.get_world_size()
+            return self.num_samples // dist.get_world_size() // self.batch_size
         return self.num_samples
