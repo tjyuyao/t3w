@@ -1077,7 +1077,6 @@ class TrainLoop:
             g.manual_seed(torch.initial_seed())
             loader_kwargs = dict(
                 generator=g,
-                drop_last=True,
                 worker_init_fn=_seed_worker,
             )
             if self.batch_sampler:
@@ -1085,9 +1084,11 @@ class TrainLoop:
             elif self.sampler:
                 loader_kwargs["sampler"] = self.sampler
                 loader_kwargs["batch_size"] = self.batch_size
+                loader_kwargs["drop_last"] = True
             else:
                 loader_kwargs["shuffle"] = True
                 loader_kwargs["batch_size"] = self.batch_size
+                loader_kwargs["drop_last"] = True
 
         if isinstance(loader_kwargs.get('sampler', None), DistributedSampler):
             set_epoch = lambda epoch: loader_kwargs['sampler'].set_epoch(epoch)
