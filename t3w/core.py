@@ -1009,7 +1009,7 @@ class TrainLoop:
             iter_per_epoch: Optional[int] = None,
             epoch_per_eval: int = 1,
             eval_loop: Optional[EvalLoop] = None,
-            side_effects: Sequence["ISideEffect"] = [],
+            side_effects: List["ISideEffect"] = [],
         ) -> None:
         """
 
@@ -1038,13 +1038,17 @@ class TrainLoop:
         self.iter_per_epoch = iter_per_epoch
         self.epoch_per_eval = epoch_per_eval
         self.eval_loop = eval_loop
-        self.handle:_EventHandler = _EventHandler(side_effects)
         self.sampler = sampler
         self.batch_sampler = batch_sampler
         self.model_forward = model.forward
         self.loader:DataLoader = None
         self.ddp_model: DistributedDataParallel = None
         self.epochs = epochs
+
+        if isinstance(batch_sampler, ISideEffect):
+            side_effects.append(batch_sampler)
+
+        self.handle:_EventHandler = _EventHandler(side_effects)
 
     def __call__(self):
         """Implement iter_based and epoch_based train_loop with hooks."""
