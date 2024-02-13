@@ -1114,6 +1114,7 @@ class TrainLoop:
         self.progress.steps_per_epoch = data_size // self.num_acc_grad
         self.handle('on_train_started', self)
         for epoch in range(start_epoch, self.epochs):
+            torch.cuda.empty_cache()
             self.handle('on_train_epoch_started', self, epoch)
             self.medias.notify("on_epoch_start")
             for step in range(data_size):
