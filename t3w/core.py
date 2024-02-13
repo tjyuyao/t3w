@@ -943,6 +943,7 @@ class EvalLoop:
             num_workers=self.dataset.datum_type.num_workers,
             pin_memory=self.model.device.type!="cpu",
             pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
+            persistent_workers=True,
         )
 
         self.model.train(False)
@@ -1105,6 +1106,7 @@ class TrainLoop:
             collate_fn=self.dataset.datum_type.collate,
             pin_memory=self.model.device.type!="cpu",
             pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
+            persistent_workers=True,
             **loader_kwargs
         )
 
