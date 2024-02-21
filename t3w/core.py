@@ -929,6 +929,7 @@ class EvalLoop:
         self.handle:_EventHandler = _EventHandler(side_effects)
         self.loader:DataLoader = None
         self.batch_size:int = batch_size or self.dataset.datum_type.val_batch_size
+        self.persistent_workers:bool = False
 
     def __call__(self) -> None:
 
@@ -943,7 +944,7 @@ class EvalLoop:
             num_workers=self.dataset.datum_type.num_workers,
             pin_memory=self.model.device.type!="cpu",
             pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
-            persistent_workers=True,
+            persistent_workers=self.persistent_workers,
         )
 
         self.model.train(False)
@@ -1011,6 +1012,7 @@ class TrainLoop:
             epoch_per_eval: int = 1,
             eval_loop: Optional[EvalLoop] = None,
             side_effects: List["ISideEffect"] = [],
+            persistent_workers: bool = False,
         ) -> None:
         """
 
@@ -1045,9 +1047,13 @@ class TrainLoop:
         self.loader:DataLoader = None
         self.ddp_model: DistributedDataParallel = None
         self.epochs = epochs
+        self.persistent_workers = persistent_workers
 
         if isinstance(batch_sampler, ISideEffect):
             side_effects.append(batch_sampler)
+
+        if isinstance(self.eval_loop, EvalLoop):
+            self.eval_loop.persistent_workers = self.persistent_workers
 
         self.handle:_EventHandler = _EventHandler(side_effects)
 
@@ -1106,7 +1112,7 @@ class TrainLoop:
             collate_fn=self.dataset.datum_type.collate,
             pin_memory=self.model.device.type!="cpu",
             pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
-            persistent_workers=True,
+            persistent_workers=self.persistent_workers,
             **loader_kwargs
         )
 

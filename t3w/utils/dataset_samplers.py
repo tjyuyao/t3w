@@ -33,7 +33,8 @@ class HarderBatchSampler(Sampler[List[int]], ISideEffect):
                 raise ValueError(f"'{key}' metric/loss does not produce a batched output.")
             total_score += score
 
-        batch_score = (total_score.softmax(0) * self.batch_size).tolist()
+        # batch_score = (total_score.softmax(0) * self.batch_size).tolist()
+        batch_score = (total_score / total_score.sum().clip(min=1e-5) * self.batch_size).tolist()
         for i, s in zip(self.batch_indices, batch_score):
             self.weights[i] = s
         self.batch_indices.clear()
