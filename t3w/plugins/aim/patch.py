@@ -6,7 +6,7 @@ import aim
 from aim.sdk.repo import Repo
 from aim.sdk.run import get_installed_packages, get_environment_variables, get_git_info, sys
 from aim.sdk.run import Optional, BasicRunAutoClean, TreeView, logger, backup_run, RunStatusReporter, LocalFileManager, pathlib, RemoteFileManager, ScheduledStatusReporter, RemoteRunHeartbeatReporter, RunTracker
-from aim.sdk.base_run import get_repo, analytics, MissingRunError, Dict
+from aim.sdk.base_run import get_repo, MissingRunError, Dict
 from aim.ext.resource import ResourceTracker, DEFAULT_SYSTEM_TRACKING_INT
 
 from t3w.utils.misc import generate_run_hash as t3w_generate_run_hash
@@ -36,11 +36,11 @@ class Run(aim.Run):
                 self.hash = run_hash or t3w_generate_run_hash()
             # if run_hash is None:
             #     self.hash = generate_run_hash()
-                analytics.track_event(event_name='[Run] Create new run')
+                # analytics.track_event(event_name='[Run] Create new run')
             else:
             # elif self.repo.run_exists(run_hash):
                 self.hash = run_hash
-                analytics.track_event(event_name='[Run] Resume run')
+                # analytics.track_event(event_name='[Run] Resume run')
             # else:
             #     raise MissingRunError(f'Cannot find Run {run_hash} in aim Repo {self.repo.path}.')
             self._lock = self.repo.request_run_lock(self.hash)
