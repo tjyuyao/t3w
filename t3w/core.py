@@ -936,25 +936,29 @@ class EvalLoop:
         if self.model.distributed_devices:
             return mp.start_processes(_subprocess, (self,), nprocs=len(self.model.distributed_devices), join=True, start_method='spawn')
 
-        self.loader = DataLoader(
-            self.dataset,
-            sampler=DistributedSampler(self.dataset, shuffle=False) if self.model.ddp_enabled else None,
-            batch_size=self.batch_size,
-            collate_fn=self.dataset.datum_type.collate,
-            num_workers=self.dataset.datum_type.num_workers,
-            pin_memory=self.model.device.type!="cpu",
-            pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
-            persistent_workers=self.persistent_workers,
-        )
+        if self.loader is None:
+            self.loader = DataLoader(
+                self.dataset,
+                sampler=DistributedSampler(self.dataset, shuffle=False) if self.model.ddp_enabled else None,
+                batch_size=self.batch_size,
+                collate_fn=self.dataset.datum_type.collate,
+                num_workers=self.dataset.datum_type.num_workers,
+                pin_memory=self.model.device.type!="cpu",
+                pin_memory_device=str(self.model.device) if self.model.device.type!="cpu" else "",
+                persistent_workers=self.persistent_workers,
+            )
 
+        self.model.optim.zero_grad()
         self.model.train(False)
+        torch.cuda.empty_cache()
         for metric in self.metrics.values():
             metric.reset()
         self.medias.notify("on_epoch_start")
         self.handle('on_eval_started', self)
         for step, mb in enumerate(self.loader):
             self.handle('on_eval_step_started', self, step, mb)
-            self.model(mb)
+            with torch.no_grad():
+                self.model(mb)
             self.mark_padding(step, mb)
             for metric in self.metrics.values():
                 metric.update(mb)
